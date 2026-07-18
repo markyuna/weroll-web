@@ -12,8 +12,11 @@ export type EventCardData = {
   attendee_count: { count: number }[];
 };
 
-export function getUpcomingEvents(supabase: SupabaseClient, options: { limit?: number } = {}) {
-  const query = supabase
+export function getUpcomingEvents(
+  supabase: SupabaseClient,
+  options: { limit?: number; spotId?: string } = {}
+) {
+  let query = supabase
     .from("events")
     .select(
       "id, title, starts_at, difficulty, distance_km, spots ( city ), attendee_count:event_attendees(count)"
@@ -22,9 +25,14 @@ export function getUpcomingEvents(supabase: SupabaseClient, options: { limit?: n
     .eq("event_attendees.status", "asistire")
     .order("starts_at", { ascending: true });
 
-  const scoped = options.limit ? query.limit(options.limit) : query;
+  if (options.spotId) {
+    query = query.eq("spot_id", options.spotId);
+  }
+  if (options.limit) {
+    query = query.limit(options.limit);
+  }
 
-  return scoped.overrideTypes<EventCardData[], { merge: false }>();
+  return query.overrideTypes<EventCardData[], { merge: false }>();
 }
 
 export const DIFFICULTY_LABELS: Record<string, string> = {

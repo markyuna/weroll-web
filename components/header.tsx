@@ -19,6 +19,9 @@ export async function Header() {
           <Link href="/eventos" className="hover:text-amber-400 transition">
             Eventos
           </Link>
+          <Link href="/spots" className="hover:text-amber-400 transition">
+            Spots
+          </Link>
           {user ? (
             <Link href="/perfil" className="hover:text-amber-400 transition">
               Mi perfil
