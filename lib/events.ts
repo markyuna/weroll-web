@@ -1,4 +1,31 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
+
 export type Difficulty = "principiante" | "intermedio" | "avanzado";
+
+export type EventCardData = {
+  id: string;
+  title: string;
+  starts_at: string;
+  difficulty: string | null;
+  distance_km: number | null;
+  spots: { city: string | null } | null;
+  attendee_count: { count: number }[];
+};
+
+export function getUpcomingEvents(supabase: SupabaseClient, options: { limit?: number } = {}) {
+  const query = supabase
+    .from("events")
+    .select(
+      "id, title, starts_at, difficulty, distance_km, spots ( city ), attendee_count:event_attendees(count)"
+    )
+    .gt("starts_at", new Date().toISOString())
+    .eq("event_attendees.status", "asistire")
+    .order("starts_at", { ascending: true });
+
+  const scoped = options.limit ? query.limit(options.limit) : query;
+
+  return scoped.overrideTypes<EventCardData[], { merge: false }>();
+}
 
 export const DIFFICULTY_LABELS: Record<string, string> = {
   principiante: "Principiante",
@@ -10,6 +37,18 @@ export const DIFFICULTY_STYLES: Record<string, string> = {
   principiante: "bg-emerald-400/10 text-emerald-400",
   intermedio: "bg-amber-400/10 text-amber-400",
   avanzado: "bg-rose-400/10 text-rose-400",
+};
+
+export const RSVP_LABELS: Record<string, string> = {
+  asistire: "Asistiré",
+  tal_vez: "Tal vez",
+  no_asistire: "No asistiré",
+};
+
+export const RSVP_STYLES: Record<string, string> = {
+  asistire: "bg-emerald-400/10 text-emerald-400",
+  tal_vez: "bg-amber-400/10 text-amber-400",
+  no_asistire: "bg-zinc-800 text-zinc-400",
 };
 
 export function formatEventDateTime(iso: string): string {

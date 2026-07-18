@@ -132,14 +132,25 @@ export default async function EventoDetallePage({
           </h2>
           {attendees && attendees.length > 0 ? (
             <ul className="flex flex-wrap gap-2">
-              {attendees.map((a, i) => (
-                <li
-                  key={i}
-                  className="rounded-full bg-zinc-900 border border-zinc-800 px-3 py-1 text-sm text-zinc-200"
-                >
-                  {a.profiles?.username ?? "usuario"}
-                </li>
-              ))}
+              {attendees.map((a, i) =>
+                a.profiles?.username ? (
+                  <li key={i}>
+                    <Link
+                      href={`/u/${a.profiles.username}`}
+                      className="block rounded-full bg-zinc-900 border border-zinc-800 px-3 py-1 text-sm text-zinc-200 hover:border-amber-400 hover:text-amber-400 transition"
+                    >
+                      {a.profiles.username}
+                    </Link>
+                  </li>
+                ) : (
+                  <li
+                    key={i}
+                    className="rounded-full bg-zinc-900 border border-zinc-800 px-3 py-1 text-sm text-zinc-200"
+                  >
+                    usuario
+                  </li>
+                )
+              )}
             </ul>
           ) : (
             <p className="text-sm text-zinc-400">Aún nadie ha confirmado. ¡Sé el primero!</p>
