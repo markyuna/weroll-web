@@ -16,7 +16,7 @@ export function getSpotsWithUpcomingCounts(supabase: SupabaseClient) {
   return supabase
     .from("spots")
     .select(
-      "id, name, description, city, country, latitude, longitude, surface_quality, upcoming_count:events(count)"
+      "id, name, description, city, country, latitude, longitude, surface_quality, upcoming_count:events!spot_id(count)"
     )
     .gt("events.starts_at", new Date().toISOString())
     .order("name", { ascending: true })

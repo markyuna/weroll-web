@@ -6,6 +6,9 @@ import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { RSVP_STYLES, formatEventDateTime } from "@/lib/events";
 import { SKATE_TYPES, SKATE_STYLES } from "@/lib/profiles";
+import { getGamificationData } from "@/lib/gamification";
+import { XpLevelCard } from "@/components/xp-level-card";
+import { BadgesGrid } from "@/components/badges-grid";
 import { updateProfile } from "./actions";
 
 const SKILL_LEVELS = ["principiante", "intermedio", "avanzado"] as const;
@@ -21,6 +24,7 @@ export default async function PerfilPage({
   const tSkateStyle = await getTranslations("SkateStyle");
   const tDifficulty = await getTranslations("Difficulty");
   const tRsvp = await getTranslations("Rsvp");
+  const tGamification = await getTranslations("Gamification");
   const supabase = await createClient();
   const {
     data: { user },
@@ -36,7 +40,7 @@ export default async function PerfilPage({
   const success = sp.success === "1";
   const field = (name: string) => (typeof sp[name] === "string" ? (sp[name] as string) : undefined);
 
-  const [{ data: profile }, { data: myRsvps }] = await Promise.all([
+  const [{ data: profile }, { data: myRsvps }, gamification] = await Promise.all([
     supabase
       .from("profiles")
       .select("username, display_name, city, country, skate_type, skate_style, skill_level, bio")
@@ -66,6 +70,7 @@ export default async function PerfilPage({
         { status: string; events: { id: string; title: string; starts_at: string } }[],
         { merge: false }
       >(),
+    getGamificationData(supabase, user.id),
   ]);
 
   const defaults = {
@@ -86,9 +91,19 @@ export default async function PerfilPage({
             amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
           })}
         </h1>
-        <p className="text-zinc-400 mb-8">
+        <p className="text-zinc-400 mb-6">
           @{profile?.username} · {user.email}
         </p>
+
+        <div className="space-y-4 mb-10">
+          <XpLevelCard data={gamification} />
+          <div>
+            <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
+              {tGamification("badgesTitle")}
+            </h2>
+            <BadgesGrid allBadges={gamification.allBadges} earnedBadgeIds={gamification.earnedBadgeIds} />
+          </div>
+        </div>
 
         {error && (
           <p className="text-sm text-red-400 mb-4 rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2">

@@ -191,6 +191,30 @@
     "message": "Página no encontrada.",
     "backHome": "Volver al inicio"
   },
+  "Gamification": {
+    "level": "Nivel {level}",
+    "xpTotal": "{xp} XP",
+    "progressToNext": "{current} / {needed} XP para el siguiente nivel",
+    "badgesTitle": "Insignias"
+  },
+  "Badges": {
+    "primera_rando": {
+      "name": "Primera randonnée",
+      "description": "Confirmaste tu asistencia a tu primera randonnée."
+    },
+    "organizador": {
+      "name": "Organizador",
+      "description": "Creaste tu primera randonnée."
+    },
+    "explorador": {
+      "name": "Explorador",
+      "description": "Añadiste 10 spots a la comunidad."
+    },
+    "madrugador": {
+      "name": "Madrugador",
+      "description": "Confirmaste asistencia a una randonnée que empieza al amanecer."
+    }
+  },
   "Grupos": {
     "title": "<amber>Grupos</amber>",
     "createCta": "+ Crear grupo",

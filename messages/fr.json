@@ -191,6 +191,30 @@
     "message": "Page introuvable.",
     "backHome": "Retour à l'accueil"
   },
+  "Gamification": {
+    "level": "Niveau {level}",
+    "xpTotal": "{xp} XP",
+    "progressToNext": "{current} / {needed} XP pour le niveau suivant",
+    "badgesTitle": "Badges"
+  },
+  "Badges": {
+    "primera_rando": {
+      "name": "Première randonnée",
+      "description": "Tu as confirmé ta présence à ta première randonnée."
+    },
+    "organizador": {
+      "name": "Organisateur",
+      "description": "Tu as créé ta première randonnée."
+    },
+    "explorador": {
+      "name": "Explorateur",
+      "description": "Tu as ajouté 10 spots à la communauté."
+    },
+    "madrugador": {
+      "name": "Lève-tôt",
+      "description": "Tu as confirmé ta présence à une randonnée qui commence à l'aube."
+    }
+  },
   "Grupos": {
     "title": "<amber>Groupes</amber>",
     "createCta": "+ Créer un groupe",

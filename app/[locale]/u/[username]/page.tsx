@@ -5,6 +5,9 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatEventDateTime } from "@/lib/events";
+import { getGamificationData } from "@/lib/gamification";
+import { XpLevelCard } from "@/components/xp-level-card";
+import { BadgesGrid } from "@/components/badges-grid";
 
 export default async function PerfilPublicoPage({
   params,
@@ -16,6 +19,7 @@ export default async function PerfilPublicoPage({
   const tSkateType = await getTranslations("SkateType");
   const tSkateStyle = await getTranslations("SkateStyle");
   const tDifficulty = await getTranslations("Difficulty");
+  const tGamification = await getTranslations("Gamification");
   const locale = await getLocale();
   const supabase = await createClient();
 
@@ -43,14 +47,17 @@ export default async function PerfilPublicoPage({
     notFound();
   }
 
-  const { data: upcoming } = await supabase
-    .from("event_attendees")
-    .select("events!inner ( id, title, starts_at )")
-    .eq("profile_id", profile.id)
-    .eq("status", "asistire")
-    .gt("events.starts_at", new Date().toISOString())
-    .order("starts_at", { referencedTable: "events", ascending: true })
-    .overrideTypes<{ events: { id: string; title: string; starts_at: string } }[], { merge: false }>();
+  const [{ data: upcoming }, gamification] = await Promise.all([
+    supabase
+      .from("event_attendees")
+      .select("events!inner ( id, title, starts_at )")
+      .eq("profile_id", profile.id)
+      .eq("status", "asistire")
+      .gt("events.starts_at", new Date().toISOString())
+      .order("starts_at", { referencedTable: "events", ascending: true })
+      .overrideTypes<{ events: { id: string; title: string; starts_at: string } }[], { merge: false }>(),
+    getGamificationData(supabase, profile.id),
+  ]);
 
   const location = [profile.city, profile.country].filter(Boolean).join(", ");
   const skateTypeLabel =
@@ -87,6 +94,16 @@ export default async function PerfilPublicoPage({
         )}
 
         {profile.bio && <p className="text-zinc-200 mt-6 leading-relaxed">{profile.bio}</p>}
+
+        <div className="mt-8 space-y-4">
+          <XpLevelCard data={gamification} />
+          <div>
+            <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
+              {tGamification("badgesTitle")}
+            </h2>
+            <BadgesGrid allBadges={gamification.allBadges} earnedBadgeIds={gamification.earnedBadgeIds} />
+          </div>
+        </div>
 
         <div className="mt-10">
           <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">

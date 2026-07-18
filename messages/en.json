@@ -191,6 +191,30 @@
     "message": "Page not found.",
     "backHome": "Back to home"
   },
+  "Gamification": {
+    "level": "Level {level}",
+    "xpTotal": "{xp} XP",
+    "progressToNext": "{current} / {needed} XP to next level",
+    "badgesTitle": "Badges"
+  },
+  "Badges": {
+    "primera_rando": {
+      "name": "First ride",
+      "description": "You confirmed attendance to your first ride."
+    },
+    "organizador": {
+      "name": "Organizer",
+      "description": "You created your first ride."
+    },
+    "explorador": {
+      "name": "Explorer",
+      "description": "You added 10 spots to the community."
+    },
+    "madrugador": {
+      "name": "Early bird",
+      "description": "You confirmed attendance to a ride starting at dawn."
+    }
+  },
   "Grupos": {
     "title": "<amber>Groups</amber>",
     "createCta": "+ Create group",
