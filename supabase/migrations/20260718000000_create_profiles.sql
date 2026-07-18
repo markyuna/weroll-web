@@ -6,6 +6,8 @@
 -- vía REST; los tipos de display_name/avatar_url/city/country/skate_type/
 -- skill_level/bio son la mejor aproximación (nullable, sin CHECK conocido)
 -- y conviene revisarlos contra la base real si se necesita precisión total.
+-- Los nombres de las policies se confirmaron contra pg_policies de la base
+-- real (2026-07-18) para que este archivo no vuelva a crear duplicados.
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   username text not null unique,
@@ -21,14 +23,14 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
-create policy "Los perfiles son visibles públicamente"
+create policy "lectura publica"
   on public.profiles for select
   using (true);
 
-create policy "Un usuario puede crear su propio perfil"
+create policy "insertar mi perfil"
   on public.profiles for insert
   with check (auth.uid() = id);
 
-create policy "Un usuario puede actualizar su propio perfil"
+create policy "editar mi perfil"
   on public.profiles for update
   using (auth.uid() = id);
