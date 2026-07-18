@@ -40,3 +40,9 @@ body {
 .weroll-popup .leaflet-popup-close-button {
   color: #a1a1aa !important;
 }
+
+/* Marker del spot en creación: mismo icono azul de Leaflet, teñido en ámbar
+   para distinguirlo de los spots ya guardados. */
+.weroll-draft-marker {
+  filter: hue-rotate(140deg) saturate(3);
+}

@@ -11,9 +11,15 @@
 create table if not exists public.spots (
   id uuid primary key default gen_random_uuid(),
   name text not null,
+  description text,
+  latitude double precision not null,
+  longitude double precision not null,
   city text,
   country text,
-  description text,
+  surface_quality integer check (surface_quality between 1 and 5),
+  spot_type text check (spot_type in ('punto_encuentro', 'ruta', 'skatepark', 'pista')),
+  photo_url text,
+  created_by uuid not null references public.profiles (id) on delete cascade,
   created_at timestamptz not null default now()
 );
 
@@ -22,6 +28,10 @@ alter table public.spots enable row level security;
 create policy "Los spots son visibles públicamente"
   on public.spots for select
   using (true);
+
+create policy "Un usuario autenticado puede crear spots"
+  on public.spots for insert
+  with check (auth.uid() = created_by);
 
 create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),
