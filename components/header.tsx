@@ -50,6 +50,9 @@ export async function Header() {
           <Link href="/grupos" className="whitespace-nowrap hover:text-amber-400 transition">
             {t("grupos")}
           </Link>
+          <Link href="/buddies" className="whitespace-nowrap hover:text-amber-400 transition">
+            {t("buddies")}
+          </Link>
 
           {user ? (
             <>
