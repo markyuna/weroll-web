@@ -121,7 +121,22 @@
     "errorStartsAtPast": "La date de début doit être dans le futur.",
     "errorDistanceInvalid": "La distance doit être un nombre positif.",
     "errorMaxParticipantsInvalid": "Le nombre max. de participants doit être un entier positif.",
+    "errorRecurrenceInvalid": "La répétition n'est pas valide.",
     "errorSubmit": "Impossible de créer l'événement. Réessaie."
+  },
+  "Recurrence": {
+    "fieldLabel": "Répétition",
+    "none": "Ne se répète pas",
+    "weekly": "Chaque semaine",
+    "biweekly": "Toutes les deux semaines",
+    "monthly": "Chaque mois",
+    "fieldDay": "Jour de la semaine",
+    "fieldTime": "Heure",
+    "firstHint": "La randonnée commencera à la prochaine date correspondant à ce jour et cette heure.",
+    "summaryWeekly": "Se répète chaque {day} à {time}",
+    "summaryBiweekly": "Se répète toutes les deux semaines, le {day} à {time}",
+    "summaryMonthly": "Se répète le {nth, select, 1 {premier} 2 {deuxième} 3 {troisième} 4 {quatrième} other {cinquième}} {day} de chaque mois à {time}",
+    "virtualHint": "Cette date n'est pas encore confirmée : elle sera créée dès que quelqu'un confirmera sa présence."
   },
   "Spots": {
     "title": "<amber>Spots</amber> de roller",

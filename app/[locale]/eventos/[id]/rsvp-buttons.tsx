@@ -16,10 +16,17 @@ export function RsvpButtons({
   eventId,
   userId,
   initialStatus,
+  materializeOccurrence = null,
 }: {
   eventId: string;
   userId: string | null;
   initialStatus: RsvpStatus | null;
+  /**
+   * ISO de una instancia virtual de un evento recurrente: al hacer RSVP se
+   * materializa primero como evento real (vía RPC) y la asistencia se guarda
+   * sobre ese evento hijo.
+   */
+  materializeOccurrence?: string | null;
 }) {
   const t = useTranslations("Rsvp");
   const router = useRouter();
@@ -42,15 +49,35 @@ export function RsvpButtons({
   function handleRsvp(next: RsvpStatus) {
     setError(null);
     startTransition(async () => {
+      let targetEventId = eventId;
+
+      if (materializeOccurrence) {
+        const { data: instanceId, error: rpcError } = await supabase.rpc(
+          "materialize_event_instance",
+          { p_parent_id: eventId, p_starts_at: materializeOccurrence }
+        );
+        if (rpcError || typeof instanceId !== "string") {
+          setError(t("error"));
+          return;
+        }
+        targetEventId = instanceId;
+      }
+
       const { error: upsertError } = await supabase
         .from("event_attendees")
         .upsert(
-          { event_id: eventId, profile_id: userId, status: next },
+          { event_id: targetEventId, profile_id: userId, status: next },
           { onConflict: "event_id,profile_id" }
         );
 
       if (upsertError) {
         setError(t("error"));
+        return;
+      }
+
+      if (materializeOccurrence) {
+        // La instancia ya es un evento real: seguimos allí.
+        router.push(`/eventos/${targetEventId}`);
         return;
       }
 

@@ -121,7 +121,22 @@
     "errorStartsAtPast": "The start date must be in the future.",
     "errorDistanceInvalid": "Distance must be a positive number.",
     "errorMaxParticipantsInvalid": "Max. participants must be a positive integer.",
+    "errorRecurrenceInvalid": "The recurrence is not valid.",
     "errorSubmit": "Couldn't create the event. Please try again."
+  },
+  "Recurrence": {
+    "fieldLabel": "Repeats",
+    "none": "Does not repeat",
+    "weekly": "Every week",
+    "biweekly": "Every two weeks",
+    "monthly": "Every month",
+    "fieldDay": "Day of the week",
+    "fieldTime": "Time",
+    "firstHint": "The ride will start on the next date matching that day and time.",
+    "summaryWeekly": "Repeats every {day} at {time}",
+    "summaryBiweekly": "Repeats every two weeks on {day} at {time}",
+    "summaryMonthly": "Repeats on the {nth, select, 1 {first} 2 {second} 3 {third} 4 {fourth} other {fifth}} {day} of every month at {time}",
+    "virtualHint": "This date isn't confirmed yet — it will be created when someone RSVPs."
   },
   "Spots": {
     "title": "Skating <amber>spots</amber>",

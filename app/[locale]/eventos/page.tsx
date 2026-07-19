@@ -4,7 +4,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getUpcomingEvents } from "@/lib/events";
+import { getUpcomingEvents, getVirtualInstances, type EventCardData } from "@/lib/events";
 import { EventCard } from "@/components/event-card";
 
 export default async function EventosPage({
@@ -17,14 +17,34 @@ export default async function EventosPage({
   const sp = await searchParams;
   const spotId = typeof sp.spot === "string" ? sp.spot : undefined;
 
-  const [{ data: events, error }, { data: { user } }, spotResult] = await Promise.all([
+  const [{ data: events, error }, virtualInstances, { data: { user } }, spotResult] = await Promise.all([
     getUpcomingEvents(supabase, { spotId }),
+    getVirtualInstances(supabase, { spotId }),
     supabase.auth.getUser(),
     spotId
       ? supabase.from("spots").select("name, city").eq("id", spotId).maybeSingle()
       : Promise.resolve({ data: null }),
   ]);
   const filterSpot = spotResult.data as { name: string; city: string | null } | null;
+
+  // Eventos reales + instancias virtuales de las series recurrentes,
+  // intercalados por fecha. Las virtuales enlazan al padre con ?occurrence=.
+  type ListItem = { key: string; event: EventCardData; href?: string; recurring: boolean };
+  const items: ListItem[] = [
+    ...(events ?? []).map((event) => ({
+      key: event.id,
+      event,
+      recurring: Boolean(event.recurrence_rule),
+    })),
+    ...virtualInstances.map((instance) => ({
+      key: `${instance.parentId}-${instance.occurrenceIso}`,
+      event: instance.event,
+      href: `/eventos/${instance.parentId}?occurrence=${encodeURIComponent(instance.occurrenceIso)}`,
+      recurring: true,
+    })),
+  ].sort(
+    (a, b) => new Date(a.event.starts_at).getTime() - new Date(b.event.starts_at).getTime()
+  );
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
@@ -62,14 +82,14 @@ export default async function EventosPage({
 
         {error && <p className="text-sm text-red-400">{t("loadError")}</p>}
 
-        {!error && (!events || events.length === 0) && (
+        {!error && items.length === 0 && (
           <p className="text-zinc-400">{spotId ? t("emptySpot") : t("empty")}</p>
         )}
 
         <ul className="space-y-4">
-          {events?.map((event) => (
-            <li key={event.id}>
-              <EventCard event={event} />
+          {items.map((item) => (
+            <li key={item.key}>
+              <EventCard event={item.event} href={item.href} recurring={item.recurring} />
             </li>
           ))}
         </ul>

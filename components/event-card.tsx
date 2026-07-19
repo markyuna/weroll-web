@@ -6,7 +6,16 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { DIFFICULTY_STYLES, formatEventDateTime, type EventCardData } from "@/lib/events";
 
-export async function EventCard({ event }: { event: EventCardData }) {
+export async function EventCard({
+  event,
+  href,
+  recurring = false,
+}: {
+  event: EventCardData;
+  /** Enlace alternativo, p. ej. una instancia virtual de un evento recurrente. */
+  href?: string;
+  recurring?: boolean;
+}) {
   const locale = await getLocale();
   const t = await getTranslations("Eventos");
   const tDifficulty = await getTranslations("Difficulty");
@@ -22,10 +31,11 @@ export async function EventCard({ event }: { event: EventCardData }) {
     <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5 hover:border-amber-400 transition">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <Link href={`/eventos/${event.id}`} className="text-lg font-semibold text-white hover:underline">
+          <Link href={href ?? `/eventos/${event.id}`} className="text-lg font-semibold text-white hover:underline">
             {event.title}
           </Link>
           <p className="text-sm text-zinc-400 mt-1">
+            {recurring && <span className="text-amber-400 mr-1" aria-hidden>↻</span>}
             {formatEventDateTime(event.starts_at, locale)}
             {city ? ` · ${city}` : ""}
           </p>

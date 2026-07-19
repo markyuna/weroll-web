@@ -121,7 +121,22 @@
     "errorStartsAtPast": "La fecha de inicio debe ser futura.",
     "errorDistanceInvalid": "La distancia debe ser un número positivo.",
     "errorMaxParticipantsInvalid": "El máximo de participantes debe ser un entero positivo.",
+    "errorRecurrenceInvalid": "La repetición no es válida.",
     "errorSubmit": "No se pudo crear el evento. Inténtalo de nuevo."
+  },
+  "Recurrence": {
+    "fieldLabel": "Repetición",
+    "none": "No se repite",
+    "weekly": "Cada semana",
+    "biweekly": "Cada dos semanas",
+    "monthly": "Cada mes",
+    "fieldDay": "Día de la semana",
+    "fieldTime": "Hora",
+    "firstHint": "La randonnée empezará en la próxima fecha que caiga en ese día y hora.",
+    "summaryWeekly": "Se repite cada {day} a las {time}",
+    "summaryBiweekly": "Se repite cada dos semanas, los {day} a las {time}",
+    "summaryMonthly": "Se repite el {nth, select, 1 {primer} 2 {segundo} 3 {tercer} 4 {cuarto} other {quinto}} {day} de cada mes a las {time}",
+    "virtualHint": "Esta fecha aún no está confirmada: se creará cuando alguien confirme su asistencia."
   },
   "Spots": {
     "title": "<amber>Spots</amber> de patinaje",

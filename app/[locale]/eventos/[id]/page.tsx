@@ -2,28 +2,39 @@
 // Server Component: detalle de un evento, asistentes confirmados y RSVP.
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DIFFICULTY_STYLES, formatEventDateTime } from "@/lib/events";
+import {
+  RECURRENCE_SUMMARY_KEYS,
+  formatRuleTime,
+  formatRuleWeekday,
+  nextOccurrences,
+  parseRule,
+} from "@/lib/recurrence";
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
 import { RsvpButtons } from "./rsvp-buttons";
 
 export default async function EventoDetallePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { id } = await params;
+  const sp = await searchParams;
   const t = await getTranslations("EventoDetalle");
   const tDifficulty = await getTranslations("Difficulty");
   const tEdit = await getTranslations("EventoEditar");
+  const tRecurrence = await getTranslations("Recurrence");
   const locale = await getLocale();
   const supabase = await createClient();
 
   const { data: event } = await supabase
     .from("events")
     .select(
-      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
+      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, recurrence_rule, parent_event_id, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
     )
     .eq("id", id)
     .maybeSingle()
@@ -37,6 +48,8 @@ export default async function EventoDetallePage({
         difficulty: string | null;
         distance_km: number | null;
         route_polyline: [number, number][] | null;
+        recurrence_rule: string | null;
+        parent_event_id: string | null;
         spots: { name: string; city: string | null; country: string | null; description: string | null } | null;
         groups: { id: string; name: string } | null;
         pause_spot: { name: string; latitude: number; longitude: number } | null;
@@ -48,19 +61,64 @@ export default async function EventoDetallePage({
     notFound();
   }
 
+  // Serie recurrente: ?occurrence=<ISO> muestra una instancia virtual (una
+  // fecha futura calculada de la regla que aún no existe en la base). Si esa
+  // fecha ya se materializó, redirigimos al evento hijo real.
+  const rule =
+    event.recurrence_rule && !event.parent_event_id ? parseRule(event.recurrence_rule) : null;
+  let virtualStartsAt: string | null = null;
+
+  if (rule && typeof sp.occurrence === "string") {
+    const requested = new Date(sp.occurrence);
+    if (!Number.isNaN(requested.getTime())) {
+      const { data: children } = await supabase
+        .from("events")
+        .select("id, starts_at")
+        .eq("parent_event_id", event.id)
+        .overrideTypes<{ id: string; starts_at: string }[], { merge: false }>();
+
+      const existing = children?.find(
+        (child) => new Date(child.starts_at).getTime() === requested.getTime()
+      );
+      if (existing) {
+        redirect({ href: `/eventos/${existing.id}`, locale });
+      }
+
+      const baseStartsAt = new Date(event.starts_at);
+      const excludeTimes = new Set(
+        (children ?? []).map((child) => new Date(child.starts_at).getTime())
+      );
+      excludeTimes.add(baseStartsAt.getTime());
+      const upcoming = nextOccurrences(rule, baseStartsAt, {
+        after: new Date(),
+        count: 4,
+        excludeTimes,
+      });
+      if (upcoming.some((occurrence) => occurrence.getTime() === requested.getTime())) {
+        virtualStartsAt = requested.toISOString();
+      }
+    }
+  }
+
+  const isVirtual = virtualStartsAt !== null;
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Una instancia virtual todavía no tiene fila propia, así que tampoco
+  // tiene asistentes ni RSVP previo del usuario.
   const [{ data: attendees }, { data: myAttendance }] = await Promise.all([
-    supabase
-      .from("event_attendees")
-      .select("profiles ( username )")
-      .eq("event_id", id)
-      .eq("status", "asistire")
-      .order("responded_at", { ascending: true })
-      .overrideTypes<{ profiles: { username: string } | null }[], { merge: false }>(),
-    user
+    isVirtual
+      ? Promise.resolve({ data: [] as { profiles: { username: string } | null }[] })
+      : supabase
+          .from("event_attendees")
+          .select("profiles ( username )")
+          .eq("event_id", id)
+          .eq("status", "asistire")
+          .order("responded_at", { ascending: true })
+          .overrideTypes<{ profiles: { username: string } | null }[], { merge: false }>(),
+    user && !isVirtual
       ? supabase
           .from("event_attendees")
           .select("status")
@@ -70,6 +128,14 @@ export default async function EventoDetallePage({
           .overrideTypes<{ status: string } | null, { merge: false }>()
       : Promise.resolve({ data: null as { status: string } | null }),
   ]);
+
+  const recurrenceSummary = rule
+    ? tRecurrence(RECURRENCE_SUMMARY_KEYS[rule.freq], {
+        day: formatRuleWeekday(rule.day, locale),
+        time: formatRuleTime(rule, locale),
+        nth: String(rule.nth ?? 1),
+      })
+    : null;
 
   const difficultyStyle =
     DIFFICULTY_STYLES[event.difficulty as string] ?? "bg-zinc-800 text-zinc-300";
@@ -104,7 +170,15 @@ export default async function EventoDetallePage({
           </Link>
         )}
 
-        <p className="text-zinc-400 mt-1">{formatEventDateTime(event.starts_at, locale)}</p>
+        <p className="text-zinc-400 mt-1">
+          {formatEventDateTime(virtualStartsAt ?? event.starts_at, locale)}
+        </p>
+        {recurrenceSummary && (
+          <p className="text-sm text-amber-400 mt-1">
+            <span aria-hidden>↻</span> {recurrenceSummary}
+          </p>
+        )}
+        {isVirtual && <p className="text-sm text-zinc-500 mt-1">{tRecurrence("virtualHint")}</p>}
         {event.distance_km != null && (
           <p className="text-zinc-400 mt-1">{event.distance_km} km</p>
         )}
@@ -165,6 +239,7 @@ export default async function EventoDetallePage({
             initialStatus={
               (myAttendance?.status as "asistire" | "tal_vez" | "no_asistire" | undefined) ?? null
             }
+            materializeOccurrence={virtualStartsAt}
           />
         </div>
 

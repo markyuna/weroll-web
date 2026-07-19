@@ -5,6 +5,14 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
+import {
+  buildRule,
+  serializeRule,
+  RECURRENCE_FREQS,
+  WEEKDAY_CODES,
+  type RecurrenceFreq,
+  type WeekdayCode,
+} from "@/lib/recurrence";
 
 const DIFFICULTIES = ["principiante", "intermedio", "avanzado"];
 
@@ -37,6 +45,9 @@ export async function createEvent(formData: FormData) {
   const maxRaw = ((formData.get("max_participants") as string) ?? "").trim();
   const routePolylineRaw = ((formData.get("route_polyline") as string) ?? "").trim();
   const pauseSpotId = ((formData.get("pause_spot_id") as string) ?? "").trim();
+  const recurrence = ((formData.get("recurrence") as string) ?? "none").trim() || "none";
+  const recurrenceDay = ((formData.get("recurrence_day") as string) ?? "").trim();
+  const recurrenceTime = ((formData.get("recurrence_time") as string) ?? "").trim();
 
   const values = {
     title,
@@ -47,6 +58,9 @@ export async function createEvent(formData: FormData) {
     difficulty,
     distance_km: distanceRaw,
     max_participants: maxRaw,
+    recurrence,
+    recurrence_day: recurrenceDay,
+    recurrence_time: recurrenceTime,
   };
 
   if (!title) backToFormWithError(t("errorTitleRequired"), values);
@@ -67,16 +81,40 @@ export async function createEvent(formData: FormData) {
       backToFormWithError(t("errorGroupInvalid"), values);
     }
   }
-  if (!startsAtLocal) {
-    backToFormWithError(t("errorStartsAtRequired"), values);
-  }
+  let startsAtDate: Date;
+  let recurrenceRule: string | null = null;
 
-  const startsAtDate = new Date(startsAtLocal);
-  if (Number.isNaN(startsAtDate.getTime())) {
-    backToFormWithError(t("errorStartsAtInvalid"), values);
-  }
-  if (startsAtDate.getTime() <= Date.now()) {
-    backToFormWithError(t("errorStartsAtPast"), values);
+  if (recurrence === "none") {
+    if (!startsAtLocal) {
+      backToFormWithError(t("errorStartsAtRequired"), values);
+    }
+    startsAtDate = new Date(startsAtLocal);
+    if (Number.isNaN(startsAtDate.getTime())) {
+      backToFormWithError(t("errorStartsAtInvalid"), values);
+    }
+    if (startsAtDate.getTime() <= Date.now()) {
+      backToFormWithError(t("errorStartsAtPast"), values);
+    }
+  } else {
+    const timeMatch = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(recurrenceTime);
+    if (
+      !RECURRENCE_FREQS.includes(recurrence as RecurrenceFreq) ||
+      !WEEKDAY_CODES.includes(recurrenceDay as WeekdayCode) ||
+      !timeMatch
+    ) {
+      backToFormWithError(t("errorRecurrenceInvalid"), values);
+    }
+    // La primera ocurrencia es la próxima fecha futura que cae en ese día y
+    // hora; queda como starts_at del evento "plantilla" de la serie.
+    const { rule, firstOccurrence } = buildRule(
+      recurrence as RecurrenceFreq,
+      recurrenceDay as WeekdayCode,
+      Number(timeMatch[1]),
+      Number(timeMatch[2]),
+      new Date()
+    );
+    startsAtDate = firstOccurrence;
+    recurrenceRule = serializeRule(rule);
   }
 
   let distanceKm: number | null = null;
@@ -127,6 +165,7 @@ export async function createEvent(formData: FormData) {
       max_participants: maxParticipants,
       route_polyline: routePolyline,
       pause_spot_id: pauseSpotId || null,
+      recurrence_rule: recurrenceRule,
     })
     .select("id")
     .single();

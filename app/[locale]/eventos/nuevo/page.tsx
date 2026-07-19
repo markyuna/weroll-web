@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { RouteBuilderLoader } from "@/components/route-builder-loader";
+import { RecurrenceFields } from "@/components/recurrence-fields";
 import { createEvent } from "./actions";
 
 export default async function NuevoEventoPage({
@@ -144,19 +145,12 @@ export default async function NuevoEventoPage({
             </div>
           )}
 
-          <div>
-            <label htmlFor="starts_at" className="block text-sm text-zinc-300 mb-1">
-              {t("fieldStartsAt")}
-            </label>
-            <input
-              id="starts_at"
-              name="starts_at"
-              type="datetime-local"
-              required
-              defaultValue={field("starts_at")}
-              className="w-full rounded-lg bg-zinc-900 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
-            />
-          </div>
+          <RecurrenceFields
+            defaultRecurrence={field("recurrence")}
+            defaultDay={field("recurrence_day")}
+            defaultTime={field("recurrence_time")}
+            defaultStartsAt={field("starts_at")}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div>
