@@ -58,3 +58,11 @@ create policy "Un usuario puede unirse a un grupo"
 create policy "Un usuario puede salir de un grupo"
   on public.group_members for delete
   using (auth.uid() = profile_id);
+
+-- events.group_id se declaró como uuid sin FK en 20260718000100_create_events.sql
+-- (groups no existía todavía en ese punto). La base real sí tiene esta FK,
+-- con on delete set null: borrar un grupo no borra sus eventos, solo los
+-- deja sin grupo organizador.
+alter table public.events
+  add constraint events_group_id_fkey
+  foreign key (group_id) references public.groups (id) on delete set null;

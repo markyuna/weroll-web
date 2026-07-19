@@ -5,8 +5,15 @@
 -- documenta el esquema tal como se verificó por introspección vía REST
 -- (columnas, CHECK constraints y policies de RLS confirmados en vivo), para
 -- que `supabase/migrations` deje de estar desincronizado con la base real.
--- `group_id` y `recurrence_rule` existen en `events` pero no se usan todavía
--- en la app (probablemente para una feature de grupos/recurrencia futura).
+-- `recurrence_rule` existe en `events` pero no se usa todavía en la app
+-- (probablemente para una feature de recurrencia futura). `group_id` sí se
+-- usa (grupo organizador); su FK real se documenta en
+-- 20260718000400_create_groups.sql, porque `groups` no existe todavía en
+-- este punto de la migración.
+--
+-- Reglas de ON DELETE verificadas contra pg_catalog/information_schema en
+-- la base real (2026-07-19) — cada columna de FK abajo indica la regla
+-- real, que no siempre coincide con lo que se podría asumir por defecto.
 
 create table if not exists public.spots (
   id uuid primary key default gen_random_uuid(),
@@ -37,9 +44,18 @@ create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   description text,
+  -- FK real hacia public.groups(id) on delete set null, añadida en
+  -- 20260718000400_create_groups.sql (groups no existe todavía aquí).
   group_id uuid,
   spot_id uuid references public.spots (id) on delete set null,
-  organizer_id uuid not null references public.profiles (id) on delete cascade,
+  -- Decisión explícita: NO cascadea. Si cascadeara, borrar el perfil de un
+  -- organizador borraría en silencio todos sus eventos futuros — y con
+  -- ellos, el historial de asistencia (event_attendees) de todos los demás
+  -- asistentes, que no tienen nada que ver con esa baja de cuenta. Con
+  -- NO ACTION, borrar un perfil que organiza eventos falla hasta que se
+  -- reasignen o borren esos eventos explícitamente, evitando la pérdida de
+  -- datos de terceros como efecto colateral no intencionado.
+  organizer_id uuid not null references public.profiles (id) on delete no action,
   starts_at timestamptz not null,
   ends_at timestamptz,
   distance_km numeric,
