@@ -7,6 +7,7 @@
     "eventos": "Événements",
     "spots": "Spots",
     "grupos": "Groupes",
+    "buddies": "Buddies",
     "login": "Connexion",
     "signup": "Créer un compte",
     "myAccount": "Mon compte",
@@ -138,6 +139,14 @@
     "summaryMonthly": "Se répète le {nth, select, 1 {premier} 2 {deuxième} 3 {troisième} 4 {quatrième} other {cinquième}} {day} de chaque mois à {time}",
     "virtualHint": "Cette date n'est pas encore confirmée : elle sera créée dès que quelqu'un confirmera sa présence."
   },
+  "Buddies": {
+    "title": "Trouve des <amber>buddies</amber>",
+    "subtitle": "Des patineurs de ta ville et de tes groupes, classés par compatibilité avec toi.",
+    "empty": "Aucun patineur trouvé pour l'instant.",
+    "emptyHint": "Renseigne ta ville dans ton profil ou rejoins un groupe pour voir plus de monde.",
+    "emptyHintLink": "Aller à mon profil",
+    "viewProfile": "Voir le profil"
+  },
   "Spots": {
     "title": "<amber>Spots</amber> de roller",
     "subtitle": "Les points de rendez-vous et itinéraires habituels de la communauté.",
@@ -193,6 +202,14 @@
     "fieldSkillLevel": "Niveau",
     "unspecified": "Non précisé",
     "fieldBio": "Bio",
+    "avatarTitle": "Photo de profil",
+    "avatarUpload": "Ajouter une photo",
+    "avatarChange": "Changer la photo",
+    "avatarSave": "Enregistrer la photo",
+    "avatarCancel": "Annuler",
+    "avatarRemove": "Supprimer la photo",
+    "avatarInvalidType": "Le fichier doit être une image (JPG, PNG ou WebP).",
+    "avatarError": "Impossible de mettre à jour la photo. Réessaie.",
     "save": "Enregistrer les modifications",
     "myRidesTitle": "Mes prochaines randonnées",
     "noRides": "Tu n'as pas encore de randonnées à venir.",
@@ -265,10 +282,28 @@
     "gpxError": "Le fichier n'est pas un GPX valide.",
     "gpxErrorGeneric": "Impossible de lire le fichier. Réessaie."
   },
+  "LiveSessions": {
+    "startButton": "Je patine en ce moment",
+    "endButton": "Terminer ma session",
+    "durationLabel": "Pour combien de temps ?",
+    "durationOption": "{hours, plural, one {# heure} other {# heures}}",
+    "messageLabel": "Message court (facultatif)",
+    "messagePlaceholder": "Ex. je fais des tours au parc",
+    "privacyHint": "Ta position est arrondie à ~300 m pour ta vie privée.",
+    "start": "Démarrer la session",
+    "cancel": "Annuler",
+    "locationError": "Impossible d'obtenir ta position. Vérifie les autorisations du navigateur.",
+    "saveError": "Impossible de démarrer la session. Réessaie.",
+    "endError": "Impossible de terminer la session. Réessaie.",
+    "unknownUser": "Quelqu'un patine",
+    "timeLeftHours": "Il reste {hours} h {minutes} min",
+    "timeLeftMinutes": "Il reste {minutes} min"
+  },
   "RouteDisplay": {
     "start": "Départ",
     "pause": "Pause",
-    "end": "Arrivée"
+    "end": "Arrivée",
+    "moreAttendees": "{count, plural, one {# autre participant} other {# autres participants}}"
   },
   "SkateStyle": {
     "fitness_distancia": "Fitness / Distance",

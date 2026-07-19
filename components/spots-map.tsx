@@ -14,8 +14,10 @@ import { SpotFormPanel, type DraftSpot } from "./spot-form-panel";
 import { SpotReportBadge } from "./spot-report-badge";
 import { ReportButton } from "./report-button";
 import { createClient } from "@/lib/supabase/client";
+import { LiveSessionControls, LiveSessionMarkers, useLiveSessions } from "./live-sessions";
 import type { SpotData } from "@/lib/spots";
 import type { SpotReport } from "@/lib/spot-reports";
+import type { LiveSession } from "@/lib/live-sessions";
 
 // Bug conocido: los iconos por defecto de Leaflet apuntan a rutas que los
 // bundlers no resuelven. Se reconstruyen apuntando a los assets de unpkg.
@@ -88,10 +90,12 @@ export function SpotsMap({
   spots,
   userId,
   reportsBySpot,
+  initialLiveSessions,
 }: {
   spots: SpotData[];
   userId: string | null;
   reportsBySpot: Record<string, SpotReport>;
+  initialLiveSessions: LiveSession[];
 }) {
   const t = useTranslations("Spots");
   const tForm = useTranslations("SpotForm");
@@ -100,6 +104,10 @@ export function SpotsMap({
   const [localSpots, setLocalSpots] = useState(spots);
   const [isPlacing, setIsPlacing] = useState(false);
   const [draft, setDraft] = useState<DraftSpot | null>(null);
+  const { activeSessions, mySession, now, createSession, endSession } = useLiveSessions(
+    initialLiveSessions,
+    userId
+  );
 
   async function runGeocode(lat: number, lng: number) {
     const result = await reverseGeocode(lat, lng);
@@ -223,6 +231,13 @@ export function SpotsMap({
         {isPlacing && <p className="text-sm text-amber-400">{t("placingHint")}</p>}
       </div>
 
+      <LiveSessionControls
+        userId={userId}
+        mySession={mySession}
+        onCreate={createSession}
+        onEnd={endSession}
+      />
+
       <div className="min-h-[60vh] rounded-xl overflow-hidden border border-zinc-800">
         <MapContainer
           center={center}
@@ -267,6 +282,13 @@ export function SpotsMap({
               </Marker>
             );
           })}
+
+          <LiveSessionMarkers
+            sessions={activeSessions}
+            userId={userId}
+            now={now}
+            onEnd={endSession}
+          />
 
           {draft && (
             <Marker

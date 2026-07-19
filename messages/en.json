@@ -7,6 +7,7 @@
     "eventos": "Events",
     "spots": "Spots",
     "grupos": "Groups",
+    "buddies": "Buddies",
     "login": "Log in",
     "signup": "Sign up",
     "myAccount": "My account",
@@ -138,6 +139,14 @@
     "summaryMonthly": "Repeats on the {nth, select, 1 {first} 2 {second} 3 {third} 4 {fourth} other {fifth}} {day} of every month at {time}",
     "virtualHint": "This date isn't confirmed yet — it will be created when someone RSVPs."
   },
+  "Buddies": {
+    "title": "Find <amber>buddies</amber>",
+    "subtitle": "Skaters from your city and your groups, sorted by compatibility with you.",
+    "empty": "No skaters found yet.",
+    "emptyHint": "Fill in your city in your profile or join a group to see more people.",
+    "emptyHintLink": "Go to my profile",
+    "viewProfile": "View profile"
+  },
   "Spots": {
     "title": "Skating <amber>spots</amber>",
     "subtitle": "The community's usual meeting points and routes.",
@@ -193,6 +202,14 @@
     "fieldSkillLevel": "Level",
     "unspecified": "Not specified",
     "fieldBio": "Bio",
+    "avatarTitle": "Profile photo",
+    "avatarUpload": "Upload photo",
+    "avatarChange": "Change photo",
+    "avatarSave": "Save photo",
+    "avatarCancel": "Cancel",
+    "avatarRemove": "Remove photo",
+    "avatarInvalidType": "The file must be an image (JPG, PNG or WebP).",
+    "avatarError": "Couldn't update the photo. Please try again.",
     "save": "Save changes",
     "myRidesTitle": "My upcoming rides",
     "noRides": "You don't have any upcoming rides yet.",
@@ -265,10 +282,28 @@
     "gpxError": "The file is not a valid GPX.",
     "gpxErrorGeneric": "Couldn't read the file. Please try again."
   },
+  "LiveSessions": {
+    "startButton": "I'm skating now",
+    "endButton": "End my session",
+    "durationLabel": "For how long?",
+    "durationOption": "{hours, plural, one {# hour} other {# hours}}",
+    "messageLabel": "Short message (optional)",
+    "messagePlaceholder": "E.g. doing laps around the park",
+    "privacyHint": "Your location is rounded to ~300 m for privacy.",
+    "start": "Start session",
+    "cancel": "Cancel",
+    "locationError": "Couldn't get your location. Check your browser permissions.",
+    "saveError": "Couldn't start the session. Please try again.",
+    "endError": "Couldn't end the session. Please try again.",
+    "unknownUser": "Someone is skating",
+    "timeLeftHours": "{hours} h {minutes} min left",
+    "timeLeftMinutes": "{minutes} min left"
+  },
   "RouteDisplay": {
     "start": "Start",
     "pause": "Pause",
-    "end": "Finish"
+    "end": "Finish",
+    "moreAttendees": "{count, plural, one {# more attendee} other {# more attendees}}"
   },
   "SkateStyle": {
     "fitness_distancia": "Fitness / Distance",

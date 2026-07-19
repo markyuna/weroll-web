@@ -5,16 +5,18 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getSpotsWithUpcomingCounts } from "@/lib/spots";
 import { getRecentReportsBySpot } from "@/lib/spot-reports";
+import { getActiveLiveSessions } from "@/lib/live-sessions";
 import { SpotsMapLoader } from "@/components/spots-map-loader";
 import { SpotCard } from "@/components/spot-card";
 
 export default async function SpotsPage() {
   const t = await getTranslations("Spots");
   const supabase = await createClient();
-  const [{ data: spots, error }, { data: { user } }, reportsBySpot] = await Promise.all([
+  const [{ data: spots, error }, { data: { user } }, reportsBySpot, liveSessions] = await Promise.all([
     getSpotsWithUpcomingCounts(supabase),
     supabase.auth.getUser(),
     getRecentReportsBySpot(supabase),
+    getActiveLiveSessions(supabase),
   ]);
 
   return (
@@ -29,7 +31,12 @@ export default async function SpotsPage() {
 
         {error && <p className="text-sm text-red-400 mb-6">{t("loadError")}</p>}
 
-        <SpotsMapLoader spots={spots ?? []} userId={user?.id ?? null} reportsBySpot={reportsBySpot} />
+        <SpotsMapLoader
+          spots={spots ?? []}
+          userId={user?.id ?? null}
+          reportsBySpot={reportsBySpot}
+          initialLiveSessions={liveSessions}
+        />
 
         {spots && spots.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 mt-8">
