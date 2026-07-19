@@ -8,6 +8,7 @@ import { formatEventDateTime } from "@/lib/events";
 import { getGamificationData } from "@/lib/gamification";
 import { XpLevelCard } from "@/components/xp-level-card";
 import { BadgesGrid } from "@/components/badges-grid";
+import { Avatar } from "@/components/avatar";
 
 export default async function PerfilPublicoPage({
   params,
@@ -25,7 +26,7 @@ export default async function PerfilPublicoPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, username, display_name, city, country, skate_type, skate_style, skill_level, bio")
+    .select("id, username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio")
     .eq("username", username)
     .maybeSingle()
     .overrideTypes<
@@ -33,6 +34,7 @@ export default async function PerfilPublicoPage({
         id: string;
         username: string;
         display_name: string | null;
+        avatar_url: string | null;
         city: string | null;
         country: string | null;
         skate_type: string | null;
@@ -80,10 +82,15 @@ export default async function PerfilPublicoPage({
           {t("back")}
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mt-4">
-          {profile.display_name || profile.username}
-        </h1>
-        <p className="text-zinc-400">@{profile.username}</p>
+        <div className="mt-4 flex items-center gap-4">
+          <Avatar username={profile.username} avatarUrl={profile.avatar_url} size={64} />
+          <div>
+            <h1 className="text-3xl font-bold text-white">
+              {profile.display_name || profile.username}
+            </h1>
+            <p className="text-zinc-400">@{profile.username}</p>
+          </div>
+        </div>
 
         {location && <p className="text-zinc-400 mt-2">{location}</p>}
 

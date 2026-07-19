@@ -9,6 +9,7 @@ import { SKATE_TYPES, SKATE_STYLES } from "@/lib/profiles";
 import { getGamificationData } from "@/lib/gamification";
 import { XpLevelCard } from "@/components/xp-level-card";
 import { BadgesGrid } from "@/components/badges-grid";
+import { AvatarUploader } from "@/components/avatar-uploader";
 import { updateProfile } from "./actions";
 
 const SKILL_LEVELS = ["principiante", "intermedio", "avanzado"] as const;
@@ -43,13 +44,14 @@ export default async function PerfilPage({
   const [{ data: profile }, { data: myRsvps }, gamification] = await Promise.all([
     supabase
       .from("profiles")
-      .select("username, display_name, city, country, skate_type, skate_style, skill_level, bio")
+      .select("username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio")
       .eq("id", user.id)
       .single()
       .overrideTypes<
         {
           username: string;
           display_name: string | null;
+          avatar_url: string | null;
           city: string | null;
           country: string | null;
           skate_type: string | null;
@@ -94,6 +96,17 @@ export default async function PerfilPage({
         <p className="text-zinc-400 mb-6">
           @{profile?.username} · {user.email}
         </p>
+
+        <div className="mb-8">
+          <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
+            {t("avatarTitle")}
+          </h2>
+          <AvatarUploader
+            userId={user.id}
+            username={profile?.username ?? "?"}
+            avatarUrl={profile?.avatar_url ?? null}
+          />
+        </div>
 
         <div className="space-y-4 mb-10">
           <XpLevelCard data={gamification} />

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { signOut } from "./header-actions";
+import { Avatar } from "./avatar";
 
 export function UserMenu({
   username,
@@ -39,8 +40,6 @@ export function UserMenu({
     };
   }, [open]);
 
-  const initial = username ? username.charAt(0).toUpperCase() : "?";
-
   return (
     <div ref={containerRef} className="relative">
       <button
@@ -50,14 +49,7 @@ export function UserMenu({
         aria-expanded={open}
         className="flex items-center gap-2 rounded-full border border-zinc-700 py-1 pl-1 pr-2 sm:pr-3 hover:border-amber-400 transition"
       >
-        {avatarUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element -- avatar_url es una URL externa arbitraria (sin dominio fijo que configurar en next/image)
-          <img src={avatarUrl} alt="" className="h-7 w-7 rounded-full object-cover" />
-        ) : (
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-sm font-semibold text-zinc-950">
-            {initial}
-          </span>
-        )}
+        <Avatar username={username ?? "?"} avatarUrl={avatarUrl} size={28} />
         <span className="hidden sm:inline max-w-[8rem] truncate text-sm text-zinc-200">
           {username ? `@${username}` : t("myAccount")}
         </span>

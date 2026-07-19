@@ -13,6 +13,7 @@ import {
   parseRule,
 } from "@/lib/recurrence";
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
+import { Avatar } from "@/components/avatar";
 import { RsvpButtons } from "./rsvp-buttons";
 
 export default async function EventoDetallePage({
@@ -106,18 +107,22 @@ export default async function EventoDetallePage({
     data: { user },
   } = await supabase.auth.getUser();
 
+  type AttendeeRow = {
+    profiles: { username: string; display_name: string | null; avatar_url: string | null } | null;
+  };
+
   // Una instancia virtual todavía no tiene fila propia, así que tampoco
   // tiene asistentes ni RSVP previo del usuario.
   const [{ data: attendees }, { data: myAttendance }] = await Promise.all([
     isVirtual
-      ? Promise.resolve({ data: [] as { profiles: { username: string } | null }[] })
+      ? Promise.resolve({ data: [] as AttendeeRow[] })
       : supabase
           .from("event_attendees")
-          .select("profiles ( username )")
+          .select("profiles ( username, display_name, avatar_url )")
           .eq("event_id", id)
           .eq("status", "asistire")
           .order("responded_at", { ascending: true })
-          .overrideTypes<{ profiles: { username: string } | null }[], { merge: false }>(),
+          .overrideTypes<AttendeeRow[], { merge: false }>(),
     user && !isVirtual
       ? supabase
           .from("event_attendees")
@@ -225,6 +230,17 @@ export default async function EventoDetallePage({
                   ? { name: event.pause_spot.name, position: [event.pause_spot.latitude, event.pause_spot.longitude] }
                   : null
               }
+              attendees={(attendees ?? []).flatMap((a) =>
+                a.profiles
+                  ? [
+                      {
+                        username: a.profiles.username,
+                        displayName: a.profiles.display_name,
+                        avatarUrl: a.profiles.avatar_url,
+                      },
+                    ]
+                  : []
+              )}
             />
           </div>
         )}
@@ -254,8 +270,9 @@ export default async function EventoDetallePage({
                   <li key={i}>
                     <Link
                       href={`/u/${a.profiles.username}`}
-                      className="block rounded-full bg-zinc-900 border border-zinc-800 px-3 py-1 text-sm text-zinc-200 hover:border-amber-400 hover:text-amber-400 transition"
+                      className="flex items-center gap-2 rounded-full bg-zinc-900 border border-zinc-800 py-1 pl-1 pr-3 text-sm text-zinc-200 hover:border-amber-400 hover:text-amber-400 transition"
                     >
+                      <Avatar username={a.profiles.username} avatarUrl={a.profiles.avatar_url} size={22} />
                       {a.profiles.username}
                     </Link>
                   </li>

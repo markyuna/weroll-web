@@ -4,7 +4,12 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getUpcomingEvents, getVirtualInstances, type EventCardData } from "@/lib/events";
+import {
+  getEventAttendeeAvatars,
+  getUpcomingEvents,
+  getVirtualInstances,
+  type EventCardData,
+} from "@/lib/events";
 import { EventCard } from "@/components/event-card";
 
 export default async function EventosPage({
@@ -26,6 +31,13 @@ export default async function EventosPage({
       : Promise.resolve({ data: null }),
   ]);
   const filterSpot = spotResult.data as { name: string; city: string | null } | null;
+
+  // Avatares apilados: solo aplican a eventos reales (las instancias
+  // virtuales no tienen asistentes todavía).
+  const avatarsByEvent = await getEventAttendeeAvatars(
+    supabase,
+    (events ?? []).map((event) => event.id)
+  );
 
   // Eventos reales + instancias virtuales de las series recurrentes,
   // intercalados por fecha. Las virtuales enlazan al padre con ?occurrence=.
@@ -89,7 +101,12 @@ export default async function EventosPage({
         <ul className="space-y-4">
           {items.map((item) => (
             <li key={item.key}>
-              <EventCard event={item.event} href={item.href} recurring={item.recurring} />
+              <EventCard
+                event={item.event}
+                href={item.href}
+                recurring={item.recurring}
+                attendeeAvatars={item.href ? undefined : avatarsByEvent.get(item.event.id)}
+              />
             </li>
           ))}
         </ul>

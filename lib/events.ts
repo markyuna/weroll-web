@@ -41,6 +41,40 @@ export function getUpcomingEvents(
   return query.overrideTypes<EventCardData[], { merge: false }>();
 }
 
+export type AttendeeAvatar = { username: string; avatar_url: string | null };
+
+/**
+ * Hasta `perEvent` avatares de asistentes confirmados por evento, en orden
+ * de respuesta, para las pilas de avatares de las tarjetas. Una sola consulta
+ * batch para toda la lista.
+ */
+export async function getEventAttendeeAvatars(
+  supabase: SupabaseClient,
+  eventIds: string[],
+  perEvent = 4
+): Promise<Map<string, AttendeeAvatar[]>> {
+  const byEvent = new Map<string, AttendeeAvatar[]>();
+  if (eventIds.length === 0) return byEvent;
+
+  const { data } = await supabase
+    .from("event_attendees")
+    .select("event_id, profiles ( username, avatar_url )")
+    .in("event_id", eventIds)
+    .eq("status", "asistire")
+    .order("responded_at", { ascending: true })
+    .overrideTypes<{ event_id: string; profiles: AttendeeAvatar | null }[], { merge: false }>();
+
+  for (const row of data ?? []) {
+    if (!row.profiles) continue;
+    const list = byEvent.get(row.event_id) ?? [];
+    if (list.length < perEvent) {
+      list.push(row.profiles);
+      byEvent.set(row.event_id, list);
+    }
+  }
+  return byEvent;
+}
+
 export type VirtualInstance = {
   parentId: string;
   occurrenceIso: string;

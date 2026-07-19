@@ -4,17 +4,21 @@
 // la tarjeta ya no es un único <Link> gigante (evita anidar dos <a>).
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { DIFFICULTY_STYLES, formatEventDateTime, type EventCardData } from "@/lib/events";
+import { DIFFICULTY_STYLES, formatEventDateTime, type AttendeeAvatar, type EventCardData } from "@/lib/events";
+import { Avatar } from "./avatar";
 
 export async function EventCard({
   event,
   href,
   recurring = false,
+  attendeeAvatars,
 }: {
   event: EventCardData;
   /** Enlace alternativo, p. ej. una instancia virtual de un evento recurrente. */
   href?: string;
   recurring?: boolean;
+  /** Hasta 4 avatares de asistentes confirmados, apilados junto al contador. */
+  attendeeAvatars?: AttendeeAvatar[];
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Eventos");
@@ -57,6 +61,19 @@ export async function EventCard({
 
       <div className="flex items-center gap-4 mt-4 text-sm text-zinc-400">
         {event.distance_km != null && <span>{event.distance_km} km</span>}
+        {attendeeAvatars && attendeeAvatars.length > 0 && (
+          <span className="flex -space-x-2">
+            {attendeeAvatars.map((a) => (
+              <Avatar
+                key={a.username}
+                username={a.username}
+                avatarUrl={a.avatar_url}
+                size={24}
+                className="ring-2 ring-zinc-900"
+              />
+            ))}
+          </span>
+        )}
         <span className="text-amber-400 font-medium">
           {t("attendeeCount", { count: attendeeCount })}
         </span>
