@@ -5,14 +5,31 @@
 // Server Component padre (route_polyline como jsonb, pause_spot_id).
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { MapContainer, TileLayer, Polyline, CircleMarker, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, CircleMarker, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { totalDistanceKm, type LatLng } from "@/lib/geo";
 import { parseGpx, simplifyPoints, GpxParseError } from "@/lib/gpx";
 
 type SpotOption = { id: string; name: string; city: string | null; latitude: number; longitude: number };
+
+// Centra el mapa en el spot recién seleccionado (salida o pausa), pero solo
+// si el trazado está vacío: re-centrar con puntos dibujados desorienta al
+// usuario a mitad de dibujo. Sin spot seleccionado no hace nada (se conserva
+// la vista por defecto del mapa).
+function FlyToSpot({ target, hasPoints }: { target: SpotOption | null; hasPoints: boolean }) {
+  const map = useMap();
+  const lastFlownId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!target || hasPoints || target.id === lastFlownId.current) return;
+    lastFlownId.current = target.id;
+    map.flyTo([target.latitude, target.longitude], 15);
+  }, [map, target, hasPoints]);
+
+  return null;
+}
 
 function ClickToAddPoint({ onAdd }: { onAdd: (point: LatLng) => void }) {
   useMapEvents({
@@ -29,7 +46,22 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
   const [points, setPoints] = useState<LatLng[]>([]);
   const [pauseSpotId, setPauseSpotId] = useState("");
   const [gpxError, setGpxError] = useState<string | null>(null);
+  const [flyTarget, setFlyTarget] = useState<SpotOption | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // El select del spot de salida vive en el <form> del Server Component
+  // padre, así que se escucha por DOM (mismo idioma que #distance_km).
+  useEffect(() => {
+    const select = document.getElementById("spot_id") as HTMLSelectElement | null;
+    if (!select) return;
+    const apply = () => {
+      const spot = spots.find((s) => s.id === select.value) ?? null;
+      if (spot) setFlyTarget(spot);
+    };
+    apply(); // spot preseleccionado (p. ej. formulario reenviado con error)
+    select.addEventListener("change", apply);
+    return () => select.removeEventListener("change", apply);
+  }, [spots]);
 
   const distanceKm = useMemo(() => totalDistanceKm(points), [points]);
 
@@ -103,6 +135,7 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <ClickToAddPoint onAdd={handleAddPoint} />
+              <FlyToSpot target={flyTarget} hasPoints={points.length > 0} />
               {points.length > 1 && <Polyline positions={points} pathOptions={{ color: "#ef4444", weight: 4 }} />}
               {points.map((p, i) => (
                 <CircleMarker
@@ -165,7 +198,11 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
                 id="pause_spot_id"
                 name="pause_spot_id"
                 value={pauseSpotId}
-                onChange={(e) => setPauseSpotId(e.target.value)}
+                onChange={(e) => {
+                  setPauseSpotId(e.target.value);
+                  const spot = spots.find((s) => s.id === e.target.value) ?? null;
+                  if (spot) setFlyTarget(spot);
+                }}
                 className="w-full rounded-lg bg-zinc-950 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
               >
                 <option value="">{t("pauseSpotNone")}</option>
