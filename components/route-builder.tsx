@@ -76,17 +76,23 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
 
   return (
     <div>
+      <p className="block text-sm text-zinc-300 mb-1">{t("sectionLabel")}</p>
       <input type="hidden" name="route_polyline" value={points.length > 1 ? JSON.stringify(points) : ""} readOnly />
 
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="text-sm text-amber-400 hover:underline"
-      >
-        {expanded ? t("hide") : t("show")}
-      </button>
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className={
+            expanded
+              ? "rounded-lg border border-zinc-700 text-zinc-300 font-medium px-4 py-2 text-sm hover:border-zinc-500 transition"
+              : "rounded-lg bg-amber-400 text-zinc-950 font-semibold px-4 py-2 text-sm hover:bg-amber-300 transition"
+          }
+        >
+          {expanded ? t("hide") : t("show")}
+        </button>
 
-      {expanded && (
+        {expanded && (
         <div className="mt-3 space-y-3">
           <p className="text-sm text-zinc-400">{t("hint")}</p>
 
@@ -173,7 +179,8 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
             </div>
           )}
         </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

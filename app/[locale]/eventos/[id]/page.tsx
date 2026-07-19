@@ -16,13 +16,14 @@ export default async function EventoDetallePage({
   const { id } = await params;
   const t = await getTranslations("EventoDetalle");
   const tDifficulty = await getTranslations("Difficulty");
+  const tEdit = await getTranslations("EventoEditar");
   const locale = await getLocale();
   const supabase = await createClient();
 
   const { data: event } = await supabase
     .from("events")
     .select(
-      "id, title, description, starts_at, difficulty, distance_km, route_polyline, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
+      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
     )
     .eq("id", id)
     .maybeSingle()
@@ -31,6 +32,7 @@ export default async function EventoDetallePage({
         id: string;
         title: string;
         description: string | null;
+        organizer_id: string;
         starts_at: string;
         difficulty: string | null;
         distance_km: number | null;
@@ -92,6 +94,15 @@ export default async function EventoDetallePage({
             </span>
           )}
         </div>
+
+        {user?.id === event.organizer_id && (
+          <Link
+            href={`/eventos/${event.id}/editar`}
+            className="inline-block text-sm text-amber-400 hover:underline mt-2"
+          >
+            {tEdit("editLink")}
+          </Link>
+        )}
 
         <p className="text-zinc-400 mt-1">{formatEventDateTime(event.starts_at, locale)}</p>
         {event.distance_km != null && (

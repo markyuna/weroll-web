@@ -237,6 +237,7 @@
     "noEvents": "Este grupo no tiene randonnées próximas."
   },
   "RouteBuilder": {
+    "sectionLabel": "Recorrido (opcional)",
     "show": "Dibujar recorrido",
     "hide": "Ocultar recorrido",
     "hint": "Haz clic en el mapa para añadir puntos al recorrido.",
@@ -287,5 +288,31 @@
     "errorCityRequired": "La ciudad es obligatoria.",
     "errorCountryRequired": "El país es obligatorio.",
     "errorSubmit": "No se pudo crear el grupo. Inténtalo de nuevo."
+  },
+  "EventoEditar": {
+    "back": "← Volver al evento",
+    "editLink": "Editar evento",
+    "title": "Editar <amber>randonnée</amber>",
+    "subtitle": "Los cambios en título, fecha, spot, distancia o dificultad se notificarán a los asistentes confirmados.",
+    "submit": "Guardar cambios",
+    "deleteButton": "Eliminar randonnée",
+    "deleting": "Eliminando…",
+    "deleteConfirm": "¿Seguro que quieres eliminar este evento? Se avisará a los asistentes confirmados por email y no se puede deshacer.",
+    "errorSubmit": "No se pudo guardar el evento. Inténtalo de nuevo."
+  },
+  "Notifications": {
+    "bellLabel": "Notificaciones",
+    "empty": "No tienes notificaciones.",
+    "modified": "El evento cambió",
+    "cancelled": "El evento fue cancelado",
+    "viewAll": "Ver todas",
+    "pageTitle": "Notificaciones"
+  },
+  "NotificationEmail": {
+    "modifiedSubject": "Cambios en {title}",
+    "modifiedIntro": "El evento \"{title}\" que confirmaste tuvo estos cambios:",
+    "cancelledSubject": "Se canceló {title}",
+    "cancelledIntro": "El evento \"{title}\" que confirmaste fue cancelado por el organizador.",
+    "cta": "Ver evento"
   }
 }

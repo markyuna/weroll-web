@@ -1,14 +1,17 @@
 // Archivo: components/header.tsx
 // Server Component: header global, refleja el estado de sesión leído con
 // el cliente server de Supabase, e incluye el selector de idioma.
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getNotifications, getUnreadNotificationCount, type NotificationRow } from "@/lib/notifications";
 import { UserMenu } from "./user-menu";
+import { NotificationBell } from "./notification-bell";
 import { LanguageSwitcher } from "./language-switcher";
 
 export async function Header() {
   const t = await getTranslations("Header");
+  const locale = await getLocale();
   const supabase = await createClient();
   const {
     data: { user },
@@ -16,14 +19,18 @@ export async function Header() {
 
   let username: string | null = null;
   let avatarUrl: string | null = null;
+  let notifications: NotificationRow[] = [];
+  let unreadCount = 0;
   if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("username, avatar_url")
-      .eq("id", user.id)
-      .maybeSingle();
+    const [{ data: profile }, notifs, count] = await Promise.all([
+      supabase.from("profiles").select("username, avatar_url").eq("id", user.id).maybeSingle(),
+      getNotifications(supabase, user.id, 8),
+      getUnreadNotificationCount(supabase, user.id),
+    ]);
     username = profile?.username ?? null;
     avatarUrl = profile?.avatar_url ?? null;
+    notifications = notifs;
+    unreadCount = count;
   }
 
   return (
@@ -45,7 +52,10 @@ export async function Header() {
           </Link>
 
           {user ? (
-            <UserMenu username={username} avatarUrl={avatarUrl} />
+            <>
+              <NotificationBell initialNotifications={notifications} initialUnreadCount={unreadCount} locale={locale} />
+              <UserMenu username={username} avatarUrl={avatarUrl} />
+            </>
           ) : (
             <>
               <Link href="/login" className="whitespace-nowrap hover:text-amber-400 transition">

@@ -237,6 +237,7 @@
     "noEvents": "Ce groupe n'a pas de randonnée à venir."
   },
   "RouteBuilder": {
+    "sectionLabel": "Itinéraire (facultatif)",
     "show": "Dessiner l'itinéraire",
     "hide": "Masquer l'itinéraire",
     "hint": "Clique sur la carte pour ajouter des points à l'itinéraire.",
@@ -287,5 +288,31 @@
     "errorCityRequired": "La ville est obligatoire.",
     "errorCountryRequired": "Le pays est obligatoire.",
     "errorSubmit": "Impossible de créer le groupe. Réessaie."
+  },
+  "EventoEditar": {
+    "back": "← Retour à l'événement",
+    "editLink": "Modifier l'événement",
+    "title": "Modifier la <amber>randonnée</amber>",
+    "subtitle": "Les changements de titre, date, spot, distance ou difficulté seront notifiés aux participants confirmés.",
+    "submit": "Enregistrer les modifications",
+    "deleteButton": "Supprimer la randonnée",
+    "deleting": "Suppression…",
+    "deleteConfirm": "Es-tu sûr de vouloir supprimer cet événement ? Les participants confirmés seront prévenus par email et c'est irréversible.",
+    "errorSubmit": "Impossible d'enregistrer l'événement. Réessaie."
+  },
+  "Notifications": {
+    "bellLabel": "Notifications",
+    "empty": "Tu n'as aucune notification.",
+    "modified": "L'événement a changé",
+    "cancelled": "L'événement a été annulé",
+    "viewAll": "Voir tout",
+    "pageTitle": "Notifications"
+  },
+  "NotificationEmail": {
+    "modifiedSubject": "Modifications de {title}",
+    "modifiedIntro": "L'événement \"{title}\" que tu as confirmé a eu ces modifications :",
+    "cancelledSubject": "{title} a été annulé",
+    "cancelledIntro": "L'événement \"{title}\" que tu as confirmé a été annulé par l'organisateur.",
+    "cta": "Voir l'événement"
   }
 }
