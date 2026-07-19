@@ -8,6 +8,7 @@ import { SpotReportBadge } from "./spot-report-badge";
 import { ReportButton } from "./report-button";
 import type { SpotData } from "@/lib/spots";
 import type { SpotReport } from "@/lib/spot-reports";
+import { Card } from "./card";
 
 export async function SpotCard({
   spot,
@@ -23,7 +24,7 @@ export async function SpotCard({
   const location = [spot.city, spot.country].filter(Boolean).join(", ");
 
   return (
-    <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
+    <Card className="h-full p-5">
       <h3 className="text-lg font-semibold text-white">{spot.name}</h3>
       {location && <p className="text-sm text-zinc-400 mt-1">{location}</p>}
 
@@ -52,6 +53,6 @@ export async function SpotCard({
       <div className="mt-2">
         <ReportButton spotId={spot.id} userId={userId} />
       </div>
-    </div>
+    </Card>
   );
 }

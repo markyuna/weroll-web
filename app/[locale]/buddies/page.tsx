@@ -7,18 +7,11 @@ import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getBuddies } from "@/lib/buddies";
 import { Avatar } from "@/components/avatar";
-
-function AttributeChip({ label, matches }: { label: string; matches: boolean }) {
-  return (
-    <span
-      className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-        matches ? "bg-amber-400/10 text-amber-400" : "bg-zinc-800 text-zinc-400"
-      }`}
-    >
-      {label}
-    </span>
-  );
-}
+import { Card } from "@/components/card";
+import { FilterChip } from "@/components/filter-chip";
+import { PageHeader, AmberChunk } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { Reveal } from "@/components/reveal";
 
 export default async function BuddiesPage() {
   const locale = await getLocale();
@@ -57,15 +50,10 @@ export default async function BuddiesPage() {
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-3xl font-bold text-white mb-1">
-          {t.rich("title", {
-            amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
-          })}
-        </h1>
-        <p className="text-zinc-400 mb-8">{t("subtitle")}</p>
+        <PageHeader title={t.rich("title", { amber: AmberChunk })} subtitle={t("subtitle")} />
 
         {buddies.length === 0 ? (
-          <div className="text-zinc-400">
+          <EmptyState emoji="🤝">
             <p>{t("empty")}</p>
             <p className="mt-2 text-sm">
               {t("emptyHint")}{" "}
@@ -73,10 +61,10 @@ export default async function BuddiesPage() {
                 {t("emptyHintLink")}
               </Link>
             </p>
-          </div>
+          </EmptyState>
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2">
-            {buddies.map((buddy) => {
+            {buddies.map((buddy, i) => {
               const skateTypeLabel =
                 buddy.skate_type && tSkateType.has(buddy.skate_type)
                   ? tSkateType(buddy.skate_type)
@@ -91,10 +79,9 @@ export default async function BuddiesPage() {
                   : buddy.skate_style;
 
               return (
-                <li
-                  key={buddy.id}
-                  className="rounded-xl bg-zinc-900 border border-zinc-800 p-5 flex flex-col gap-3"
-                >
+                <li key={buddy.id}>
+                  <Reveal delay={(i % 2) * 50} className="h-full">
+                    <Card interactive className="flex h-full flex-col gap-3 p-5">
                   <div className="flex items-center gap-3">
                     <Avatar username={buddy.username} avatarUrl={buddy.avatar_url} size={48} />
                     <div className="min-w-0">
@@ -111,13 +98,13 @@ export default async function BuddiesPage() {
                   {(skateTypeLabel || skillLevelLabel || skateStyleLabel) && (
                     <div className="flex flex-wrap gap-2">
                       {skateTypeLabel && (
-                        <AttributeChip label={skateTypeLabel} matches={buddy.matchesType} />
+                        <FilterChip active={buddy.matchesType}>{skateTypeLabel}</FilterChip>
                       )}
                       {skillLevelLabel && (
-                        <AttributeChip label={skillLevelLabel} matches={buddy.matchesLevel} />
+                        <FilterChip active={buddy.matchesLevel}>{skillLevelLabel}</FilterChip>
                       )}
                       {skateStyleLabel && (
-                        <AttributeChip label={skateStyleLabel} matches={buddy.matchesStyle} />
+                        <FilterChip active={buddy.matchesStyle}>{skateStyleLabel}</FilterChip>
                       )}
                     </div>
                   )}
@@ -128,6 +115,8 @@ export default async function BuddiesPage() {
                   >
                     {t("viewProfile")}
                   </Link>
+                    </Card>
+                  </Reveal>
                 </li>
               );
             })}

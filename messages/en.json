@@ -14,6 +14,7 @@
     "myProfile": "My profile",
     "myRides": "My rides",
     "signOut": "Sign out",
+    "menuLabel": "Menu",
     "retos": "Challenges"
   },
   "Home": {
@@ -30,7 +31,24 @@
     "feature2Title": "Discover spots",
     "feature2Body": "Explore the usual meeting points to skate in every city.",
     "feature3Title": "Confirm your attendance",
-    "feature3Body": "Mark yourself as going, maybe, or not going, and see who else is in."
+    "feature3Body": "Mark yourself as going, maybe, or not going, and see who else is in.",
+    "heroBadge": "The urban skating community",
+    "marquee1": "Rides",
+    "marquee2": "Spots",
+    "marquee3": "Buddy Match",
+    "marquee4": "Weekly challenges",
+    "marquee5": "XP & badges",
+    "marquee6": "Roll with me",
+    "featuresTitle": "Everything you need to <amber>roll</amber>",
+    "feature4Title": "Buddy Match",
+    "feature4Body": "Find skaters compatible with you by style, level, and skate type.",
+    "feature5Title": "Earn XP & badges",
+    "feature5Body": "Gain experience with every ride, level up, and unlock badges.",
+    "feature6Title": "Roll with me",
+    "feature6Body": "Start a live session at a spot and notify anyone nearby in real time.",
+    "ctaFinalTitle": "Backpack ready? Let's roll.",
+    "ctaFinalBody": "Join for free, find your crew, and never miss another ride.",
+    "ctaFinalButton": "Join for free"
   },
   "Login": {
     "subtitle": "Log in and find your next ride.",

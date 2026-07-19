@@ -56,13 +56,18 @@ export default async function GrupoDetallePage({
   const location = [group.city, group.country].filter(Boolean).join(", ");
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-16">
-      <div className="mx-auto max-w-lg">
+    <main className="relative min-h-screen bg-zinc-950 px-4 py-16 overflow-x-clip">
+      {/* Acento único de las páginas de detalle: rejilla del hero, tenue. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 opacity-30" aria-hidden>
+        <div className="hero-grid absolute inset-0" />
+      </div>
+
+      <div className="relative mx-auto max-w-lg">
         <Link href="/grupos" className="text-sm text-amber-400 hover:underline">
           {t("back")}
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mt-4">{group.name}</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">{group.name}</h1>
         {location && <p className="text-zinc-400 mt-1">{location}</p>}
         {group.description && (
           <p className="text-zinc-200 mt-6 leading-relaxed">{group.description}</p>

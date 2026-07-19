@@ -6,6 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { DIFFICULTY_STYLES, formatEventDateTime, type AttendeeAvatar, type EventCardData } from "@/lib/events";
 import { Avatar } from "./avatar";
+import { Card } from "./card";
 
 export async function EventCard({
   event,
@@ -32,7 +33,7 @@ export async function EventCard({
     : null;
 
   return (
-    <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5 hover:border-amber-400 transition">
+    <Card interactive className="p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <Link href={href ?? `/eventos/${event.id}`} className="text-lg font-semibold text-white hover:underline">
@@ -78,6 +79,6 @@ export async function EventCard({
           {t("attendeeCount", { count: attendeeCount })}
         </span>
       </div>
-    </div>
+    </Card>
   );
 }

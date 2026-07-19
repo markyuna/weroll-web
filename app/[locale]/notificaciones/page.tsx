@@ -5,6 +5,8 @@ import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getNotifications } from "@/lib/notifications";
 import { NotificationsClientList } from "./notifications-client-list";
+import { PageHeader } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
 
 export default async function NotificacionesPage() {
   const locale = await getLocale();
@@ -24,9 +26,11 @@ export default async function NotificacionesPage() {
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-lg">
-        <h1 className="text-3xl font-bold text-white mb-8">{t("pageTitle")}</h1>
+        <PageHeader title={t("pageTitle")} />
         {notifications.length === 0 ? (
-          <p className="text-sm text-zinc-400">{t("empty")}</p>
+          <EmptyState emoji="🔔">
+            <p>{t("empty")}</p>
+          </EmptyState>
         ) : (
           <NotificationsClientList initialNotifications={notifications} locale={locale} />
         )}

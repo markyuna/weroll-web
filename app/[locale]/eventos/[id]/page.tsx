@@ -14,6 +14,7 @@ import {
 } from "@/lib/recurrence";
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
 import { Avatar } from "@/components/avatar";
+import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
 
 export default async function EventoDetallePage({
@@ -149,14 +150,19 @@ export default async function EventoDetallePage({
     : null;
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-16">
-      <div className="mx-auto max-w-2xl">
+    <main className="relative min-h-screen bg-zinc-950 px-4 py-16 overflow-x-clip">
+      {/* Acento único de las páginas de detalle: rejilla del hero, tenue. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 opacity-30" aria-hidden>
+        <div className="hero-grid absolute inset-0" />
+      </div>
+
+      <div className="relative mx-auto max-w-2xl">
         <Link href="/eventos" className="text-sm text-amber-400 hover:underline">
           {t("back")}
         </Link>
 
         <div className="mt-4 flex items-start justify-between gap-4">
-          <h1 className="text-3xl font-bold text-white">{event.title}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">{event.title}</h1>
           {difficultyLabel && (
             <span
               className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${difficultyStyle}`}
@@ -197,7 +203,7 @@ export default async function EventoDetallePage({
           <p className="text-zinc-200 mt-6 leading-relaxed">{event.description}</p>
         )}
 
-        <div className="mt-8 rounded-xl bg-zinc-900 border border-zinc-800 p-5">
+        <Card className="mt-8 p-5">
           <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide">
             {t("meetingPoint")}
           </h2>
@@ -216,7 +222,7 @@ export default async function EventoDetallePage({
           ) : (
             <p className="mt-2 text-sm text-zinc-400">{t("meetingPointTbd")}</p>
           )}
-        </div>
+        </Card>
 
         {event.route_polyline && event.route_polyline.length > 1 && (
           <div className="mt-8">

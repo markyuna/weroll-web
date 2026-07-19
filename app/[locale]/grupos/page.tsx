@@ -5,6 +5,9 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getGroups } from "@/lib/groups";
 import { GroupCard } from "@/components/group-card";
+import { PageHeader, AmberChunk } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { Reveal } from "@/components/reveal";
 
 export default async function GruposPage({
   searchParams,
@@ -24,24 +27,22 @@ export default async function GruposPage({
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
-        <div className="flex items-start justify-between gap-4 mb-1">
-          <h1 className="text-3xl font-bold text-white">
-            {t.rich("title", {
-              amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
-            })}
-          </h1>
-          {user && (
-            <Link
-              href="/grupos/nuevo"
-              className="shrink-0 rounded-lg bg-amber-400 text-zinc-950 font-semibold px-4 py-2 text-sm hover:bg-amber-300 transition"
-            >
-              {t("createCta")}
-            </Link>
-          )}
-        </div>
-        <p className="text-zinc-400 mb-6">{t("subtitle")}</p>
+        <PageHeader
+          title={t.rich("title", { amber: AmberChunk })}
+          subtitle={t("subtitle")}
+          action={
+            user && (
+              <Link
+                href="/grupos/nuevo"
+                className="inline-block rounded-lg bg-gradient-brand text-zinc-950 font-semibold px-4 py-2 text-sm shadow-glow transition duration-300 hover:shadow-glow-strong hover:-translate-y-0.5 hover:brightness-110"
+              >
+                {t("createCta")}
+              </Link>
+            )
+          }
+        />
 
-        <form className="flex gap-2 mb-8">
+        <form className="-mt-2 flex gap-2 mb-8">
           <input
             type="text"
             name="city"
@@ -60,13 +61,17 @@ export default async function GruposPage({
         {error && <p className="text-sm text-red-400">{t("loadError")}</p>}
 
         {!error && (!groups || groups.length === 0) && (
-          <p className="text-zinc-400">{city ? t("noResults") : t("empty")}</p>
+          <EmptyState emoji={city ? "🔍" : "👥"}>
+            <p>{city ? t("noResults") : t("empty")}</p>
+          </EmptyState>
         )}
 
         <ul className="grid gap-4 sm:grid-cols-2">
-          {groups?.map((group) => (
+          {groups?.map((group, i) => (
             <li key={group.id}>
-              <GroupCard group={group} />
+              <Reveal delay={(i % 2) * 50} className="h-full">
+                <GroupCard group={group} />
+              </Reveal>
             </li>
           ))}
         </ul>

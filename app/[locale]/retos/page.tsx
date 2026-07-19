@@ -7,6 +7,13 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Avatar } from "@/components/avatar";
+import { Card } from "@/components/card";
+import { PageHeader, AmberChunk } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { Reveal } from "@/components/reveal";
+
+// Medallas del podio; a partir del 4º puesto se muestra el número.
+const MEDALS = ["🥇", "🥈", "🥉"] as const;
 
 const TOP_N = 10;
 
@@ -104,47 +111,64 @@ export default async function RetosPage() {
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-2xl">
-        <h1 className="text-3xl font-bold text-white mb-1">
-          {t.rich("title", {
-            amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
-          })}
-        </h1>
-        <p className="text-zinc-400">{t("subtitle")}</p>
-        <p className="text-sm text-zinc-500 mb-8">
-          {t("weekRange", { from: dateFormat.format(weekStart), to: dateFormat.format(weekEnd) })}
-        </p>
+        <PageHeader
+          title={t.rich("title", { amber: AmberChunk })}
+          subtitle={
+            <>
+              {t("subtitle")}
+              <span className="block text-sm text-zinc-500 mt-1">
+                {t("weekRange", { from: dateFormat.format(weekStart), to: dateFormat.format(weekEnd) })}
+              </span>
+            </>
+          }
+        />
 
         {ranking.length === 0 ? (
-          <p className="text-zinc-400">
-            {t("empty")}{" "}
-            <Link href="/eventos" className="text-amber-400 hover:underline">
-              {t("emptyCta")}
-            </Link>
-          </p>
+          <EmptyState
+            emoji="🏆"
+            cta={
+              <Link href="/eventos" className="text-amber-400 hover:underline">
+                {t("emptyCta")}
+              </Link>
+            }
+          >
+            <p>{t("empty")}</p>
+          </EmptyState>
         ) : (
           <ol className="space-y-3">
             {ranking.slice(0, TOP_N).map((entry, index) => (
-              <li
-                key={entry.id}
-                className="flex items-center gap-4 rounded-xl bg-zinc-900 border border-zinc-800 p-4"
-              >
-                <span
-                  className={`w-8 text-center text-lg font-bold ${
-                    index === 0 ? "text-amber-400" : "text-zinc-500"
-                  }`}
-                >
-                  {index + 1}
-                </span>
-                <Avatar username={entry.username} avatarUrl={entry.avatar_url} size={40} />
-                <Link
-                  href={`/u/${entry.username}`}
-                  className="min-w-0 flex-1 truncate text-white font-medium hover:text-amber-400 transition"
-                >
-                  {entry.display_name || entry.username}
-                </Link>
-                <span className="shrink-0 rounded-full bg-amber-400/10 text-amber-400 px-2.5 py-1 text-xs font-medium">
-                  {t("rsvpCount", { count: entry.count })}
-                </span>
+              <li key={entry.id}>
+                <Reveal delay={Math.min(index * 50, 250)}>
+                  <Card
+                    className={`flex items-center gap-4 p-4 ${
+                      index === 0 ? "border-amber-400/40 shadow-glow-soft" : ""
+                    }`}
+                  >
+                    <span
+                      className={`w-8 shrink-0 text-center font-bold ${
+                        index < MEDALS.length ? "text-2xl" : "text-lg text-zinc-500"
+                      }`}
+                      aria-label={String(index + 1)}
+                    >
+                      {index < MEDALS.length ? MEDALS[index] : index + 1}
+                    </span>
+                    <Avatar
+                      username={entry.username}
+                      avatarUrl={entry.avatar_url}
+                      size={index === 0 ? 48 : 40}
+                      className={index === 0 ? "ring-2 ring-amber-400/50" : undefined}
+                    />
+                    <Link
+                      href={`/u/${entry.username}`}
+                      className="min-w-0 flex-1 truncate text-white font-medium hover:text-amber-400 transition"
+                    >
+                      {entry.display_name || entry.username}
+                    </Link>
+                    <span className="shrink-0 rounded-full bg-amber-400/10 text-amber-400 px-2.5 py-1 text-xs font-medium">
+                      {t("rsvpCount", { count: entry.count })}
+                    </span>
+                  </Card>
+                </Reveal>
               </li>
             ))}
           </ol>

@@ -8,6 +8,9 @@ import { getRecentReportsBySpot } from "@/lib/spot-reports";
 import { getActiveLiveSessions } from "@/lib/live-sessions";
 import { SpotsMapLoader } from "@/components/spots-map-loader";
 import { SpotCard } from "@/components/spot-card";
+import { PageHeader, AmberChunk } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { Reveal } from "@/components/reveal";
 
 export default async function SpotsPage() {
   const t = await getTranslations("Spots");
@@ -22,12 +25,7 @@ export default async function SpotsPage() {
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-3xl font-bold text-white mb-1">
-          {t.rich("title", {
-            amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
-          })}
-        </h1>
-        <p className="text-zinc-400 mb-8">{t("subtitle")}</p>
+        <PageHeader title={t.rich("title", { amber: AmberChunk })} subtitle={t("subtitle")} />
 
         {error && <p className="text-sm text-red-400 mb-6">{t("loadError")}</p>}
 
@@ -40,14 +38,20 @@ export default async function SpotsPage() {
 
         {spots && spots.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 mt-8">
-            {spots.map((spot) => (
+            {spots.map((spot, i) => (
               <li key={spot.id}>
-                <SpotCard spot={spot} userId={user?.id ?? null} report={reportsBySpot[spot.id] ?? null} />
+                <Reveal delay={(i % 2) * 50} className="h-full">
+                  <SpotCard spot={spot} userId={user?.id ?? null} report={reportsBySpot[spot.id] ?? null} />
+                </Reveal>
               </li>
             ))}
           </ul>
         ) : (
-          !error && <p className="text-zinc-400 mt-8">{t("empty")}</p>
+          !error && (
+            <EmptyState emoji="🗺️" className="mt-8">
+              <p>{t("empty")}</p>
+            </EmptyState>
+          )
         )}
       </div>
     </main>

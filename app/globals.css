@@ -12,6 +12,37 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ============================================================
+   Tokens de marca (generan utilidades: rounded-card, shadow-glow*,
+   ease-out-expo) y variables consumidas por las clases de animación.
+   ============================================================ */
+@theme {
+  --radius-card: 1rem;
+  --shadow-glow-soft: 0 12px 32px rgb(251 191 36 / 0.1);
+  --shadow-glow: 0 8px 30px rgb(251 191 36 / 0.25);
+  --shadow-glow-strong: 0 8px 30px rgb(251 191 36 / 0.45);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  /* Ámbar → naranja de marca: superficies (botones, CTA) y texto recortado. */
+  --gradient-brand: linear-gradient(135deg, #fbbf24 0%, #f59e0b 55%, #f97316 100%);
+  --gradient-brand-text: linear-gradient(to right, #fcd34d, #fbbf24, #f97316);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+}
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+
+@utility text-gradient-brand {
+  background-image: var(--gradient-brand-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,6 +54,29 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Selección y scrollbar en ámbar, a juego con la marca. */
+::selection {
+  background-color: #fbbf24;
+  color: #09090b;
+}
+html {
+  scrollbar-color: #b45309 #18181b;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #18181b;
+}
+::-webkit-scrollbar-thumb {
+  background: #b45309;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
 }
 
 /* Popups de Leaflet (mapa de /spots) en tema oscuro, a juego con el resto. */
@@ -45,4 +99,146 @@ body {
    para distinguirlo de los spots ya guardados. */
 .weroll-draft-marker {
   filter: hue-rotate(140deg) saturate(3);
+}
+
+/* ============================================================
+   Landing: animaciones y decoración
+   ============================================================ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(8deg);
+  }
+}
+
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(3rem, -2rem) scale(1.12);
+  }
+  66% {
+    transform: translate(-2rem, 1.5rem) scale(0.92);
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* El contenido está duplicado, así que -50% enlaza sin salto. */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s var(--ease-out-expo) both;
+}
+.animate-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+.animate-blob {
+  animation: blob-drift 18s ease-in-out infinite;
+}
+.animate-marquee {
+  animation: marquee-scroll 32s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Panel del menú móvil del header. */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-menu-in {
+  animation: menu-in 0.25s var(--ease-out-expo) both;
+}
+
+/* Rejilla sutil del hero, desvanecida hacia abajo con una máscara radial. */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 35%, transparent 100%);
+}
+
+/* Reveal al hacer scroll: <Reveal> añade .is-visible al entrar en viewport. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Skeletons de carga: bloque zinc con barrido ámbar sutil (solo transform). */
+@keyframes shimmer-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* El radio lo pone cada uso (rounded-lg, rounded-card…): al ser CSS sin capa
+   pisaría a las utilidades si lo fijáramos aquí. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #18181b;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgb(251 191 36 / 0.07), transparent);
+  animation: shimmer-sweep 1.8s var(--ease-out-expo) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-float,
+  .animate-blob,
+  .animate-marquee,
+  .animate-menu-in {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .skeleton::after {
+    animation: none;
+  }
 }

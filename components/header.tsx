@@ -8,6 +8,7 @@ import { getNotifications, getUnreadNotificationCount, type NotificationRow } fr
 import { UserMenu } from "./user-menu";
 import { NotificationBell } from "./notification-bell";
 import { LanguageSwitcher } from "./language-switcher";
+import { MobileNav } from "./mobile-nav";
 
 export async function Header() {
   const t = await getTranslations("Header");
@@ -33,30 +34,40 @@ export async function Header() {
     unreadCount = count;
   }
 
+  const navLinks = [
+    { href: "/eventos", label: t("eventos") },
+    { href: "/spots", label: t("spots") },
+    { href: "/grupos", label: t("grupos") },
+    { href: "/buddies", label: t("buddies") },
+    { href: "/retos", label: t("retos") },
+  ];
+  // En móvil "Iniciar sesión" vive dentro del menú; el botón de registro
+  // queda siempre visible en la barra.
+  const mobileLinks = user ? navLinks : [...navLinks, { href: "/login", label: t("login") }];
+
   return (
-    <header className="border-b border-zinc-800 bg-zinc-950">
-      <div className="mx-auto max-w-3xl px-4 py-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <Link href="/" className="text-lg font-bold text-white shrink-0">
-          We<span className="text-amber-400">Roll</span>
+    <header className="sticky top-0 z-50 border-b border-zinc-800/70 bg-zinc-950/80 backdrop-blur-md">
+      <div className="mx-auto max-w-3xl px-4 h-16 flex items-center justify-between gap-3">
+        <Link href="/" className="flex items-center gap-1.5 text-lg font-bold text-white shrink-0">
+          <span aria-hidden>🛼</span>
+          <span>
+            We<span className="text-gradient-brand">Roll</span>
+          </span>
         </Link>
 
-        <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-300">
-          <Link href="/eventos" className="whitespace-nowrap hover:text-amber-400 transition">
-            {t("eventos")}
-          </Link>
-          <Link href="/spots" className="whitespace-nowrap hover:text-amber-400 transition">
-            {t("spots")}
-          </Link>
-          <Link href="/grupos" className="whitespace-nowrap hover:text-amber-400 transition">
-            {t("grupos")}
-          </Link>
-          <Link href="/buddies" className="whitespace-nowrap hover:text-amber-400 transition">
-            {t("buddies")}
-          </Link>
-          <Link href="/retos" className="whitespace-nowrap hover:text-amber-400 transition">
-            {t("retos")}
-          </Link>
+        <nav className="hidden md:flex items-center gap-1 text-sm text-zinc-300">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="whitespace-nowrap rounded-lg px-3 py-2 transition hover:bg-zinc-900 hover:text-amber-300"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
+        <div className="flex items-center gap-2 sm:gap-3">
           {user ? (
             <>
               <NotificationBell initialNotifications={notifications} initialUnreadCount={unreadCount} locale={locale} />
@@ -64,12 +75,15 @@ export async function Header() {
             </>
           ) : (
             <>
-              <Link href="/login" className="whitespace-nowrap hover:text-amber-400 transition">
+              <Link
+                href="/login"
+                className="hidden md:inline whitespace-nowrap text-sm text-zinc-300 hover:text-amber-300 transition"
+              >
                 {t("login")}
               </Link>
               <Link
                 href="/registro"
-                className="whitespace-nowrap rounded-lg bg-amber-400 px-3 py-1.5 text-sm font-semibold text-zinc-950 hover:bg-amber-300 transition"
+                className="whitespace-nowrap rounded-lg bg-gradient-brand px-3 py-1.5 text-sm font-semibold text-zinc-950 shadow-glow transition hover:brightness-110"
               >
                 {t("signup")}
               </Link>
@@ -77,7 +91,8 @@ export async function Header() {
           )}
 
           <LanguageSwitcher />
-        </nav>
+          <MobileNav links={mobileLinks} label={t("menuLabel")} />
+        </div>
       </div>
     </header>
   );

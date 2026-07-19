@@ -35,7 +35,7 @@ export default async function NuevoGrupoPage({
 
         <h1 className="text-3xl font-bold text-white mt-4 mb-1">
           {t.rich("title", {
-            amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
+            amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
           })}
         </h1>
         <p className="text-zinc-400 mb-8">{t("subtitle")}</p>
@@ -105,7 +105,7 @@ export default async function NuevoGrupoPage({
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-amber-400 text-zinc-950 font-semibold py-2 hover:bg-amber-300 transition"
+            className="w-full rounded-lg bg-gradient-brand text-zinc-950 font-semibold py-2 transition hover:brightness-110 disabled:opacity-50"
           >
             {t("submit")}
           </button>

@@ -62,7 +62,7 @@ export default function RegistroPage() {
       <div className="w-full max-w-sm">
         <h1 className="text-3xl font-bold text-white mb-1">
           {t.rich("title", {
-            amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
+            amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
           })}{" "}
           🛼
         </h1>
@@ -118,7 +118,7 @@ export default function RegistroPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-amber-400 text-zinc-950 font-semibold py-2 hover:bg-amber-300 transition disabled:opacity-50"
+            className="w-full rounded-lg bg-gradient-brand text-zinc-950 font-semibold py-2 transition hover:brightness-110 disabled:opacity-50"
           >
             {loading ? t("submitting") : t("submit")}
           </button>

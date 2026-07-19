@@ -11,7 +11,7 @@ export const SpotsMapLoader = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="min-h-[60vh] rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+      <div className="skeleton min-h-[60vh] rounded-card border border-zinc-800 flex items-center justify-center">
         <p className="text-zinc-400">Cargando mapa…</p>
       </div>
     ),

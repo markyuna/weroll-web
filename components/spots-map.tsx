@@ -238,7 +238,7 @@ export function SpotsMap({
         onEnd={endSession}
       />
 
-      <div className="min-h-[60vh] rounded-xl overflow-hidden border border-zinc-800">
+      <div className="min-h-[60vh] rounded-card overflow-hidden border border-zinc-800">
         <MapContainer
           center={center}
           zoom={zoom}

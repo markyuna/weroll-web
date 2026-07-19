@@ -14,7 +14,8 @@
     "myProfile": "Mi perfil",
     "myRides": "Mis randonnées",
     "signOut": "Cerrar sesión",
-    "retos": "Retos"
+    "retos": "Retos",
+    "menuLabel": "Menú"
   },
   "Home": {
     "heroTitle": "Encuentra tu próxima <amber>randonnée</amber>",
@@ -30,7 +31,24 @@
     "feature2Title": "Descubre spots",
     "feature2Body": "Explora los puntos de encuentro habituales para rodar en cada ciudad.",
     "feature3Title": "Confirma tu asistencia",
-    "feature3Body": "Marca si asistirás, tal vez o no, y mira quién más se apunta."
+    "feature3Body": "Marca si asistirás, tal vez o no, y mira quién más se apunta.",
+    "heroBadge": "La comunidad de patinaje urbano",
+    "marquee1": "Randonnées",
+    "marquee2": "Spots",
+    "marquee3": "Buddy Match",
+    "marquee4": "Retos semanales",
+    "marquee5": "XP y badges",
+    "marquee6": "Roll with me",
+    "featuresTitle": "Todo lo que necesitas para <amber>rodar</amber>",
+    "feature4Title": "Buddy Match",
+    "feature4Body": "Encuentra patinadores compatibles contigo por estilo, nivel y tipo de patín.",
+    "feature5Title": "Gana XP y badges",
+    "feature5Body": "Suma experiencia con cada randonnée, sube de nivel y desbloquea insignias.",
+    "feature6Title": "Roll with me",
+    "feature6Body": "Lanza una sesión en vivo en un spot y avisa a quien esté cerca en tiempo real.",
+    "ctaFinalTitle": "¿Lista la mochila? Pues a rodar.",
+    "ctaFinalBody": "Únete gratis, encuentra tu grupo y no te pierdas ni una randonnée más.",
+    "ctaFinalButton": "Únete gratis"
   },
   "Login": {
     "subtitle": "Entra y encuentra tu próxima randonnée.",

@@ -14,6 +14,7 @@
     "myProfile": "Mon profil",
     "myRides": "Mes randonnées",
     "signOut": "Déconnexion",
+    "menuLabel": "Menu",
     "retos": "Défis"
   },
   "Home": {
@@ -30,7 +31,24 @@
     "feature2Title": "Découvre des spots",
     "feature2Body": "Explore les points de rendez-vous habituels pour rouler dans chaque ville.",
     "feature3Title": "Confirme ta présence",
-    "feature3Body": "Indique si tu viens, peut-être ou pas, et regarde qui d'autre se joint à toi."
+    "feature3Body": "Indique si tu viens, peut-être ou pas, et regarde qui d'autre se joint à toi.",
+    "heroBadge": "La communauté du roller urbain",
+    "marquee1": "Randonnées",
+    "marquee2": "Spots",
+    "marquee3": "Buddy Match",
+    "marquee4": "Défis hebdo",
+    "marquee5": "XP et badges",
+    "marquee6": "Roll with me",
+    "featuresTitle": "Tout ce qu'il te faut pour <amber>rouler</amber>",
+    "feature4Title": "Buddy Match",
+    "feature4Body": "Trouve des patineurs compatibles avec toi par style, niveau et type de patins.",
+    "feature5Title": "Gagne XP et badges",
+    "feature5Body": "Cumule de l'expérience à chaque randonnée, monte de niveau et débloque des badges.",
+    "feature6Title": "Roll with me",
+    "feature6Body": "Lance une session en direct sur un spot et préviens ceux qui sont à proximité en temps réel.",
+    "ctaFinalTitle": "Sac prêt ? Alors on roule.",
+    "ctaFinalBody": "Rejoins-nous gratuitement, trouve ton groupe et ne rate plus aucune randonnée.",
+    "ctaFinalButton": "Rejoindre gratuitement"
   },
   "Login": {
     "subtitle": "Connecte-toi et trouve ta prochaine randonnée.",

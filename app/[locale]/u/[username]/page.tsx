@@ -76,16 +76,26 @@ export default async function PerfilPublicoPage({
       : profile.skill_level;
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-16">
-      <div className="mx-auto max-w-lg">
+    <main className="relative min-h-screen bg-zinc-950 px-4 py-16 overflow-x-clip">
+      {/* Acento único del perfil: blob estático muy desvanecido tras la cabecera. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 overflow-hidden" aria-hidden>
+        <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-lg">
         <Link href="/eventos" className="text-sm text-amber-400 hover:underline">
           {t("back")}
         </Link>
 
         <div className="mt-4 flex items-center gap-4">
-          <Avatar username={profile.username} avatarUrl={profile.avatar_url} size={64} />
+          <Avatar
+            username={profile.username}
+            avatarUrl={profile.avatar_url}
+            size={72}
+            className="ring-2 ring-amber-400/40"
+          />
           <div>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
               {profile.display_name || profile.username}
             </h1>
             <p className="text-zinc-400">@{profile.username}</p>

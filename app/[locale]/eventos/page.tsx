@@ -11,6 +11,10 @@ import {
   type EventCardData,
 } from "@/lib/events";
 import { EventCard } from "@/components/event-card";
+import { PageHeader, AmberChunk } from "@/components/page-header";
+import { FilterChip } from "@/components/filter-chip";
+import { EmptyState } from "@/components/empty-state";
+import { Reveal } from "@/components/reveal";
 
 export default async function EventosPage({
   searchParams,
@@ -61,52 +65,51 @@ export default async function EventosPage({
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
-        <div className="flex items-start justify-between gap-4 mb-1">
-          <h1 className="text-3xl font-bold text-white">
-            {t.rich("title", {
-              amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
-            })}
-          </h1>
-          {user && (
-            <Link
-              href="/eventos/nuevo"
-              className="shrink-0 rounded-lg bg-amber-400 text-zinc-950 font-semibold px-4 py-2 text-sm hover:bg-amber-300 transition"
-            >
-              {t("createCta")}
-            </Link>
-          )}
-        </div>
-        <p className="text-zinc-400 mb-4">{t("subtitle")}</p>
+        <PageHeader
+          title={t.rich("title", { amber: AmberChunk })}
+          subtitle={t("subtitle")}
+          action={
+            user && (
+              <Link
+                href="/eventos/nuevo"
+                className="inline-block rounded-lg bg-gradient-brand text-zinc-950 font-semibold px-4 py-2 text-sm shadow-glow transition duration-300 hover:shadow-glow-strong hover:-translate-y-0.5 hover:brightness-110"
+              >
+                {t("createCta")}
+              </Link>
+            )
+          }
+        />
 
         {spotId && (
-          <div className="mb-6 flex items-center gap-2 text-sm">
-            <span className="text-zinc-400">
-              {t("filteringBy")}{" "}
-              <span className="text-white font-medium">
-                {filterSpot ? `${filterSpot.name}${filterSpot.city ? ` · ${filterSpot.city}` : ""}` : "—"}
-              </span>
-            </span>
-            <Link href="/eventos" className="text-amber-400 hover:underline">
-              {t("clearFilter")}
-            </Link>
+          <div className="-mt-4 mb-6 flex items-center gap-2 text-sm">
+            <span className="text-zinc-400">{t("filteringBy")}</span>
+            <FilterChip href="/eventos">
+              {filterSpot ? `${filterSpot.name}${filterSpot.city ? ` · ${filterSpot.city}` : ""}` : "—"}
+              <span aria-hidden>✕</span>
+              <span className="sr-only">{t("clearFilter")}</span>
+            </FilterChip>
           </div>
         )}
 
         {error && <p className="text-sm text-red-400">{t("loadError")}</p>}
 
         {!error && items.length === 0 && (
-          <p className="text-zinc-400">{spotId ? t("emptySpot") : t("empty")}</p>
+          <EmptyState emoji="🛼">
+            <p>{spotId ? t("emptySpot") : t("empty")}</p>
+          </EmptyState>
         )}
 
         <ul className="space-y-4">
-          {items.map((item) => (
+          {items.map((item, i) => (
             <li key={item.key}>
-              <EventCard
-                event={item.event}
-                href={item.href}
-                recurring={item.recurring}
-                attendeeAvatars={item.href ? undefined : avatarsByEvent.get(item.event.id)}
-              />
+              <Reveal delay={Math.min(i * 50, 250)}>
+                <EventCard
+                  event={item.event}
+                  href={item.href}
+                  recurring={item.recurring}
+                  attendeeAvatars={item.href ? undefined : avatarsByEvent.get(item.event.id)}
+                />
+              </Reveal>
             </li>
           ))}
         </ul>
