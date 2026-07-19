@@ -36,6 +36,7 @@ export async function updateProfile(formData: FormData) {
   const skateStyle = ((formData.get("skate_style") as string) ?? "").trim();
   const skillLevel = ((formData.get("skill_level") as string) ?? "").trim();
   const bio = ((formData.get("bio") as string) ?? "").trim();
+  const hideFromRankings = formData.get("hide_from_rankings") === "on";
 
   const values = {
     display_name: displayName,
@@ -45,6 +46,7 @@ export async function updateProfile(formData: FormData) {
     skate_style: skateStyle,
     skill_level: skillLevel,
     bio,
+    hide_from_rankings: hideFromRankings ? "on" : "",
   };
 
   if (skateType && !SKATE_TYPES.includes(skateType as (typeof SKATE_TYPES)[number])) {
@@ -67,6 +69,7 @@ export async function updateProfile(formData: FormData) {
       skate_style: skateStyle || null,
       skill_level: skillLevel || null,
       bio: bio || null,
+      hide_from_rankings: hideFromRankings,
     })
     .eq("id", user.id);
 

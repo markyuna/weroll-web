@@ -13,7 +13,8 @@
     "myAccount": "My account",
     "myProfile": "My profile",
     "myRides": "My rides",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "retos": "Challenges"
   },
   "Home": {
     "heroTitle": "Find your next <amber>randonnée</amber>",
@@ -217,7 +218,8 @@
     "errorSkateType": "Invalid skate type.",
     "errorSkateStyle": "Invalid skating style.",
     "errorSkillLevel": "Invalid level.",
-    "errorSubmit": "Couldn't save your profile. Please try again."
+    "errorSubmit": "Couldn't save your profile. Please try again.",
+    "fieldHideFromRankings": "Hide my position in rankings"
   },
   "NotFound": {
     "message": "Page not found.",
@@ -228,6 +230,17 @@
     "xpTotal": "{xp} XP",
     "progressToNext": "{current} / {needed} XP to next level",
     "badgesTitle": "Badges"
+  },
+  "Retos": {
+    "title": "Weekly <amber>challenge</amber>",
+    "subtitle": "Who confirms the most rides this week?",
+    "weekRange": "Week of {from} to {to}",
+    "rsvpCount": "{count, plural, one {# ride} other {# rides}}",
+    "empty": "No one has RSVP'd this week yet.",
+    "emptyCta": "Explore events →",
+    "yourPosition": "Your position this week: #{position}",
+    "youAreHidden": "You're participating this week, but you chose to hide from rankings.",
+    "youAreHiddenLink": "Change it in your profile"
   },
   "Badges": {
     "primera_rando": {
@@ -240,11 +253,19 @@
     },
     "explorador": {
       "name": "Explorer",
-      "description": "You added 10 spots to the community."
+      "description": "You added 5 spots to the community."
     },
     "madrugador": {
       "name": "Early bird",
-      "description": "You confirmed attendance to a ride starting at dawn."
+      "description": "You RSVP'd to a ride starting before 8:00."
+    },
+    "social": {
+      "name": "Social",
+      "description": "You joined 3 groups."
+    },
+    "constante": {
+      "name": "Consistent",
+      "description": "You RSVP'd 4 weeks in a row."
     }
   },
   "Grupos": {

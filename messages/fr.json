@@ -13,7 +13,8 @@
     "myAccount": "Mon compte",
     "myProfile": "Mon profil",
     "myRides": "Mes randonnées",
-    "signOut": "Déconnexion"
+    "signOut": "Déconnexion",
+    "retos": "Défis"
   },
   "Home": {
     "heroTitle": "Trouve ta prochaine <amber>randonnée</amber>",
@@ -217,7 +218,8 @@
     "errorSkateType": "Type de roller invalide.",
     "errorSkateStyle": "Style de patinage invalide.",
     "errorSkillLevel": "Niveau invalide.",
-    "errorSubmit": "Impossible d'enregistrer ton profil. Réessaie."
+    "errorSubmit": "Impossible d'enregistrer ton profil. Réessaie.",
+    "fieldHideFromRankings": "Masquer ma position dans les classements"
   },
   "NotFound": {
     "message": "Page introuvable.",
@@ -228,6 +230,17 @@
     "xpTotal": "{xp} XP",
     "progressToNext": "{current} / {needed} XP pour le niveau suivant",
     "badgesTitle": "Badges"
+  },
+  "Retos": {
+    "title": "Défi <amber>hebdomadaire</amber>",
+    "subtitle": "Qui confirme le plus de randonnées cette semaine ?",
+    "weekRange": "Semaine du {from} au {to}",
+    "rsvpCount": "{count, plural, one {# randonnée} other {# randonnées}}",
+    "empty": "Personne n'a encore confirmé sa présence cette semaine.",
+    "emptyCta": "Explorer les événements →",
+    "yourPosition": "Ta position cette semaine : nº {position}",
+    "youAreHidden": "Tu participes cette semaine, mais tu as choisi de te cacher des classements.",
+    "youAreHiddenLink": "Change-le dans ton profil"
   },
   "Badges": {
     "primera_rando": {
@@ -240,11 +253,19 @@
     },
     "explorador": {
       "name": "Explorateur",
-      "description": "Tu as ajouté 10 spots à la communauté."
+      "description": "Tu as ajouté 5 spots à la communauté."
     },
     "madrugador": {
       "name": "Lève-tôt",
-      "description": "Tu as confirmé ta présence à une randonnée qui commence à l'aube."
+      "description": "Tu as confirmé ta présence à une randonnée qui commence avant 8h."
+    },
+    "social": {
+      "name": "Sociable",
+      "description": "Tu as rejoint 3 groupes."
+    },
+    "constante": {
+      "name": "Régulier",
+      "description": "Tu as confirmé ta présence 4 semaines de suite."
     }
   },
   "Grupos": {

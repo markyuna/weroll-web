@@ -44,7 +44,7 @@ export default async function PerfilPage({
   const [{ data: profile }, { data: myRsvps }, gamification] = await Promise.all([
     supabase
       .from("profiles")
-      .select("username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio")
+      .select("username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio, hide_from_rankings")
       .eq("id", user.id)
       .single()
       .overrideTypes<
@@ -58,6 +58,7 @@ export default async function PerfilPage({
           skate_style: string | null;
           skill_level: string | null;
           bio: string | null;
+          hide_from_rankings: boolean;
         },
         { merge: false }
       >(),
@@ -83,6 +84,7 @@ export default async function PerfilPage({
     skate_style: field("skate_style") ?? profile?.skate_style ?? "",
     skill_level: field("skill_level") ?? profile?.skill_level ?? "",
     bio: field("bio") ?? profile?.bio ?? "",
+    hide_from_rankings: field("hide_from_rankings") ?? (profile?.hide_from_rankings ? "on" : ""),
   };
 
   return (
@@ -240,6 +242,17 @@ export default async function PerfilPage({
               className="w-full rounded-lg bg-zinc-900 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
           </div>
+
+          <label htmlFor="hide_from_rankings" className="flex items-center gap-2 text-sm text-zinc-300">
+            <input
+              id="hide_from_rankings"
+              name="hide_from_rankings"
+              type="checkbox"
+              defaultChecked={defaults.hide_from_rankings === "on"}
+              className="h-4 w-4 rounded border-zinc-700 bg-zinc-900 accent-amber-400"
+            />
+            {t("fieldHideFromRankings")}
+          </label>
 
           <button
             type="submit"

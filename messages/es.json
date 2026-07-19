@@ -13,7 +13,8 @@
     "myAccount": "Mi cuenta",
     "myProfile": "Mi perfil",
     "myRides": "Mis randonnées",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "retos": "Retos"
   },
   "Home": {
     "heroTitle": "Encuentra tu próxima <amber>randonnée</amber>",
@@ -217,7 +218,8 @@
     "errorSkateType": "Tipo de patín no válido.",
     "errorSkateStyle": "Estilo de patinaje no válido.",
     "errorSkillLevel": "Nivel no válido.",
-    "errorSubmit": "No se pudo guardar tu perfil. Inténtalo de nuevo."
+    "errorSubmit": "No se pudo guardar tu perfil. Inténtalo de nuevo.",
+    "fieldHideFromRankings": "Ocultar mi posición en los rankings"
   },
   "NotFound": {
     "message": "Página no encontrada.",
@@ -228,6 +230,17 @@
     "xpTotal": "{xp} XP",
     "progressToNext": "{current} / {needed} XP para el siguiente nivel",
     "badgesTitle": "Insignias"
+  },
+  "Retos": {
+    "title": "Reto <amber>semanal</amber>",
+    "subtitle": "¿Quién confirma más randonnées esta semana?",
+    "weekRange": "Semana del {from} al {to}",
+    "rsvpCount": "{count, plural, one {# randonnée} other {# randonnées}}",
+    "empty": "Nadie ha confirmado asistencia esta semana todavía.",
+    "emptyCta": "Explora los eventos →",
+    "yourPosition": "Tu posición esta semana: nº {position}",
+    "youAreHidden": "Participas esta semana, pero elegiste ocultarte de los rankings.",
+    "youAreHiddenLink": "Cámbialo en tu perfil"
   },
   "Badges": {
     "primera_rando": {
@@ -240,11 +253,19 @@
     },
     "explorador": {
       "name": "Explorador",
-      "description": "Añadiste 10 spots a la comunidad."
+      "description": "Añadiste 5 spots a la comunidad."
     },
     "madrugador": {
       "name": "Madrugador",
-      "description": "Confirmaste asistencia a una randonnée que empieza al amanecer."
+      "description": "Confirmaste asistencia a una randonnée que empieza antes de las 8:00."
+    },
+    "social": {
+      "name": "Social",
+      "description": "Te uniste a 3 grupos."
+    },
+    "constante": {
+      "name": "Constante",
+      "description": "Confirmaste asistencia 4 semanas seguidas."
     }
   },
   "Grupos": {

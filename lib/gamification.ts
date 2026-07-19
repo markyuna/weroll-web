@@ -1,6 +1,13 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export const BADGE_IDS = ["primera_rando", "organizador", "explorador", "madrugador"] as const;
+export const BADGE_IDS = [
+  "primera_rando",
+  "organizador",
+  "explorador",
+  "madrugador",
+  "social",
+  "constante",
+] as const;
 export type BadgeId = (typeof BADGE_IDS)[number];
 
 export const BADGE_ICONS: Record<string, string> = {
@@ -8,6 +15,8 @@ export const BADGE_ICONS: Record<string, string> = {
   organizador: "🗓️",
   explorador: "🧭",
   madrugador: "🌅",
+  social: "🤝",
+  constante: "🔥",
 };
 
 // level = floor(sqrt(xp / 100)) + 1  ⇔  el nivel L empieza en xp = (L-1)² * 100
