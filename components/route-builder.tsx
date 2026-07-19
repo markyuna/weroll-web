@@ -103,13 +103,13 @@ export function RouteBuilder({ spots }: { spots: SpotOption[] }) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <ClickToAddPoint onAdd={handleAddPoint} />
-              {points.length > 1 && <Polyline positions={points} pathOptions={{ color: "#fbbf24", weight: 4 }} />}
+              {points.length > 1 && <Polyline positions={points} pathOptions={{ color: "#ef4444", weight: 4 }} />}
               {points.map((p, i) => (
                 <CircleMarker
                   key={i}
                   center={p}
                   radius={4}
-                  pathOptions={{ color: "#fbbf24", fillColor: "#fbbf24", fillOpacity: 1 }}
+                  pathOptions={{ color: "#ef4444", fillColor: "#ef4444", fillOpacity: 1 }}
                 />
               ))}
             </MapContainer>

@@ -46,7 +46,7 @@ export function RouteDisplayMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FitToRoute points={points} />
-        <Polyline positions={points} pathOptions={{ color: "#fbbf24", weight: 4 }} />
+        <Polyline positions={points} pathOptions={{ color: "#ef4444", weight: 4 }} />
 
         <CircleMarker center={start} radius={8} pathOptions={{ color: "#4ade80", fillColor: "#4ade80", fillOpacity: 1 }}>
           <Popup className="weroll-popup">{t("start")}</Popup>
