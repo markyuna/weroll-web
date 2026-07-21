@@ -12,6 +12,7 @@ import { FilterChip } from "@/components/filter-chip";
 import { PageHeader, AmberChunk } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { Reveal } from "@/components/reveal";
+import { BuddySearch } from "@/components/buddy-search";
 
 export default async function BuddiesPage() {
   const locale = await getLocale();
@@ -51,6 +52,8 @@ export default async function BuddiesPage() {
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
         <PageHeader title={t.rich("title", { amber: AmberChunk })} subtitle={t("subtitle")} />
+
+        <BuddySearch />
 
         {buddies.length === 0 ? (
           <EmptyState emoji="🤝">

@@ -164,7 +164,11 @@
     "empty": "Aucun patineur trouvé pour l'instant.",
     "emptyHint": "Renseigne ta ville dans ton profil ou rejoins un groupe pour voir plus de monde.",
     "emptyHintLink": "Aller à mon profil",
-    "viewProfile": "Voir le profil"
+    "viewProfile": "Voir le profil",
+    "searchLabel": "Rechercher des patineurs",
+    "searchPlaceholder": "Nom ou @pseudo...",
+    "searchLoading": "Recherche...",
+    "searchEmpty": "Aucun patineur trouvé avec ce nom."
   },
   "Spots": {
     "title": "<amber>Spots</amber> de roller",

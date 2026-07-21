@@ -164,7 +164,11 @@
     "empty": "No encontramos patinadores todavía.",
     "emptyHint": "Completa tu ciudad en tu perfil o únete a un grupo para ver más gente.",
     "emptyHintLink": "Ir a mi perfil",
-    "viewProfile": "Ver perfil"
+    "viewProfile": "Ver perfil",
+    "searchLabel": "Buscar patinadores",
+    "searchPlaceholder": "Nombre o @usuario...",
+    "searchLoading": "Buscando...",
+    "searchEmpty": "No encontramos patinadores con ese nombre."
   },
   "Spots": {
     "title": "<amber>Spots</amber> de patinaje",
