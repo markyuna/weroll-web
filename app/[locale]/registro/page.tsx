@@ -53,7 +53,7 @@ export default function RegistroPage() {
       return;
     }
 
-    router.push("/");
+    router.push("/bienvenida");
     router.refresh();
   }
 

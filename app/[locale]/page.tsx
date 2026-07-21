@@ -29,10 +29,32 @@ export default async function Home() {
     supabase.auth.getUser(),
   ]);
 
+  const { data: profile } = user
+    ? await supabase.from("profiles").select("city").eq("id", user.id).maybeSingle()
+    : { data: null };
+  const showOnboardingBanner = Boolean(user) && !profile?.city;
+
   const marqueeItems = [1, 2, 3, 4, 5, 6].map((n) => t(`marquee${n}`));
 
   return (
     <main className="bg-zinc-950 overflow-x-clip">
+      {showOnboardingBanner && (
+        <div className="px-4 pt-6">
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 rounded-card border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center sm:flex-row sm:justify-between sm:text-left">
+            <p className="text-sm text-amber-100">
+              <span className="font-semibold text-amber-300">{t("onboardingBannerTitle")}</span>{" "}
+              {t("onboardingBannerBody")}
+            </p>
+            <Link
+              href="/bienvenida"
+              className="shrink-0 rounded-lg bg-amber-400 text-zinc-950 font-semibold px-4 py-2 text-sm hover:bg-amber-300 transition"
+            >
+              {t("onboardingBannerCta")}
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* ===== Hero ===== */}
       <section className="relative px-4 pt-24 pb-20 text-center">
         {/* Decoración: rejilla + blobs de gradiente a la deriva. */}
