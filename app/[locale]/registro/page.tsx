@@ -60,7 +60,7 @@ export default function RegistroPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
       <div className="w-full max-w-sm">
-        <h1 className="text-3xl font-bold text-white mb-1">
+        <h1 className="font-display text-4xl uppercase leading-[0.95] text-white mb-1">
           {t.rich("title", {
             amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
           })}{" "}

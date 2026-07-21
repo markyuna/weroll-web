@@ -67,7 +67,7 @@ export default async function GrupoDetallePage({
           {t("back")}
         </Link>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-4">{group.name}</h1>
+        <h1 className="font-display text-4xl sm:text-5xl uppercase leading-[0.95] text-white tracking-tight mt-4">{group.name}</h1>
         {location && <p className="text-zinc-400 mt-1">{location}</p>}
         {group.description && (
           <p className="text-zinc-200 mt-6 leading-relaxed">{group.description}</p>

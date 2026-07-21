@@ -162,7 +162,7 @@ export default async function EventoDetallePage({
         </Link>
 
         <div className="mt-4 flex items-start justify-between gap-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">{event.title}</h1>
+          <h1 className="font-display text-4xl sm:text-5xl uppercase leading-[0.95] text-white tracking-tight">{event.title}</h1>
           {difficultyLabel && (
             <span
               className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${difficultyStyle}`}

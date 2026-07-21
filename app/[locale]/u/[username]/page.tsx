@@ -95,7 +95,7 @@ export default async function PerfilPublicoPage({
             className="ring-2 ring-amber-400/40"
           />
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h1 className="font-display text-4xl sm:text-5xl uppercase leading-[0.95] text-white tracking-tight">
               {profile.display_name || profile.username}
             </h1>
             <p className="text-zinc-400">@{profile.username}</p>

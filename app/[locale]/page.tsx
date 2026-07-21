@@ -60,7 +60,7 @@ export default async function Home() {
             {t("heroBadge")}
           </span>
 
-          <h1 className="animate-fade-up mt-6 text-4xl sm:text-6xl font-bold text-white leading-tight tracking-tight [animation-delay:100ms]">
+          <h1 className="animate-fade-up font-display mt-6 text-5xl sm:text-7xl uppercase text-white leading-[0.95] tracking-tight [animation-delay:100ms]">
             {t.rich("heroTitle", {
               amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
             })}
@@ -126,7 +126,7 @@ export default async function Home() {
       <section className="px-4 py-20">
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8">
+            <h2 className="font-display text-3xl sm:text-4xl uppercase text-white mb-8">
               {t.rich("upcomingTitle", {
                 amber: (chunks) => <span className="text-amber-400">{chunks}</span>,
               })}
@@ -161,7 +161,7 @@ export default async function Home() {
       <section className="px-4 py-20 border-t border-zinc-800/80">
         <div className="mx-auto max-w-4xl">
           <Reveal>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl uppercase text-white text-center mb-12">
               {t.rich("featuresTitle", {
                 amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
               })}
@@ -193,7 +193,7 @@ export default async function Home() {
             <div className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/15 blur-2xl" aria-hidden />
             <div className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full bg-orange-700/25 blur-2xl" aria-hidden />
             <span className="text-4xl" aria-hidden>🛼</span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-zinc-950 tracking-tight">
+            <h2 className="font-display mt-3 text-4xl sm:text-5xl uppercase text-zinc-950 tracking-tight">
               {t("ctaFinalTitle")}
             </h2>
             <p className="mt-3 text-zinc-900/80 text-lg max-w-xl mx-auto">{t("ctaFinalBody")}</p>

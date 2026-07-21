@@ -40,7 +40,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
       <div className="w-full max-w-sm">
-        <h1 className="text-3xl font-bold text-white mb-1">
+        <h1 className="font-display -skew-x-6 text-4xl uppercase text-white mb-1">
           We<span className="text-amber-400">Roll</span> 🛼
         </h1>
         <p className="text-zinc-400 mb-8">{t("subtitle")}</p>

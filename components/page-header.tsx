@@ -23,7 +23,7 @@ export function PageHeader({
   return (
     <div className={`mb-8 ${className}`}>
       <div className="flex items-start justify-between gap-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">{title}</h1>
+        <h1 className="font-display text-4xl sm:text-5xl uppercase leading-[0.95] text-white tracking-tight">{title}</h1>
         {action && <div className="shrink-0">{action}</div>}
       </div>
       {subtitle && <p className="text-zinc-400 mt-2">{subtitle}</p>}

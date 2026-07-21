@@ -90,7 +90,7 @@ export default async function PerfilPage({
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-lg">
-        <h1 className="text-3xl font-bold text-white mb-1">
+        <h1 className="font-display text-4xl uppercase leading-[0.95] text-white mb-1">
           {t.rich("title", {
             amber: (chunks) => <span className="text-gradient-brand">{chunks}</span>,
           })}

@@ -17,11 +17,23 @@
    ease-out-expo) y variables consumidas por las clases de animación.
    ============================================================ */
 @theme {
+  --font-display: var(--font-anton);
   --radius-card: 1rem;
   --shadow-glow-soft: 0 12px 32px rgb(251 191 36 / 0.1);
   --shadow-glow: 0 8px 30px rgb(251 191 36 / 0.25);
   --shadow-glow-strong: 0 8px 30px rgb(251 191 36 / 0.45);
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Grano de textura "asfalto de noche" sobre toda la app (Nocturno Urbano). */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 :root {
