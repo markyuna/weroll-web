@@ -48,7 +48,7 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-800/70 bg-zinc-950/80 backdrop-blur-md">
-      <div className="mx-auto max-w-3xl px-4 h-16 flex items-center justify-between gap-3">
+      <div className="mx-auto max-w-3xl px-4 h-20 flex items-center justify-between gap-3">
         <Link href="/" className="flex items-center shrink-0">
           <Image
             src="/logo.png"
@@ -56,7 +56,7 @@ export async function Header() {
             width={1536}
             height={1024}
             priority
-            className="h-14 w-auto"
+            className="h-16 w-auto"
           />
         </Link>
 
