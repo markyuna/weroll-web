@@ -1,6 +1,7 @@
 // Archivo: components/header.tsx
 // Server Component: header global, refleja el estado de sesión leído con
 // el cliente server de Supabase, e incluye el selector de idioma.
+import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -48,11 +49,15 @@ export async function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-800/70 bg-zinc-950/80 backdrop-blur-md">
       <div className="mx-auto max-w-3xl px-4 h-16 flex items-center justify-between gap-3">
-        <Link href="/" className="flex items-center gap-1.5 text-lg font-bold text-white shrink-0">
-          <span aria-hidden>🛼</span>
-          <span>
-            We<span className="text-gradient-brand">Roll</span>
-          </span>
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src="/logo.png"
+            alt="WeRoll"
+            width={1536}
+            height={1024}
+            priority
+            className="h-14 w-auto"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-1 text-sm text-zinc-300">
