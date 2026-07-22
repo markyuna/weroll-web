@@ -31,7 +31,8 @@ export type NotificationType =
   | "group_invite"
   | "event_left"
   | "group_left"
-  | "invitation_accepted";
+  | "invitation_accepted"
+  | "event_story";
 
 export type NotificationPayload =
   | { title: string; changes: FieldChange[] }

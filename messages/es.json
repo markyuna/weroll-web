@@ -89,7 +89,8 @@
     "empty": "No hay randonnées programadas por ahora. ¡Vuelve pronto!",
     "attendeeCount": "{count, plural, one {# asistente} other {# asistentes}}",
     "organizerLabel": "Organiza",
-    "organizerBuddy": "Buddy"
+    "organizerBuddy": "Buddy",
+    "storiesLabel": "Historias"
   },
   "Difficulty": {
     "principiante": "Principiante",
@@ -202,6 +203,28 @@
     "invite": "Invitar",
     "invited": "Invitado ✓",
     "error": "No se pudo enviar la invitación. Inténtalo de nuevo."
+  },
+  "StoryComposer": {
+    "show": "Publicar historia",
+    "title": "Nueva historia",
+    "cancel": "Cancelar",
+    "expiryHint": "Se borra sola: visible durante 1 hora.",
+    "modePhoto": "Foto",
+    "modeInstagram": "Enlace de Instagram",
+    "choosePhoto": "Elegir foto",
+    "uploading": "Publicando...",
+    "publish": "Publicar",
+    "instagramPlaceholder": "https://www.instagram.com/reel/...",
+    "errorInvalidType": "El archivo debe ser una imagen (JPG, PNG o WebP).",
+    "errorInvalidUrl": "Pega un enlace válido de instagram.com.",
+    "errorSubmit": "No se pudo publicar la historia. Inténtalo de nuevo."
+  },
+  "StoryViewer": {
+    "cta": "{count, plural, one {1 historia} other {# historias}}",
+    "expiryHint": "Visible durante 1 hora",
+    "prev": "Historia anterior",
+    "next": "Siguiente historia",
+    "viewEvent": "Ver evento"
   },
   "BuddyPicker": {
     "sectionTitle": "Invitar buddies",
@@ -482,6 +505,7 @@
     "eventLeft": "{name} ya no asistirá a esta randonnée",
     "groupLeft": "{name} ya no está en el grupo",
     "invitationAccepted": "{name} aceptó tu invitación",
+    "eventStory": "{name} publicó una historia",
     "invitationDeclined": "Rechazada",
     "invitationError": "No se pudo completar la acción. Inténtalo de nuevo.",
     "accept": "Aceptar",

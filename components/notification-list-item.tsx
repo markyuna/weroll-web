@@ -82,6 +82,10 @@ export function NotificationListItem({
       title = getPayloadTitle(notification.payload);
       subtitle = t("invitationAccepted", { name: buddyName });
       break;
+    case "event_story":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("eventStory", { name: buddyName });
+      break;
     default:
       title = getPayloadTitle(notification.payload);
       subtitle = "";

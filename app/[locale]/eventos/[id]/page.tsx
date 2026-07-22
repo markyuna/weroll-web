@@ -17,6 +17,9 @@ import { EventLocationMapLoader } from "@/components/event-location-map-loader";
 import { InviteBuddiesPanel } from "@/components/invite-buddies-panel";
 import { getMyBuddies, getBuddyOrganizerIds } from "@/lib/buddy-requests";
 import { getInvitationExclusionSet } from "@/lib/invitations";
+import { getActiveEventStories, getSeenStoryIds } from "@/lib/event-stories";
+import { StoryTray } from "@/components/story-tray";
+import { StoryComposer } from "@/components/story-composer";
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
@@ -159,6 +162,13 @@ export default async function EventoDetallePage({
     buddiesToInvite = myBuddies.filter((b) => !excluded.has(b.id));
   }
 
+  const canPublishStory = isOrganizer || myAttendance?.status === "asistire";
+  const activeStories = isVirtual ? [] : await getActiveEventStories(supabase, event.id);
+  const seenStoryIds = user
+    ? [...(await getSeenStoryIds(supabase, user.id, activeStories.map((s) => s.id)))]
+    : [];
+  const autoOpenStories = sp.stories === "1";
+
   const recurrenceSummary = rule
     ? tRecurrence(RECURRENCE_SUMMARY_KEYS[rule.freq], {
         day: formatRuleWeekday(rule.day, locale),
@@ -242,6 +252,20 @@ export default async function EventoDetallePage({
               {isOrganizerBuddy && <span className="ml-1 text-amber-400">✓ {t("organizerBuddy")}</span>}
             </span>
           </Link>
+        )}
+
+        {(activeStories.length > 0 || canPublishStory) && !isVirtual && (
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            {activeStories.length > 0 && user && (
+              <StoryTray
+                stories={activeStories}
+                viewerId={user.id}
+                seenStoryIds={seenStoryIds}
+                autoOpen={autoOpenStories}
+              />
+            )}
+            {canPublishStory && user && <StoryComposer eventId={event.id} userId={user.id} />}
+          </div>
         )}
 
         {event.description && (

@@ -14,6 +14,7 @@ export async function EventCard({
   recurring = false,
   attendeeAvatars,
   isBuddyOrganizer = false,
+  storyStatus = "none",
 }: {
   event: EventCardData;
   /** Enlace alternativo, p. ej. una instancia virtual de un evento recurrente. */
@@ -23,6 +24,8 @@ export async function EventCard({
   attendeeAvatars?: AttendeeAvatar[];
   /** El organizador es buddy aceptado del usuario que ve la tarjeta. */
   isBuddyOrganizer?: boolean;
+  /** Historias activas del evento, vistas por el usuario que mira la tarjeta. */
+  storyStatus?: "unseen" | "seen" | "none";
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Eventos");
@@ -104,6 +107,18 @@ export async function EventCard({
         <span className="text-amber-400 font-medium">
           {t("attendeeCount", { count: attendeeCount })}
         </span>
+        {storyStatus !== "none" && (
+          <Link
+            href={`/eventos/${event.id}?stories=1`}
+            className={`ml-auto inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+              storyStatus === "unseen"
+                ? "border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
+                : "border-zinc-700 text-zinc-500 hover:border-zinc-500"
+            }`}
+          >
+            <span aria-hidden>📸</span> {t("storiesLabel")}
+          </Link>
+        )}
       </div>
     </Card>
   );
