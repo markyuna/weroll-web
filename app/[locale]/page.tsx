@@ -98,15 +98,16 @@ export default async function Home() {
             {t("heroSubtitle")}
           </p>
 
+          <RollingSkate />
+
           <div className="animate-fade-up flex flex-col sm:flex-row items-center justify-center gap-4 mt-9 [animation-delay:300ms]">
-            <div className="relative w-full sm:w-auto">
+            <div className="w-full sm:w-auto">
               <Link
                 href="/eventos"
                 className="block w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-black font-bold py-4 px-8 rounded-full transition-colors text-lg"
               >
                 {t("ctaViewEvents")}
               </Link>
-              <RollingSkate />
             </div>
             {user ? (
               <Link

@@ -6,7 +6,7 @@ import skateLottie from "@/public/u9ctATSOoA.json";
 export function RollingSkate() {
   return (
     <>
-      <div className="animate-roll-skate-container absolute top-0 left-1/2 -translate-x-1/2 -translate-y-24 pointer-events-none w-24 h-20">
+      <div className="animate-roll-skate-container relative mx-auto pointer-events-none w-24 h-20">
         <Lottie
           animationData={skateLottie}
           loop={true}
