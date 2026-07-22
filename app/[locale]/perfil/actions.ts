@@ -7,6 +7,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SKATE_TYPES, SKATE_STYLES } from "@/lib/profiles";
+import { normalizeInstagramHandle } from "@/lib/instagram";
 
 const SKILL_LEVELS = ["principiante", "intermedio", "avanzado"];
 
@@ -36,6 +37,7 @@ export async function updateProfile(formData: FormData) {
   const skateStyle = ((formData.get("skate_style") as string) ?? "").trim();
   const skillLevel = ((formData.get("skill_level") as string) ?? "").trim();
   const bio = ((formData.get("bio") as string) ?? "").trim();
+  const instagramRaw = ((formData.get("instagram_handle") as string) ?? "").trim();
   const hideFromRankings = formData.get("hide_from_rankings") === "on";
 
   const values = {
@@ -46,6 +48,7 @@ export async function updateProfile(formData: FormData) {
     skate_style: skateStyle,
     skill_level: skillLevel,
     bio,
+    instagram_handle: instagramRaw,
     hide_from_rankings: hideFromRankings ? "on" : "",
   };
 
@@ -59,6 +62,12 @@ export async function updateProfile(formData: FormData) {
     backToFormWithError(t("errorSkillLevel"), values);
   }
 
+  // Vacío -> NULL; con contenido, debe normalizar a un handle válido.
+  const instagramHandle = instagramRaw ? normalizeInstagramHandle(instagramRaw) : null;
+  if (instagramRaw && !instagramHandle) {
+    backToFormWithError(t("invalidInstagram"), values);
+  }
+
   const { error } = await supabase
     .from("profiles")
     .update({
@@ -69,6 +78,7 @@ export async function updateProfile(formData: FormData) {
       skate_style: skateStyle || null,
       skill_level: skillLevel || null,
       bio: bio || null,
+      instagram_handle: instagramHandle,
       hide_from_rankings: hideFromRankings,
     })
     .eq("id", user.id);

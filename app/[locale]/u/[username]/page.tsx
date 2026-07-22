@@ -9,6 +9,7 @@ import { getGamificationData } from "@/lib/gamification";
 import { XpLevelCard } from "@/components/xp-level-card";
 import { BadgesGrid } from "@/components/badges-grid";
 import { Avatar } from "@/components/avatar";
+import { instagramUrl } from "@/lib/instagram";
 
 export default async function PerfilPublicoPage({
   params,
@@ -26,7 +27,9 @@ export default async function PerfilPublicoPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio")
+    .select(
+      "id, username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio, instagram_handle"
+    )
     .eq("username", username)
     .maybeSingle()
     .overrideTypes<
@@ -41,6 +44,7 @@ export default async function PerfilPublicoPage({
         skate_style: string | null;
         skill_level: string | null;
         bio: string | null;
+        instagram_handle: string | null;
       } | null,
       { merge: false }
     >();
@@ -108,6 +112,30 @@ export default async function PerfilPublicoPage({
           <p className="text-zinc-400 mt-1">
             {[skateTypeLabel, skateStyleLabel, skillLevelLabel].filter(Boolean).join(" · ")}
           </p>
+        )}
+
+        {profile.instagram_handle && (
+          <a
+            href={instagramUrl(profile.instagram_handle)}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-900/60 px-3 py-1 text-sm text-zinc-300 transition hover:border-amber-400 hover:text-amber-400"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              className="h-4 w-4"
+              aria-hidden
+            >
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4.2" />
+              <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
+            </svg>
+            @{profile.instagram_handle}
+          </a>
         )}
 
         {profile.bio && <p className="text-zinc-200 mt-6 leading-relaxed">{profile.bio}</p>}

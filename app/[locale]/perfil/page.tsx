@@ -44,7 +44,7 @@ export default async function PerfilPage({
   const [{ data: profile }, { data: myRsvps }, gamification] = await Promise.all([
     supabase
       .from("profiles")
-      .select("username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio, hide_from_rankings")
+      .select("username, display_name, avatar_url, city, country, skate_type, skate_style, skill_level, bio, instagram_handle, hide_from_rankings")
       .eq("id", user.id)
       .single()
       .overrideTypes<
@@ -58,6 +58,7 @@ export default async function PerfilPage({
           skate_style: string | null;
           skill_level: string | null;
           bio: string | null;
+          instagram_handle: string | null;
           hide_from_rankings: boolean;
         },
         { merge: false }
@@ -84,6 +85,7 @@ export default async function PerfilPage({
     skate_style: field("skate_style") ?? profile?.skate_style ?? "",
     skill_level: field("skill_level") ?? profile?.skill_level ?? "",
     bio: field("bio") ?? profile?.bio ?? "",
+    instagram_handle: field("instagram_handle") ?? profile?.instagram_handle ?? "",
     hide_from_rankings: field("hide_from_rankings") ?? (profile?.hide_from_rankings ? "on" : ""),
   };
 
@@ -241,6 +243,31 @@ export default async function PerfilPage({
               defaultValue={defaults.bio}
               className="w-full rounded-lg bg-zinc-900 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
+          </div>
+
+          <div>
+            <label htmlFor="instagram_handle" className="block text-sm text-zinc-300 mb-1">
+              {t("fieldInstagram")}
+            </label>
+            <div className="flex items-center rounded-lg bg-zinc-900 border border-zinc-700 px-3 focus-within:ring-2 focus-within:ring-amber-400">
+              <span aria-hidden className="text-zinc-500">
+                @
+              </span>
+              <input
+                id="instagram_handle"
+                name="instagram_handle"
+                type="text"
+                inputMode="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                maxLength={30}
+                defaultValue={defaults.instagram_handle}
+                placeholder={t("instagramPlaceholder")}
+                className="w-full bg-transparent py-2 pl-1 text-white focus:outline-none"
+              />
+            </div>
+            <p className="text-xs text-zinc-500 mt-1">{t("instagramHelp")}</p>
           </div>
 
           <label htmlFor="hide_from_rankings" className="flex items-center gap-2 text-sm text-zinc-300">
