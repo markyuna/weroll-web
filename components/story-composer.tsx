@@ -52,14 +52,14 @@ export function StoryComposer({ eventId, userId }: { eventId: string; userId: st
       }
       const result = await publishStory({ eventId, storagePath: path });
       if (result.error) {
-        setError(t("errorSubmit"));
+        setError(`${t("errorSubmit")} (${result.error})`);
         setBusy(false);
         return;
       }
       reset();
       router.refresh();
-    } catch {
-      setError(t("errorSubmit"));
+    } catch (err) {
+      setError(`${t("errorSubmit")} (${err instanceof Error ? err.message : String(err)})`);
     } finally {
       setBusy(false);
     }
@@ -76,7 +76,7 @@ export function StoryComposer({ eventId, userId }: { eventId: string; userId: st
     const result = await publishStory({ eventId, instagramUrl: trimmed });
     setBusy(false);
     if (result.error) {
-      setError(t("errorSubmit"));
+      setError(`${t("errorSubmit")} (${result.error})`);
       return;
     }
     reset();
