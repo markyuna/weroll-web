@@ -28,7 +28,9 @@ export type NotificationType =
   | "buddy_request"
   | "buddy_accepted"
   | "event_invite"
-  | "group_invite";
+  | "group_invite"
+  | "event_left"
+  | "group_left";
 
 export type NotificationPayload =
   | { title: string; changes: FieldChange[] }

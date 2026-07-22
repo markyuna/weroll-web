@@ -111,7 +111,9 @@
     "no_asistire": "No asistiré",
     "loginPromptLink": "Inicia sesión",
     "loginPromptSuffix": "para confirmar tu asistencia.",
-    "error": "No se pudo guardar tu respuesta. Inténtalo de nuevo."
+    "error": "No se pudo guardar tu respuesta. Inténtalo de nuevo.",
+    "leaveEvent": "Salir del evento",
+    "leaveConfirm": "¿Seguro que quieres salir de este evento? Se avisará a los demás asistentes."
   },
   "EventoNuevo": {
     "back": "← Volver a eventos",
@@ -473,6 +475,8 @@
     "buddyAccepted": "Aceptó tu solicitud de buddy",
     "eventInvite": "{name} te invitó a esta randonnée",
     "groupInvite": "{name} te invita a su grupo",
+    "eventLeft": "{name} ya no asistirá a esta randonnée",
+    "groupLeft": "{name} ya no está en el grupo",
     "viewAll": "Ver todas",
     "pageTitle": "Notificaciones"
   },

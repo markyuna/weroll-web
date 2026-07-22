@@ -111,7 +111,9 @@
     "no_asistire": "Je n'y serai pas",
     "loginPromptLink": "Connecte-toi",
     "loginPromptSuffix": "pour confirmer ta présence.",
-    "error": "Impossible d'enregistrer ta réponse. Réessaie."
+    "error": "Impossible d'enregistrer ta réponse. Réessaie.",
+    "leaveEvent": "Quitter l'événement",
+    "leaveConfirm": "Tu es sûr de vouloir quitter cet événement ? Les autres participants seront prévenus."
   },
   "EventoNuevo": {
     "back": "← Retour aux événements",
@@ -473,6 +475,8 @@
     "buddyAccepted": "A accepté ta demande de buddy",
     "eventInvite": "{name} t'a invité à cette randonnée",
     "groupInvite": "{name} t'invite à son groupe",
+    "eventLeft": "{name} ne participera plus à cette randonnée",
+    "groupLeft": "{name} n'est plus dans le groupe",
     "viewAll": "Voir tout",
     "pageTitle": "Notifications"
   },

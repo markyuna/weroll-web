@@ -59,6 +59,14 @@ export function NotificationListItem({
       title = getPayloadTitle(notification.payload);
       subtitle = t("groupInvite", { name: buddyName });
       break;
+    case "event_left":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("eventLeft", { name: buddyName });
+      break;
+    case "group_left":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("groupLeft", { name: buddyName });
+      break;
     default:
       title = getPayloadTitle(notification.payload);
       subtitle = "";

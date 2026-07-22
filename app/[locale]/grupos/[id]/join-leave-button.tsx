@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { leaveGroup } from "./actions";
 
 export function JoinLeaveButton({
   groupId,
@@ -38,13 +39,8 @@ export function JoinLeaveButton({
     setError(null);
     startTransition(async () => {
       if (member) {
-        const { error: deleteError } = await supabase
-          .from("group_members")
-          .delete()
-          .eq("group_id", groupId)
-          .eq("profile_id", userId);
-
-        if (deleteError) {
+        const result = await leaveGroup(groupId);
+        if (result.error) {
           setError(t("membershipError"));
           return;
         }

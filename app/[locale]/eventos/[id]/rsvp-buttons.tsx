@@ -7,6 +7,7 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { leaveEvent } from "./leave-actions";
 
 type RsvpStatus = "asistire" | "tal_vez" | "no_asistire";
 
@@ -86,6 +87,20 @@ export function RsvpButtons({
     });
   }
 
+  function handleLeave() {
+    if (!window.confirm(t("leaveConfirm"))) return;
+    setError(null);
+    startTransition(async () => {
+      const result = await leaveEvent(eventId);
+      if (result.error) {
+        setError(t("error"));
+        return;
+      }
+      setStatus(null);
+      router.refresh();
+    });
+  }
+
   return (
     <div>
       <div className="flex flex-wrap gap-2">
@@ -108,6 +123,16 @@ export function RsvpButtons({
           );
         })}
       </div>
+      {status !== null && !materializeOccurrence && (
+        <button
+          type="button"
+          disabled={pending}
+          onClick={handleLeave}
+          className="mt-3 text-sm text-red-400 hover:underline disabled:opacity-50"
+        >
+          {t("leaveEvent")}
+        </button>
+      )}
       {error && <p className="text-sm text-red-400 mt-2">{error}</p>}
     </div>
   );
