@@ -11,6 +11,7 @@ import { EventCard } from "@/components/event-card";
 import { Reveal } from "@/components/reveal";
 import { Card } from "@/components/card";
 import { IconTile } from "@/components/icon-tile";
+import { RollingSkate } from "@/components/rolling-skate";
 
 const FEATURES = [
   { icon: "👥", href: "/grupos", key: 1 },
@@ -98,12 +99,15 @@ export default async function Home() {
           </p>
 
           <div className="animate-fade-up flex flex-col sm:flex-row items-center justify-center gap-4 mt-9 [animation-delay:300ms]">
-            <Link
-              href="/eventos"
-              className="w-full sm:w-auto rounded-xl bg-gradient-brand text-zinc-950 font-semibold px-7 py-3.5 shadow-glow transition duration-300 hover:shadow-glow-strong hover:-translate-y-0.5 hover:brightness-110"
-            >
-              {t("ctaViewEvents")}
-            </Link>
+            <div className="relative w-full sm:w-auto">
+              <Link
+                href="/eventos"
+                className="w-full sm:w-auto rounded-xl bg-gradient-brand text-zinc-950 font-semibold px-7 py-3.5 shadow-glow transition duration-300 hover:shadow-glow-strong hover:-translate-y-0.5 hover:brightness-110"
+              >
+                {t("ctaViewEvents")}
+              </Link>
+              <RollingSkate />
+            </div>
             {user ? (
               <Link
                 href="/eventos/nuevo"
