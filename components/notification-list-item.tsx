@@ -34,7 +34,14 @@ export function NotificationListItem({
   const tFields = useTranslations("EventoNuevo");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [resolved, setResolved] = useState<"accepted" | "declined" | null>(null);
+  // Se inicializa con el estado real de la invitación (traído junto con la
+  // notificación) para no volver a mostrar Aceptar/Rechazar en una que ya
+  // se respondió en una carga anterior.
+  const [resolved, setResolved] = useState<"accepted" | "declined" | null>(
+    notification.invitation_status === "accepted" || notification.invitation_status === "declined"
+      ? notification.invitation_status
+      : null
+  );
   const [error, setError] = useState<string | null>(null);
   const unread = !notification.read_at;
   const buddyPayload = isBuddyPayload(notification.payload) ? notification.payload : null;
@@ -158,6 +165,7 @@ export function NotificationListItem({
           </button>
         </div>
       )}
+      {resolved === "accepted" && <p className="mt-1 text-xs text-emerald-400">{t("invitationAcceptedLabel")}</p>}
       {resolved === "declined" && <p className="mt-1 text-xs text-zinc-500">{t("invitationDeclined")}</p>}
       {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
 

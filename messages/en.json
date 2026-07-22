@@ -507,6 +507,7 @@
     "eventLeft": "{name} is no longer attending this ride",
     "groupLeft": "{name} is no longer in the group",
     "invitationAccepted": "{name} accepted your invitation",
+    "invitationAcceptedLabel": "Accepted ✓",
     "invitationDeclined": "Declined",
     "invitationError": "Couldn't complete the action. Please try again.",
     "accept": "Accept",

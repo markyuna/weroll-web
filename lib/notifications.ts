@@ -50,6 +50,13 @@ export type NotificationRow = {
   payload: NotificationPayload | null;
   read_at: string | null;
   created_at: string;
+  /**
+   * Estado actual en `invitations` para event_invite/group_invite (null si
+   * el tipo no es una invitación). Se resuelve aparte porque notifications
+   * no tiene esa columna — sin esto, Aceptar/Rechazar reaparecería cada vez
+   * que se vuelve a cargar la lista aunque ya se hubiera respondido.
+   */
+  invitation_status?: "pending" | "accepted" | "declined" | null;
 };
 
 export function isModifiedPayload(
@@ -98,5 +105,25 @@ export async function getNotifications(supabase: SupabaseClient, userId: string,
     .order("created_at", { ascending: false })
     .limit(limit)
     .overrideTypes<NotificationRow[], { merge: false }>();
-  return data ?? [];
+  const notifications = data ?? [];
+
+  const invitationIds = notifications
+    .map((n) => (isInvitationPayload(n.payload) ? n.payload.invitationId : null))
+    .filter((id): id is string => Boolean(id));
+
+  if (invitationIds.length > 0) {
+    const { data: invitations } = await supabase
+      .from("invitations")
+      .select("id, status")
+      .in("id", invitationIds)
+      .overrideTypes<{ id: string; status: "pending" | "accepted" | "declined" }[], { merge: false }>();
+    const statusById = new Map((invitations ?? []).map((i) => [i.id, i.status]));
+    for (const n of notifications) {
+      if (isInvitationPayload(n.payload)) {
+        n.invitation_status = statusById.get(n.payload.invitationId) ?? null;
+      }
+    }
+  }
+
+  return notifications;
 }

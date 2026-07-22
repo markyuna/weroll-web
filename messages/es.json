@@ -508,6 +508,7 @@
     "groupLeft": "{name} ya no está en el grupo",
     "invitationAccepted": "{name} aceptó tu invitación",
     "eventStory": "{name} publicó una historia",
+    "invitationAcceptedLabel": "Aceptada ✓",
     "invitationDeclined": "Rechazada",
     "invitationError": "No se pudo completar la acción. Inténtalo de nuevo.",
     "accept": "Aceptar",

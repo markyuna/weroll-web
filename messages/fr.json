@@ -508,6 +508,7 @@
     "groupLeft": "{name} n'est plus dans le groupe",
     "invitationAccepted": "{name} a accepté ton invitation",
     "eventStory": "{name} a publié une story",
+    "invitationAcceptedLabel": "Acceptée ✓",
     "invitationDeclined": "Refusée",
     "invitationError": "Impossible de terminer l'action. Réessaie.",
     "accept": "Accepter",
