@@ -3,6 +3,13 @@ import { nextOccurrences, parseRule } from "@/lib/recurrence";
 
 export type Difficulty = "principiante" | "intermedio" | "avanzado";
 
+export type EventOrganizer = {
+  id: string;
+  username: string;
+  display_name: string | null;
+  avatar_url: string | null;
+};
+
 export type EventCardData = {
   id: string;
   title: string;
@@ -12,8 +19,11 @@ export type EventCardData = {
   recurrence_rule?: string | null;
   spots: { city: string | null } | null;
   groups: { id: string; name: string } | null;
+  organizer: EventOrganizer | null;
   attendee_count: { count: number }[];
 };
+
+const ORGANIZER_COLUMNS = "organizer:profiles!organizer_id ( id, username, display_name, avatar_url )";
 
 export function getUpcomingEvents(
   supabase: SupabaseClient,
@@ -22,7 +32,7 @@ export function getUpcomingEvents(
   let query = supabase
     .from("events")
     .select(
-      "id, title, starts_at, difficulty, distance_km, recurrence_rule, spots!spot_id ( city ), groups ( id, name ), attendee_count:event_attendees(count)"
+      `id, title, starts_at, difficulty, distance_km, recurrence_rule, spots!spot_id ( city ), groups ( id, name ), ${ORGANIZER_COLUMNS}, attendee_count:event_attendees(count)`
     )
     .gt("starts_at", new Date().toISOString())
     .eq("event_attendees.status", "asistire")
@@ -94,7 +104,7 @@ export async function getVirtualInstances(
   let query = supabase
     .from("events")
     .select(
-      "id, title, starts_at, difficulty, distance_km, recurrence_rule, spots!spot_id ( city ), groups ( id, name )"
+      `id, title, starts_at, difficulty, distance_km, recurrence_rule, spots!spot_id ( city ), groups ( id, name ), ${ORGANIZER_COLUMNS}`
     )
     .not("recurrence_rule", "is", null)
     .is("parent_event_id", null);
@@ -116,6 +126,7 @@ export async function getVirtualInstances(
       recurrence_rule: string;
       spots: { city: string | null } | null;
       groups: { id: string; name: string } | null;
+      organizer: EventOrganizer | null;
     }[],
     { merge: false }
   >();
@@ -165,6 +176,7 @@ export async function getVirtualInstances(
           recurrence_rule: parent.recurrence_rule,
           spots: parent.spots,
           groups: parent.groups,
+          organizer: parent.organizer,
           attendee_count: [],
         },
       });

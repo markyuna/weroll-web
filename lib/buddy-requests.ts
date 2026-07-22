@@ -98,6 +98,35 @@ export async function getPendingRequestsReceived(
   return (data ?? []).flatMap((r) => (r.requester ? [{ requester: r.requester, created_at: r.created_at }] : []));
 }
 
+/**
+ * De `otherIds`, cuáles son buddies aceptados de `meId` — para marcar el
+ * distintivo "✓ Buddy" junto al organizador en tarjetas de evento, en una
+ * sola consulta batch en vez de una por tarjeta.
+ */
+export async function getBuddyOrganizerIds(
+  supabase: SupabaseClient,
+  meId: string,
+  otherIds: string[]
+): Promise<Set<string>> {
+  const uniqueIds = [...new Set(otherIds)].filter((id) => id !== meId);
+  if (uniqueIds.length === 0) return new Set();
+
+  const { data } = await supabase
+    .from("buddy_requests")
+    .select("requester_id, addressee_id")
+    .eq("status", "accepted")
+    .or(
+      `and(requester_id.eq.${meId},addressee_id.in.(${uniqueIds.join(",")})),and(addressee_id.eq.${meId},requester_id.in.(${uniqueIds.join(",")}))`
+    )
+    .overrideTypes<{ requester_id: string; addressee_id: string }[], { merge: false }>();
+
+  const ids = new Set<string>();
+  for (const row of data ?? []) {
+    ids.add(row.requester_id === meId ? row.addressee_id : row.requester_id);
+  }
+  return ids;
+}
+
 export async function getPendingRequestsCount(supabase: SupabaseClient, userId: string) {
   const { count } = await supabase
     .from("buddy_requests")

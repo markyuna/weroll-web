@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUpcomingEvents } from "@/lib/events";
+import { getBuddyOrganizerIds } from "@/lib/buddy-requests";
 import { EventCard } from "@/components/event-card";
 import { Reveal } from "@/components/reveal";
 import { Card } from "@/components/card";
@@ -33,6 +34,11 @@ export default async function Home() {
     ? await supabase.from("profiles").select("city").eq("id", user.id).maybeSingle()
     : { data: null };
   const showOnboardingBanner = Boolean(user) && !profile?.city;
+
+  const organizerIds = (events ?? []).map((e) => e.organizer?.id).filter((id): id is string => Boolean(id));
+  const buddyOrganizerIds = user
+    ? await getBuddyOrganizerIds(supabase, user.id, organizerIds)
+    : new Set<string>();
 
   const marqueeItems = [1, 2, 3, 4, 5, 6].map((n) => t(`marquee${n}`));
 
@@ -160,7 +166,10 @@ export default async function Home() {
               {events.map((event, i) => (
                 <li key={event.id}>
                   <Reveal delay={i * 120}>
-                    <EventCard event={event} />
+                    <EventCard
+                      event={event}
+                      isBuddyOrganizer={Boolean(event.organizer && buddyOrganizerIds.has(event.organizer.id))}
+                    />
                   </Reveal>
                 </li>
               ))}

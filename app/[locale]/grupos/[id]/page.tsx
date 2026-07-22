@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUpcomingEvents } from "@/lib/events";
+import { getBuddyOrganizerIds } from "@/lib/buddy-requests";
 import { EventCard } from "@/components/event-card";
 import { JoinLeaveButton } from "./join-leave-button";
 
@@ -54,6 +55,11 @@ export default async function GrupoDetallePage({
         .maybeSingle()
     : { data: null };
   const location = [group.city, group.country].filter(Boolean).join(", ");
+
+  const organizerIds = (events ?? []).map((e) => e.organizer?.id).filter((id): id is string => Boolean(id));
+  const buddyOrganizerIds = user
+    ? await getBuddyOrganizerIds(supabase, user.id, organizerIds)
+    : new Set<string>();
 
   return (
     <main className="relative min-h-screen bg-zinc-950 px-4 py-16 overflow-x-clip">
@@ -114,7 +120,10 @@ export default async function GrupoDetallePage({
             <ul className="space-y-4">
               {events.map((event) => (
                 <li key={event.id}>
-                  <EventCard event={event} />
+                  <EventCard
+                    event={event}
+                    isBuddyOrganizer={Boolean(event.organizer && buddyOrganizerIds.has(event.organizer.id))}
+                  />
                 </li>
               ))}
             </ul>

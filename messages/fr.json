@@ -87,7 +87,9 @@
     "loadError": "Impossible de charger les événements. Réessaie plus tard.",
     "emptySpot": "Aucune randonnée à venir sur ce spot.",
     "empty": "Aucune randonnée programmée pour le moment. Reviens bientôt !",
-    "attendeeCount": "{count, plural, one {# participant} other {# participants}}"
+    "attendeeCount": "{count, plural, one {# participant} other {# participants}}",
+    "organizerLabel": "Organise",
+    "organizerBuddy": "Buddy"
   },
   "Difficulty": {
     "principiante": "Débutant",
@@ -96,6 +98,8 @@
   },
   "EventoDetalle": {
     "back": "← Retour aux événements",
+    "organizerLabel": "Organisé par :",
+    "organizerBuddy": "Buddy",
     "meetingPoint": "Point de rendez-vous",
     "meetingPointTbd": "À confirmer.",
     "routeTitle": "Itinéraire",

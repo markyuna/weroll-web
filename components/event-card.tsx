@@ -13,6 +13,7 @@ export async function EventCard({
   href,
   recurring = false,
   attendeeAvatars,
+  isBuddyOrganizer = false,
 }: {
   event: EventCardData;
   /** Enlace alternativo, p. ej. una instancia virtual de un evento recurrente. */
@@ -20,6 +21,8 @@ export async function EventCard({
   recurring?: boolean;
   /** Hasta 4 avatares de asistentes confirmados, apilados junto al contador. */
   attendeeAvatars?: AttendeeAvatar[];
+  /** El organizador es buddy aceptado del usuario que ve la tarjeta. */
+  isBuddyOrganizer?: boolean;
 }) {
   const locale = await getLocale();
   const t = await getTranslations("Eventos");
@@ -53,11 +56,34 @@ export async function EventCard({
             </Link>
           )}
         </div>
-        {difficultyLabel && (
-          <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${difficultyStyle}`}>
-            {difficultyLabel}
-          </span>
-        )}
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          {event.organizer && (
+            <Link
+              href={`/u/${event.organizer.username}`}
+              className="group/organizer flex items-center gap-1.5"
+            >
+              <span className="text-right text-xs leading-tight text-zinc-500">
+                {t("organizerLabel")}
+                <br />
+                <span className="text-zinc-300 group-hover/organizer:text-amber-400 transition">
+                  {event.organizer.display_name || event.organizer.username}
+                </span>
+                {isBuddyOrganizer && <span className="ml-1 text-amber-400">✓ {t("organizerBuddy")}</span>}
+              </span>
+              <Avatar
+                username={event.organizer.username}
+                avatarUrl={event.organizer.avatar_url}
+                size={28}
+                className={isBuddyOrganizer ? "ring-2 ring-amber-400/60" : "ring-2 ring-zinc-800"}
+              />
+            </Link>
+          )}
+          {difficultyLabel && (
+            <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${difficultyStyle}`}>
+              {difficultyLabel}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-4 mt-4 text-sm text-zinc-400">

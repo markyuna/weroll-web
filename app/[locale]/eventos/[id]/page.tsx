@@ -15,7 +15,7 @@ import {
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
 import { EventLocationMapLoader } from "@/components/event-location-map-loader";
 import { InviteBuddiesPanel } from "@/components/invite-buddies-panel";
-import { getMyBuddies } from "@/lib/buddy-requests";
+import { getMyBuddies, getBuddyOrganizerIds } from "@/lib/buddy-requests";
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
@@ -39,7 +39,7 @@ export default async function EventoDetallePage({
   const { data: event } = await supabase
     .from("events")
     .select(
-      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, recurrence_rule, parent_event_id, latitude, longitude, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
+      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, recurrence_rule, parent_event_id, latitude, longitude, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude ), organizer:profiles!organizer_id ( username, display_name, avatar_url )"
     )
     .eq("id", id)
     .maybeSingle()
@@ -60,6 +60,7 @@ export default async function EventoDetallePage({
         spots: { name: string; city: string | null; country: string | null; description: string | null } | null;
         groups: { id: string; name: string } | null;
         pause_spot: { name: string; latitude: number; longitude: number } | null;
+        organizer: { username: string; display_name: string | null; avatar_url: string | null } | null;
       } | null,
       { merge: false }
     >();
@@ -121,7 +122,7 @@ export default async function EventoDetallePage({
 
   // Una instancia virtual todavía no tiene fila propia, así que tampoco
   // tiene asistentes ni RSVP previo del usuario.
-  const [{ data: attendees }, { data: myAttendance }, myBuddies] = await Promise.all([
+  const [{ data: attendees }, { data: myAttendance }, myBuddies, organizerBuddyIds] = await Promise.all([
     isVirtual
       ? Promise.resolve({ data: [] as AttendeeRow[] })
       : supabase
@@ -141,7 +142,9 @@ export default async function EventoDetallePage({
           .overrideTypes<{ status: string } | null, { merge: false }>()
       : Promise.resolve({ data: null as { status: string } | null }),
     isOrganizer && user ? getMyBuddies(supabase, user.id) : Promise.resolve([]),
+    user && !isOrganizer ? getBuddyOrganizerIds(supabase, user.id, [event.organizer_id]) : Promise.resolve(new Set<string>()),
   ]);
+  const isOrganizerBuddy = organizerBuddyIds.has(event.organizer_id);
 
   const recurrenceSummary = rule
     ? tRecurrence(RECURRENCE_SUMMARY_KEYS[rule.freq], {
@@ -204,6 +207,27 @@ export default async function EventoDetallePage({
         {event.groups && (
           <Link href={`/grupos/${event.groups.id}`} className="inline-block text-sm text-amber-400 hover:underline mt-1">
             {event.groups.name}
+          </Link>
+        )}
+
+        {event.organizer && (
+          <Link
+            href={`/u/${event.organizer.username}`}
+            className="group/organizer mt-4 inline-flex items-center gap-2"
+          >
+            <Avatar
+              username={event.organizer.username}
+              avatarUrl={event.organizer.avatar_url}
+              size={32}
+              className={isOrganizerBuddy ? "ring-2 ring-amber-400/60" : "ring-2 ring-zinc-800"}
+            />
+            <span className="text-sm text-zinc-400">
+              {t("organizerLabel")}{" "}
+              <span className="text-zinc-200 group-hover/organizer:text-amber-400 transition">
+                {event.organizer.display_name || event.organizer.username}
+              </span>
+              {isOrganizerBuddy && <span className="ml-1 text-amber-400">✓ {t("organizerBuddy")}</span>}
+            </span>
           </Link>
         )}
 

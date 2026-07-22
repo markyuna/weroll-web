@@ -10,6 +10,7 @@ import {
   getVirtualInstances,
   type EventCardData,
 } from "@/lib/events";
+import { getBuddyOrganizerIds } from "@/lib/buddy-requests";
 import { EventCard } from "@/components/event-card";
 import { PageHeader, AmberChunk } from "@/components/page-header";
 import { FilterChip } from "@/components/filter-chip";
@@ -42,6 +43,14 @@ export default async function EventosPage({
     supabase,
     (events ?? []).map((event) => event.id)
   );
+
+  const allOrganizerIds = [
+    ...(events ?? []).map((e) => e.organizer?.id).filter((id): id is string => Boolean(id)),
+    ...virtualInstances.map((i) => i.event.organizer?.id).filter((id): id is string => Boolean(id)),
+  ];
+  const buddyOrganizerIds = user
+    ? await getBuddyOrganizerIds(supabase, user.id, allOrganizerIds)
+    : new Set<string>();
 
   // Eventos reales + instancias virtuales de las series recurrentes,
   // intercalados por fecha. Las virtuales enlazan al padre con ?occurrence=.
@@ -108,6 +117,7 @@ export default async function EventosPage({
                   href={item.href}
                   recurring={item.recurring}
                   attendeeAvatars={item.href ? undefined : avatarsByEvent.get(item.event.id)}
+                  isBuddyOrganizer={Boolean(item.event.organizer && buddyOrganizerIds.has(item.event.organizer.id))}
                 />
               </Reveal>
             </li>
