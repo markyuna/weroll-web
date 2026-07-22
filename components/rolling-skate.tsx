@@ -4,66 +4,62 @@ export function RollingSkate() {
   return (
     <>
       <svg
-        className="animate-roll-skate w-16 h-12 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 pointer-events-none"
-        viewBox="0 0 40 32"
+        className="animate-roll-skate w-14 h-12 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 pointer-events-none"
+        viewBox="0 0 32 36"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* RUEDAS */}
-        {/* Rueda frontal izquierda */}
-        <circle cx="8" cy="26" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="8" cy="26" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="8" cy="26" r="1" fill="currentColor" className="text-amber-300" />
+        <circle cx="5" cy="28" r="4" fill="currentColor" className="text-gray-800" />
+        <circle cx="5" cy="28" r="2" fill="currentColor" className="text-gray-600" />
 
-        {/* Rueda trasera izquierda */}
-        <circle cx="16" cy="26" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="16" cy="26" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="16" cy="26" r="1" fill="currentColor" className="text-amber-300" />
+        <circle cx="12" cy="28" r="4" fill="currentColor" className="text-gray-800" />
+        <circle cx="12" cy="28" r="2" fill="currentColor" className="text-gray-600" />
 
-        {/* Rueda frontal derecha */}
-        <circle cx="24" cy="26" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="24" cy="26" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="24" cy="26" r="1" fill="currentColor" className="text-amber-300" />
+        <circle cx="20" cy="28" r="4" fill="currentColor" className="text-gray-800" />
+        <circle cx="20" cy="28" r="2" fill="currentColor" className="text-gray-600" />
 
-        {/* Rueda trasera derecha */}
-        <circle cx="32" cy="26" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="32" cy="26" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="32" cy="26" r="1" fill="currentColor" className="text-amber-300" />
+        <circle cx="27" cy="28" r="4" fill="currentColor" className="text-gray-800" />
+        <circle cx="27" cy="28" r="2" fill="currentColor" className="text-gray-600" />
 
-        {/* EJES */}
-        <line x1="8" y1="22" x2="8" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
-        <line x1="16" y1="22" x2="16" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
-        <line x1="24" y1="22" x2="24" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
-        <line x1="32" y1="22" x2="32" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
+        {/* PLATAFORMA BASE */}
+        <line x1="5" y1="24" x2="27" y2="24" stroke="currentColor" strokeWidth="2" className="text-gray-700" />
 
-        {/* BOTA - SIMPLIFICADA Y CLARA */}
-        {/* Plataforma base (donde va el pie) */}
-        <rect x="12" y="18" width="16" height="4" rx="2" fill="currentColor" className="text-amber-600" />
-
-        {/* Parte principal del boot (forma de bota) */}
-        <rect x="13" y="10" width="14" height="8" rx="3" fill="currentColor" className="text-amber-400" stroke="currentColor" strokeWidth="1.5" />
-
-        {/* Tobillo/caña (parte que sube) */}
-        <rect x="15" y="6" width="10" height="4" rx="2" fill="currentColor" className="text-amber-500" stroke="currentColor" strokeWidth="1.5" />
-
-        {/* Borde superior del tobillo */}
-        <line x1="15" y1="6" x2="25" y2="6" stroke="currentColor" strokeWidth="1.5" className="text-amber-600" />
-
-        {/* LAZOS/CORDONES */}
-        <line x1="14" y1="12" x2="26" y2="12" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
-        <line x1="14" y1="15" x2="26" y2="15" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
-
-        {/* FRENO TRASERO (pequeño) */}
+        {/* BOOT PRINCIPAL - PARTE BAJA */}
         <path
-          d="M 29 18 L 31 16 L 31 20 Z"
+          d="M 6 24 L 8 18 L 24 18 L 26 24 Z"
           fill="currentColor"
-          className="text-amber-700"
+          className="text-gray-500"
           stroke="currentColor"
-          strokeWidth="1"
+          strokeWidth="1.5"
         />
 
-        {/* LÍNEA CENTRAL DE DIVISIÓN */}
-        <line x1="20" y1="10" x2="20" y2="18" stroke="currentColor" strokeWidth="0.8" className="text-amber-900" opacity="0.3" />
+        {/* BOOT PRINCIPAL - PARTE MEDIA */}
+        <rect x="8" y="12" width="16" height="6" rx="2" fill="currentColor" className="text-gray-600" stroke="currentColor" strokeWidth="1.5" />
+
+        {/* TOBILLO/CAÑA */}
+        <path
+          d="M 10 12 Q 10 8 12 6 L 20 6 Q 22 8 22 12"
+          fill="currentColor"
+          className="text-gray-700"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+
+        {/* BORDE SUPERIOR TOBILLO */}
+        <line x1="12" y1="6" x2="20" y2="6" stroke="currentColor" strokeWidth="2" className="text-gray-800" />
+
+        {/* CIERRE/VELCRO (lado izquierdo) */}
+        <rect x="6" y="13" width="2" height="7" rx="1" fill="currentColor" className="text-gray-500" />
+        <line x1="6.5" y1="14" x2="7.5" y2="14" stroke="currentColor" strokeWidth="0.5" className="text-gray-700" />
+        <line x1="6.5" y1="16" x2="7.5" y2="16" stroke="currentColor" strokeWidth="0.5" className="text-gray-700" />
+        <line x1="6.5" y1="18" x2="7.5" y2="18" stroke="currentColor" strokeWidth="0.5" className="text-gray-700" />
+
+        {/* ACCESO/APERTURA (detalle azul) */}
+        <rect x="18" y="15" width="5" height="3" rx="1" fill="currentColor" stroke="currentColor" strokeWidth="1" className="text-blue-400" />
+
+        {/* LÍNEA CENTRAL DECORATIVA */}
+        <line x1="16" y1="12" x2="16" y2="18" stroke="currentColor" strokeWidth="1" className="text-gray-800" opacity="0.4" />
       </svg>
 
       <style>{`
