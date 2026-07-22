@@ -1,11 +1,9 @@
 // Archivo: app/[locale]/eventos/[id]/invite-actions.ts
-// Server Action: el organizador invita a un buddy a su evento. La
-// notificación usa el cliente admin porque el destinatario no es el
-// auth.uid() actual (mismo patrón que buddies/actions.ts).
+// Server Action: el organizador invita a un buddy a su evento.
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createInvitations } from "@/lib/invitation-actions";
 
 export async function inviteBuddyToEvent(eventId: string, buddyId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
@@ -22,24 +20,5 @@ export async function inviteBuddyToEvent(eventId: string, buddyId: string): Prom
 
   if (!event || event.organizer_id !== user.id) return { error: "forbidden" };
 
-  const { data: me } = await supabase
-    .from("profiles")
-    .select("username, display_name")
-    .eq("id", user.id)
-    .single();
-
-  const admin = createAdminClient();
-  const { error } = await admin.from("notifications").insert({
-    user_id: buddyId,
-    type: "event_invite",
-    event_id: eventId,
-    payload: {
-      title: event.title,
-      fromUsername: me?.username ?? "",
-      fromDisplayName: me?.display_name ?? null,
-    },
-  });
-
-  if (error) return { error: "submit" };
-  return {};
+  return createInvitations({ type: "event", targetId: eventId, targetTitle: event.title, inviteeIds: [buddyId] });
 }

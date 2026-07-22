@@ -5,7 +5,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createInvitations } from "@/lib/invitation-actions";
 
 export async function createGroup(formData: FormData) {
   const locale = await getLocale();
@@ -61,20 +61,7 @@ export async function createGroup(formData: FormData) {
 
   const inviteBuddyIds = formData.getAll("invite_buddy_ids").filter((v): v is string => typeof v === "string");
   if (inviteBuddyIds.length > 0) {
-    const { data: me } = await supabase.from("profiles").select("username, display_name").eq("id", user.id).single();
-    const admin = createAdminClient();
-    await admin.from("notifications").insert(
-      inviteBuddyIds.map((buddyId) => ({
-        user_id: buddyId,
-        type: "group_invite",
-        payload: {
-          title: name,
-          fromUsername: me?.username ?? "",
-          fromDisplayName: me?.display_name ?? null,
-          groupId: group.id,
-        },
-      }))
-    );
+    await createInvitations({ type: "group", targetId: group.id, targetTitle: name, inviteeIds: inviteBuddyIds });
   }
 
   redirect({ href: `/grupos/${group.id}`, locale });

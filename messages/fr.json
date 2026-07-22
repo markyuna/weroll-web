@@ -481,6 +481,11 @@
     "groupInvite": "{name} t'invite à son groupe",
     "eventLeft": "{name} ne participera plus à cette randonnée",
     "groupLeft": "{name} n'est plus dans le groupe",
+    "invitationAccepted": "{name} a accepté ton invitation",
+    "invitationDeclined": "Refusée",
+    "invitationError": "Impossible de terminer l'action. Réessaie.",
+    "accept": "Accepter",
+    "decline": "Refuser",
     "viewAll": "Voir tout",
     "pageTitle": "Notifications"
   },

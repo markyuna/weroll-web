@@ -16,6 +16,7 @@ import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
 import { EventLocationMapLoader } from "@/components/event-location-map-loader";
 import { InviteBuddiesPanel } from "@/components/invite-buddies-panel";
 import { getMyBuddies, getBuddyOrganizerIds } from "@/lib/buddy-requests";
+import { getInvitationExclusionSet } from "@/lib/invitations";
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
@@ -145,6 +146,18 @@ export default async function EventoDetallePage({
     user && !isOrganizer ? getBuddyOrganizerIds(supabase, user.id, [event.organizer_id]) : Promise.resolve(new Set<string>()),
   ]);
   const isOrganizerBuddy = organizerBuddyIds.has(event.organizer_id);
+
+  // No mostrar en el picker a quien ya asiste o ya tiene una invitación
+  // pendiente a este evento.
+  let buddiesToInvite = myBuddies;
+  if (isOrganizer && myBuddies.length > 0) {
+    const excluded = await getInvitationExclusionSet(supabase, {
+      type: "event",
+      targetId: event.id,
+      buddyIds: myBuddies.map((b) => b.id),
+    });
+    buddiesToInvite = myBuddies.filter((b) => !excluded.has(b.id));
+  }
 
   const recurrenceSummary = rule
     ? tRecurrence(RECURRENCE_SUMMARY_KEYS[rule.freq], {
@@ -306,7 +319,7 @@ export default async function EventoDetallePage({
             <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
               {t("inviteBuddiesTitle")}
             </h2>
-            <InviteBuddiesPanel eventId={event.id} buddies={myBuddies} />
+            <InviteBuddiesPanel eventId={event.id} buddies={buddiesToInvite} />
           </div>
         )}
 

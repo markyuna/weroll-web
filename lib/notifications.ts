@@ -30,14 +30,17 @@ export type NotificationType =
   | "event_invite"
   | "group_invite"
   | "event_left"
-  | "group_left";
+  | "group_left"
+  | "invitation_accepted";
 
 export type NotificationPayload =
   | { title: string; changes: FieldChange[] }
   | { title: string; startsAt: string; spot: string | null }
   | { fromUsername: string; fromDisplayName: string | null }
   | { title: string; fromUsername: string; fromDisplayName: string | null }
-  | { title: string; fromUsername: string; fromDisplayName: string | null; groupId: string };
+  | { title: string; fromUsername: string; fromDisplayName: string | null; groupId: string }
+  | { title: string; fromUsername: string; fromDisplayName: string | null; invitationId: string }
+  | { title: string; fromUsername: string; fromDisplayName: string | null; invitationId: string; groupId: string };
 
 export type NotificationRow = {
   id: string;
@@ -69,6 +72,12 @@ export function isGroupInvitePayload(
   payload: NotificationPayload | null
 ): payload is { title: string; fromUsername: string; fromDisplayName: string | null; groupId: string } {
   return !!payload && "groupId" in payload;
+}
+
+export function isInvitationPayload(
+  payload: NotificationPayload | null
+): payload is { title: string; fromUsername: string; fromDisplayName: string | null; invitationId: string; groupId?: string } {
+  return !!payload && "invitationId" in payload;
 }
 
 export async function getUnreadNotificationCount(supabase: SupabaseClient, userId: string) {

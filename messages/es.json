@@ -481,6 +481,11 @@
     "groupInvite": "{name} te invita a su grupo",
     "eventLeft": "{name} ya no asistirá a esta randonnée",
     "groupLeft": "{name} ya no está en el grupo",
+    "invitationAccepted": "{name} aceptó tu invitación",
+    "invitationDeclined": "Rechazada",
+    "invitationError": "No se pudo completar la acción. Inténtalo de nuevo.",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
     "viewAll": "Ver todas",
     "pageTitle": "Notificaciones"
   },
