@@ -30,6 +30,7 @@ export function StoryTray({
   const hasUnseen = stories.some((s) => !seen.has(s.id));
 
   if (stories.length === 0) return null;
+  const firstAuthor = stories[0].author;
 
   return (
     <>
@@ -44,8 +45,8 @@ export function StoryTray({
       >
         <span className={`flex rounded-full p-0.5 ${hasUnseen ? "bg-gradient-brand" : "bg-zinc-700"}`}>
           <Avatar
-            username={stories[0].author.username}
-            avatarUrl={stories[0].author.avatar_url}
+            username={firstAuthor?.username ?? "?"}
+            avatarUrl={firstAuthor?.avatar_url ?? null}
             size={size}
             className="ring-2 ring-zinc-950"
           />

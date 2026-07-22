@@ -17,7 +17,9 @@ export type EventStory = {
   instagram_url: string | null;
   expires_at: string;
   created_at: string;
-  author: StoryAuthor;
+  // Nullable: si el embed de PostgREST no resuelve el perfil (o el
+  // registro está en un estado inconsistente), no debe tumbar el render.
+  author: StoryAuthor | null;
 };
 
 const STORY_COLUMNS =

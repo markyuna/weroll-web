@@ -85,9 +85,9 @@ export function StoryViewer({
         </div>
 
         <div className="absolute inset-x-0 top-4 z-10 flex items-center gap-2 px-3 pt-2">
-          <Avatar username={story.author.username} avatarUrl={story.author.avatar_url} size={28} />
+          <Avatar username={story.author?.username ?? "?"} avatarUrl={story.author?.avatar_url ?? null} size={28} />
           <span className="text-sm font-medium text-white drop-shadow">
-            {story.author.display_name || story.author.username}
+            {story.author?.display_name || story.author?.username || "?"}
           </span>
           <span className="ml-auto text-xs text-white/70">{t("expiryHint")}</span>
           <button type="button" onClick={onClose} className="text-white/80 hover:text-white text-xl leading-none px-2">
