@@ -102,7 +102,7 @@ export default async function Home() {
             <div className="relative w-full sm:w-auto">
               <Link
                 href="/eventos"
-                className="w-full sm:w-auto rounded-xl bg-gradient-brand text-zinc-950 font-semibold px-7 py-3.5 shadow-glow transition duration-300 hover:shadow-glow-strong hover:-translate-y-0.5 hover:brightness-110"
+                className="block w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-black font-bold py-4 px-8 rounded-full transition-colors text-lg"
               >
                 {t("ctaViewEvents")}
               </Link>
@@ -111,14 +111,14 @@ export default async function Home() {
             {user ? (
               <Link
                 href="/eventos/nuevo"
-                className="w-full sm:w-auto rounded-xl border border-zinc-700 bg-zinc-900/60 text-zinc-200 font-semibold px-7 py-3.5 backdrop-blur transition duration-300 hover:border-amber-400/60 hover:text-amber-300 hover:-translate-y-0.5"
+                className="w-full sm:w-auto rounded-full border border-zinc-700 bg-zinc-900/60 text-zinc-200 font-bold py-4 px-8 text-lg backdrop-blur transition duration-300 hover:border-amber-400/60 hover:text-amber-300 hover:-translate-y-0.5"
               >
                 {t("ctaCreateEvent")}
               </Link>
             ) : (
               <Link
                 href="/registro"
-                className="w-full sm:w-auto rounded-xl border border-zinc-700 bg-zinc-900/60 text-zinc-200 font-semibold px-7 py-3.5 backdrop-blur transition duration-300 hover:border-amber-400/60 hover:text-amber-300 hover:-translate-y-0.5"
+                className="w-full sm:w-auto rounded-full border border-zinc-700 bg-zinc-900/60 text-zinc-200 font-bold py-4 px-8 text-lg backdrop-blur transition duration-300 hover:border-amber-400/60 hover:text-amber-300 hover:-translate-y-0.5"
               >
                 {t("ctaSignup")}
               </Link>

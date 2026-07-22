@@ -48,18 +48,15 @@ export function RollingSkate() {
       <style>{`
         @keyframes roll-skate {
           0% {
-            transform: translateX(-120%) rotateZ(0deg);
-          }
-          50% {
-            transform: translateX(0%) rotateZ(180deg);
+            transform: translateX(-120%);
           }
           100% {
-            transform: translateX(120%) rotateZ(360deg);
+            transform: translateX(120%);
           }
         }
 
         .animate-roll-skate {
-          animation: roll-skate 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+          animation: roll-skate 3s ease-in-out infinite;
         }
       `}</style>
     </>
