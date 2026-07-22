@@ -3,6 +3,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter, Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -40,8 +41,9 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
       <div className="w-full max-w-sm">
-        <h1 className="font-display -skew-x-6 text-4xl uppercase text-white mb-1">
-          We<span className="text-amber-400">Roll</span> 🛼
+        <h1 className="font-display -skew-x-6 text-4xl uppercase text-white mb-1 flex items-center gap-2">
+          We<span className="text-amber-400">Roll</span>
+          <Image src="/icon_roll.png" alt="WeRoll" width={426} height={363} className="h-10 w-auto" />
         </h1>
         <p className="text-zinc-400 mb-8">{t("subtitle")}</p>
 
