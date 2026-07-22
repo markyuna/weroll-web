@@ -5,7 +5,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { notifySafely } from "@/lib/notify-safely";
 
 export async function leaveGroup(groupId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
@@ -30,8 +30,7 @@ export async function leaveGroup(groupId: string): Promise<{ error?: string }> {
 
   const recipients = (remainingMembers ?? []).map((m) => m.profile_id as string);
   if (recipients.length > 0 && group) {
-    const admin = createAdminClient();
-    await admin.from("notifications").insert(
+    await notifySafely(
       recipients.map((profileId) => ({
         user_id: profileId,
         type: "group_left",

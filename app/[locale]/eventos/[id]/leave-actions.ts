@@ -5,7 +5,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { notifySafely } from "@/lib/notify-safely";
 
 export async function leaveEvent(eventId: string): Promise<{ error?: string }> {
   const supabase = await createClient();
@@ -35,8 +35,7 @@ export async function leaveEvent(eventId: string): Promise<{ error?: string }> {
 
   const recipients = (remainingAttendees ?? []).map((a) => a.profile_id as string);
   if (recipients.length > 0 && event) {
-    const admin = createAdminClient();
-    await admin.from("notifications").insert(
+    await notifySafely(
       recipients.map((profileId) => ({
         user_id: profileId,
         type: "event_left",

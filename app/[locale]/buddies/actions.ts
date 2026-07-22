@@ -6,7 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { notifySafely } from "@/lib/notify-safely";
 
 type ActionResult = { error?: string };
 
@@ -50,12 +50,13 @@ export async function sendBuddyRequest(otherUserId: string): Promise<ActionResul
   if (error) return { error: "submit" };
 
   const me = await getMyProfile(supabase, user.id);
-  const admin = createAdminClient();
-  await admin.from("notifications").insert({
-    user_id: otherUserId,
-    type: "buddy_request",
-    payload: { fromUsername: me?.username ?? "", fromDisplayName: me?.display_name ?? null },
-  });
+  await notifySafely([
+    {
+      user_id: otherUserId,
+      type: "buddy_request",
+      payload: { fromUsername: me?.username ?? "", fromDisplayName: me?.display_name ?? null },
+    },
+  ]);
 
   return {};
 }
@@ -77,12 +78,13 @@ export async function acceptBuddyRequest(otherUserId: string): Promise<ActionRes
   if (error) return { error: "submit" };
 
   const me = await getMyProfile(supabase, user.id);
-  const admin = createAdminClient();
-  await admin.from("notifications").insert({
-    user_id: otherUserId,
-    type: "buddy_accepted",
-    payload: { fromUsername: me?.username ?? "", fromDisplayName: me?.display_name ?? null },
-  });
+  await notifySafely([
+    {
+      user_id: otherUserId,
+      type: "buddy_accepted",
+      payload: { fromUsername: me?.username ?? "", fromDisplayName: me?.display_name ?? null },
+    },
+  ]);
 
   return {};
 }

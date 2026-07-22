@@ -76,7 +76,13 @@ export async function notifyEventModified({
 }) {
   if (attendeeIds.length === 0 || changes.length === 0) return;
 
-  const admin = createAdminClient();
+  let admin: ReturnType<typeof createAdminClient>;
+  try {
+    admin = createAdminClient();
+  } catch (err) {
+    console.error("No se pudo crear el cliente admin:", err instanceof Error ? err.message : err);
+    return;
+  }
   const payload = { title: eventTitle, changes };
 
   const { error: insertError } = await admin.from("notifications").insert(
@@ -129,7 +135,13 @@ export async function notifyEventCancelled({
 }) {
   if (attendeeIds.length === 0) return;
 
-  const admin = createAdminClient();
+  let admin: ReturnType<typeof createAdminClient>;
+  try {
+    admin = createAdminClient();
+  } catch (err) {
+    console.error("No se pudo crear el cliente admin:", err instanceof Error ? err.message : err);
+    return;
+  }
   const payload = { title: eventTitle, startsAt, spot: spotName };
 
   const { error: insertError } = await admin.from("notifications").insert(

@@ -6,7 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { notifySafely } from "@/lib/notify-safely";
 
 export async function publishStory({
   eventId,
@@ -54,8 +54,7 @@ export async function publishStory({
   recipients.delete(user.id);
 
   if (recipients.size > 0) {
-    const admin = createAdminClient();
-    await admin.from("notifications").insert(
+    await notifySafely(
       [...recipients].map((profileId) => ({
         user_id: profileId,
         type: "event_story",

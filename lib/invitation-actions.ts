@@ -6,7 +6,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { notifySafely } from "@/lib/notify-safely";
 import type { InvitationType } from "@/lib/invitations";
 
 async function getMyProfile(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
@@ -56,8 +56,7 @@ export async function createInvitations({
   if (error || !inserted) return { error: "submit" };
 
   const me = await getMyProfile(supabase, user.id);
-  const admin = createAdminClient();
-  await admin.from("notifications").insert(
+  await notifySafely(
     inserted.map((row) => ({
       user_id: row.invitee_id,
       type: type === "event" ? "event_invite" : "group_invite",
@@ -122,18 +121,19 @@ export async function acceptInvitation(invitationId: string): Promise<{ error?: 
   }
 
   const me = await getMyProfile(supabase, user.id);
-  const admin = createAdminClient();
-  await admin.from("notifications").insert({
-    user_id: invitation.inviter_id,
-    type: "invitation_accepted",
-    event_id: invitation.type === "event" ? invitation.target_id : null,
-    payload: {
-      title: targetTitle,
-      fromUsername: me?.username ?? "",
-      fromDisplayName: me?.display_name ?? null,
-      ...(invitation.type === "group" ? { groupId: invitation.target_id } : {}),
+  await notifySafely([
+    {
+      user_id: invitation.inviter_id,
+      type: "invitation_accepted",
+      event_id: invitation.type === "event" ? invitation.target_id : null,
+      payload: {
+        title: targetTitle,
+        fromUsername: me?.username ?? "",
+        fromDisplayName: me?.display_name ?? null,
+        ...(invitation.type === "group" ? { groupId: invitation.target_id } : {}),
+      },
     },
-  });
+  ]);
 
   return { target: invitation.type === "event" ? `/eventos/${invitation.target_id}` : `/grupos/${invitation.target_id}` };
 }
