@@ -14,6 +14,8 @@ import {
 } from "@/lib/recurrence";
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
 import { EventLocationMapLoader } from "@/components/event-location-map-loader";
+import { InviteBuddiesPanel } from "@/components/invite-buddies-panel";
+import { getMyBuddies } from "@/lib/buddy-requests";
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
@@ -115,9 +117,11 @@ export default async function EventoDetallePage({
     profiles: { username: string; display_name: string | null; avatar_url: string | null } | null;
   };
 
+  const isOrganizer = user?.id === event.organizer_id;
+
   // Una instancia virtual todavía no tiene fila propia, así que tampoco
   // tiene asistentes ni RSVP previo del usuario.
-  const [{ data: attendees }, { data: myAttendance }] = await Promise.all([
+  const [{ data: attendees }, { data: myAttendance }, myBuddies] = await Promise.all([
     isVirtual
       ? Promise.resolve({ data: [] as AttendeeRow[] })
       : supabase
@@ -136,6 +140,7 @@ export default async function EventoDetallePage({
           .maybeSingle()
           .overrideTypes<{ status: string } | null, { merge: false }>()
       : Promise.resolve({ data: null as { status: string } | null }),
+    isOrganizer && user ? getMyBuddies(supabase, user.id) : Promise.resolve([]),
   ]);
 
   const recurrenceSummary = rule
@@ -175,7 +180,7 @@ export default async function EventoDetallePage({
           )}
         </div>
 
-        {user?.id === event.organizer_id && (
+        {isOrganizer && (
           <Link
             href={`/eventos/${event.id}/editar`}
             className="inline-block text-sm text-amber-400 hover:underline mt-2"
@@ -271,6 +276,15 @@ export default async function EventoDetallePage({
             materializeOccurrence={virtualStartsAt}
           />
         </div>
+
+        {isOrganizer && !isVirtual && (
+          <div className="mt-8">
+            <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
+              {t("inviteBuddiesTitle")}
+            </h2>
+            <InviteBuddiesPanel eventId={event.id} buddies={myBuddies} />
+          </div>
+        )}
 
         <div className="mt-8">
           <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">

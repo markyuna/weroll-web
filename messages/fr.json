@@ -100,6 +100,7 @@
     "meetingPointTbd": "À confirmer.",
     "routeTitle": "Itinéraire",
     "rsvpTitle": "Tu viens ?",
+    "inviteBuddiesTitle": "Inviter des buddies",
     "attendeesTitle": "Participants confirmés ({count})",
     "unknownUser": "utilisateur",
     "noAttendees": "Personne n'a encore confirmé. Sois le premier !"
@@ -187,6 +188,14 @@
     "decline": "Refuser",
     "buddies": "Buddies ✓",
     "error": "Impossible de terminer l'action. Réessaie."
+  },
+  "InviteBuddies": {
+    "show": "Inviter des buddies",
+    "hide": "Masquer",
+    "noBuddies": "Tu n'as pas encore de buddies à inviter.",
+    "invite": "Inviter",
+    "invited": "Invité ✓",
+    "error": "Impossible d'envoyer l'invitation. Réessaie."
   },
   "Onboarding": {
     "stepLabel": "Étape {step} sur {total}",
