@@ -4,46 +4,55 @@ export function RollingSkate() {
   return (
     <>
       <svg
-        className="animate-roll-skate w-14 h-10 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 pointer-events-none"
-        viewBox="0 0 32 24"
+        className="animate-roll-skate w-14 h-11 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 pointer-events-none"
+        viewBox="0 0 32 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Rueda izquierda - grande y clara */}
-        <circle cx="4" cy="19" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="4" cy="19" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="4" cy="19" r="1" fill="currentColor" className="text-amber-300" />
+        {/* Rueda izquierda delantera */}
+        <circle cx="6" cy="24" r="3.5" fill="currentColor" className="text-amber-400" />
+        <circle cx="6" cy="24" r="2" fill="currentColor" className="text-amber-900" />
 
-        {/* Rueda derecha - grande y clara */}
-        <circle cx="28" cy="19" r="4" fill="currentColor" className="text-amber-400" />
-        <circle cx="28" cy="19" r="2.5" fill="currentColor" className="text-amber-900" />
-        <circle cx="28" cy="19" r="1" fill="currentColor" className="text-amber-300" />
+        {/* Rueda derecha delantera */}
+        <circle cx="26" cy="24" r="3.5" fill="currentColor" className="text-amber-400" />
+        <circle cx="26" cy="24" r="2" fill="currentColor" className="text-amber-900" />
 
-        {/* Eje izquierdo */}
-        <line x1="4" y1="15" x2="4" y2="19" stroke="currentColor" strokeWidth="2" className="text-amber-600" />
+        {/* Soporte/chassis izquierdo */}
+        <line x1="6" y1="20" x2="6" y2="24" stroke="currentColor" strokeWidth="1.5" className="text-amber-600" />
 
-        {/* Eje derecho */}
-        <line x1="28" y1="15" x2="28" y2="19" stroke="currentColor" strokeWidth="2" className="text-amber-600" />
+        {/* Soporte/chassis derecho */}
+        <line x1="26" y1="20" x2="26" y2="24" stroke="currentColor" strokeWidth="1.5" className="text-amber-600" />
 
-        {/* Base del boot (plataforma) */}
-        <rect x="4" y="13" width="24" height="2" rx="1" fill="currentColor" className="text-amber-600" />
-
-        {/* Boot principal (carcasa del patín) */}
+        {/* Plataforma base (donde van los pies) */}
         <path
-          d="M 6 13 L 8 6 Q 8 4 10 4 L 22 4 Q 24 4 24 6 L 26 13 Z"
+          d="M 6 20 L 8 17 L 24 17 L 26 20 Z"
+          fill="currentColor"
+          className="text-amber-600"
+        />
+
+        {/* Boot/carcasa principal - la bota del patín */}
+        <path
+          d="M 8 17 Q 8 12 10 10 L 22 10 Q 24 12 24 17"
           fill="currentColor"
           className="text-amber-400"
           stroke="currentColor"
           strokeWidth="1.5"
         />
 
-        {/* Apertura del boot (donde entra el pie) */}
-        <ellipse cx="16" cy="8" rx="6" ry="3" fill="currentColor" className="text-amber-900" opacity="0.4" />
+        {/* Tobillo - la parte que sube */}
+        <path
+          d="M 10 10 Q 10 7 11 6 L 21 6 Q 22 7 22 10"
+          fill="currentColor"
+          className="text-amber-500"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
 
-        {/* Detalles aerodinámicos - líneas de velocidad */}
-        <line x1="10" y1="6" x2="10" y2="10" stroke="currentColor" strokeWidth="1" className="text-amber-600" opacity="0.6" />
-        <line x1="16" y1="5" x2="16" y2="11" stroke="currentColor" strokeWidth="1" className="text-amber-600" opacity="0.6" />
-        <line x1="22" y1="6" x2="22" y2="10" stroke="currentColor" strokeWidth="1" className="text-amber-600" opacity="0.6" />
+        {/* Talón (trasero del patín) */}
+        <circle cx="16" cy="18" r="1.5" fill="currentColor" className="text-amber-900" />
+
+        {/* Detalle: línea del medio del boot (costura) */}
+        <line x1="16" y1="11" x2="16" y2="17" stroke="currentColor" strokeWidth="1" className="text-amber-900" opacity="0.5" />
       </svg>
 
       <style>{`
