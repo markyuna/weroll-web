@@ -343,7 +343,7 @@ export default async function EventoDetallePage({
             <h2 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-3">
               {t("inviteBuddiesTitle")}
             </h2>
-            <InviteBuddiesPanel eventId={event.id} buddies={buddiesToInvite} />
+            <InviteBuddiesPanel eventId={event.id} buddies={buddiesToInvite} hasAnyBuddies={myBuddies.length > 0} />
           </div>
         )}
 

@@ -6,11 +6,25 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Avatar } from "./avatar";
 import { inviteBuddyToEvent } from "@/app/[locale]/eventos/[id]/invite-actions";
 import type { BuddyProfile } from "@/lib/buddy-requests";
 
-export function InviteBuddiesPanel({ eventId, buddies }: { eventId: string; buddies: BuddyProfile[] }) {
+export function InviteBuddiesPanel({
+  eventId,
+  buddies,
+  hasAnyBuddies = buddies.length > 0,
+}: {
+  eventId: string;
+  buddies: BuddyProfile[];
+  /**
+   * Si ya tenía buddies pero `buddies` llegó vacío tras filtrar a quien ya
+   * asiste o ya tiene invitación pendiente, el mensaje debe ser distinto
+   * de "no tienes buddies todavía".
+   */
+  hasAnyBuddies?: boolean;
+}) {
   const t = useTranslations("InviteBuddies");
   const [expanded, setExpanded] = useState(false);
   const [invited, setInvited] = useState<Set<string>>(new Set());
@@ -49,7 +63,18 @@ export function InviteBuddiesPanel({ eventId, buddies }: { eventId: string; budd
       {expanded && (
         <div className="mt-3">
           {buddies.length === 0 ? (
-            <p className="text-sm text-zinc-500">{t("noBuddies")}</p>
+            <p className="text-sm text-zinc-500">
+              {hasAnyBuddies ? (
+                t("allInvited")
+              ) : (
+                <>
+                  {t("noBuddies")}{" "}
+                  <Link href="/buddies" className="text-amber-400 hover:underline">
+                    {t("noBuddiesLink")}
+                  </Link>
+                </>
+              )}
+            </p>
           ) : (
             <ul className="space-y-2">
               {buddies.map((buddy) => {

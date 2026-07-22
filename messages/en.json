@@ -199,7 +199,9 @@
   "InviteBuddies": {
     "show": "Invite buddies",
     "hide": "Hide",
-    "noBuddies": "You don't have any buddies to invite yet.",
+    "noBuddies": "You don't have any buddies yet.",
+    "noBuddiesLink": "Search skaters",
+    "allInvited": "You've already invited all your buddies to this event (or they're already attending).",
     "invite": "Invite",
     "invited": "Invited ✓",
     "error": "Couldn't send the invitation. Please try again."

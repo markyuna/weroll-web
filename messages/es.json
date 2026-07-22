@@ -199,7 +199,9 @@
   "InviteBuddies": {
     "show": "Invitar buddies",
     "hide": "Ocultar",
-    "noBuddies": "Todavía no tienes buddies para invitar.",
+    "noBuddies": "Todavía no tienes buddies.",
+    "noBuddiesLink": "Busca patinadores",
+    "allInvited": "Ya invitaste a todos tus buddies a este evento (o ya están asistiendo).",
     "invite": "Invitar",
     "invited": "Invitado ✓",
     "error": "No se pudo enviar la invitación. Inténtalo de nuevo."
