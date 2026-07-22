@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { RouteBuilderLoader } from "@/components/route-builder-loader";
+import { EventLocationPickerLoader } from "@/components/event-location-picker-loader";
 import { RecurrenceFields } from "@/components/recurrence-fields";
 import { createEvent } from "./actions";
 
@@ -93,6 +94,18 @@ export default async function NuevoEventoPage({
             />
           </div>
 
+          {(!spots || spots.length === 0) && (
+            <div className="rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 py-3">
+              <p className="text-sm text-amber-200">{t("noSpots")}</p>
+              <Link
+                href={{ pathname: "/spots", query: { returnTo: "/eventos/nuevo" } }}
+                className="mt-2 inline-block rounded-lg bg-amber-400 text-zinc-950 font-semibold px-3 py-1.5 text-sm hover:bg-amber-300 transition"
+              >
+                {t("noSpotsCta")}
+              </Link>
+            </div>
+          )}
+
           <div>
             <label htmlFor="spot_id" className="block text-sm text-zinc-300 mb-1">
               {t("fieldSpot")}
@@ -100,13 +113,10 @@ export default async function NuevoEventoPage({
             <select
               id="spot_id"
               name="spot_id"
-              required
               defaultValue={field("spot_id")}
               className="w-full rounded-lg bg-zinc-900 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
             >
-              <option value="" disabled>
-                {t("fieldSpotPlaceholder")}
-              </option>
+              <option value="">{t("fieldSpotPlaceholder")}</option>
               {spots?.map((spot) => (
                 <option key={spot.id} value={spot.id}>
                   {spot.name}
@@ -114,9 +124,11 @@ export default async function NuevoEventoPage({
                 </option>
               ))}
             </select>
-            {(!spots || spots.length === 0) && (
-              <p className="text-xs text-zinc-500 mt-1">{t("noSpots")}</p>
-            )}
+          </div>
+
+          <div>
+            <p className="text-sm text-zinc-500 mb-2">{t("orPickOnMap")}</p>
+            <EventLocationPickerLoader />
           </div>
 
           <RouteBuilderLoader spots={spots ?? []} />

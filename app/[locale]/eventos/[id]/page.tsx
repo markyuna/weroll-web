@@ -13,6 +13,7 @@ import {
   parseRule,
 } from "@/lib/recurrence";
 import { RouteDisplayMapLoader } from "@/components/route-display-map-loader";
+import { EventLocationMapLoader } from "@/components/event-location-map-loader";
 import { Avatar } from "@/components/avatar";
 import { Card } from "@/components/card";
 import { RsvpButtons } from "./rsvp-buttons";
@@ -36,7 +37,7 @@ export default async function EventoDetallePage({
   const { data: event } = await supabase
     .from("events")
     .select(
-      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, recurrence_rule, parent_event_id, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
+      "id, title, description, organizer_id, starts_at, difficulty, distance_km, route_polyline, recurrence_rule, parent_event_id, latitude, longitude, spots!spot_id ( name, city, country, description ), groups ( id, name ), pause_spot:spots!pause_spot_id ( name, latitude, longitude )"
     )
     .eq("id", id)
     .maybeSingle()
@@ -52,6 +53,8 @@ export default async function EventoDetallePage({
         route_polyline: [number, number][] | null;
         recurrence_rule: string | null;
         parent_event_id: string | null;
+        latitude: number | null;
+        longitude: number | null;
         spots: { name: string; city: string | null; country: string | null; description: string | null } | null;
         groups: { id: string; name: string } | null;
         pause_spot: { name: string; latitude: number; longitude: number } | null;
@@ -218,6 +221,10 @@ export default async function EventoDetallePage({
               {event.spots.description && (
                 <p className="text-sm text-zinc-400 mt-2">{event.spots.description}</p>
               )}
+            </div>
+          ) : event.latitude != null && event.longitude != null ? (
+            <div className="mt-3">
+              <EventLocationMapLoader position={[event.latitude, event.longitude]} />
             </div>
           ) : (
             <p className="mt-2 text-sm text-zinc-400">{t("meetingPointTbd")}</p>

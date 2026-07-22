@@ -12,7 +12,11 @@ import { PageHeader, AmberChunk } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { Reveal } from "@/components/reveal";
 
-export default async function SpotsPage() {
+export default async function SpotsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const t = await getTranslations("Spots");
   const supabase = await createClient();
   const [{ data: spots, error }, { data: { user } }, reportsBySpot, liveSessions] = await Promise.all([
@@ -22,6 +26,12 @@ export default async function SpotsPage() {
     getActiveLiveSessions(supabase),
   ]);
 
+  const sp = await searchParams;
+  // Solo se aceptan rutas internas (empiezan con "/"): returnTo viene de la
+  // URL, así que no es de fiar para un router.push sin acotarlo.
+  const returnToRaw = typeof sp.returnTo === "string" ? sp.returnTo : null;
+  const returnTo = returnToRaw && returnToRaw.startsWith("/") ? returnToRaw : null;
+
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
       <div className="mx-auto max-w-3xl">
@@ -29,11 +39,18 @@ export default async function SpotsPage() {
 
         {error && <p className="text-sm text-red-400 mb-6">{t("loadError")}</p>}
 
+        {returnTo && (
+          <p className="mb-4 text-sm text-amber-300 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2">
+            {t("returnToHint")}
+          </p>
+        )}
+
         <SpotsMapLoader
           spots={spots ?? []}
           userId={user?.id ?? null}
           reportsBySpot={reportsBySpot}
           initialLiveSessions={liveSessions}
+          returnTo={returnTo}
         />
 
         {spots && spots.length > 0 ? (

@@ -38,6 +38,8 @@ export async function createEvent(formData: FormData) {
   const title = ((formData.get("title") as string) ?? "").trim();
   const description = ((formData.get("description") as string) ?? "").trim();
   const spotId = ((formData.get("spot_id") as string) ?? "").trim();
+  const latitudeRaw = ((formData.get("latitude") as string) ?? "").trim();
+  const longitudeRaw = ((formData.get("longitude") as string) ?? "").trim();
   const groupId = ((formData.get("group_id") as string) ?? "").trim();
   const startsAtLocal = ((formData.get("starts_at") as string) ?? "").trim();
   const difficulty = ((formData.get("difficulty") as string) ?? "").trim();
@@ -65,7 +67,19 @@ export async function createEvent(formData: FormData) {
 
   if (!title) backToFormWithError(t("errorTitleRequired"), values);
   if (!description) backToFormWithError(t("errorDescriptionRequired"), values);
-  if (!spotId) backToFormWithError(t("errorSpotRequired"), values);
+
+  let latitude: number | null = null;
+  let longitude: number | null = null;
+  if (!spotId) {
+    const parsedLat = Number(latitudeRaw);
+    const parsedLng = Number(longitudeRaw);
+    if (!latitudeRaw || !longitudeRaw || Number.isNaN(parsedLat) || Number.isNaN(parsedLng)) {
+      backToFormWithError(t("errorLocationRequired"), values);
+    }
+    latitude = parsedLat;
+    longitude = parsedLng;
+  }
+
   if (!DIFFICULTIES.includes(difficulty)) {
     backToFormWithError(t("errorDifficultyInvalid"), values);
   }
@@ -156,7 +170,9 @@ export async function createEvent(formData: FormData) {
     .insert({
       title,
       description,
-      spot_id: spotId,
+      spot_id: spotId || null,
+      latitude,
+      longitude,
       group_id: groupId || null,
       organizer_id: user.id,
       starts_at: startsAtDate.toISOString(),

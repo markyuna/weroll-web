@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DeleteEventButton } from "@/components/delete-event-button";
+import { EventLocationPickerLoader } from "@/components/event-location-picker-loader";
 import { updateEvent, deleteEvent } from "./actions";
 
 function toLocalInputValue(iso: string) {
@@ -36,7 +37,9 @@ export default async function EditarEventoPage({
 
   const { data: event } = await supabase
     .from("events")
-    .select("id, title, description, organizer_id, spot_id, starts_at, distance_km, max_participants, difficulty")
+    .select(
+      "id, title, description, organizer_id, spot_id, starts_at, distance_km, max_participants, difficulty, latitude, longitude"
+    )
     .eq("id", id)
     .maybeSingle()
     .overrideTypes<
@@ -50,6 +53,8 @@ export default async function EditarEventoPage({
         distance_km: number | null;
         max_participants: number | null;
         difficulty: string | null;
+        latitude: number | null;
+        longitude: number | null;
       } | null,
       { merge: false }
     >();
@@ -127,13 +132,10 @@ export default async function EditarEventoPage({
             <select
               id="spot_id"
               name="spot_id"
-              required
               defaultValue={field("spot_id", event.spot_id ?? "")}
               className="w-full rounded-lg bg-zinc-900 border border-zinc-700 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
             >
-              <option value="" disabled>
-                {t("fieldSpotPlaceholder")}
-              </option>
+              <option value="">{t("fieldSpotPlaceholder")}</option>
               {spots?.map((spot) => (
                 <option key={spot.id} value={spot.id}>
                   {spot.name}
@@ -141,6 +143,17 @@ export default async function EditarEventoPage({
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <p className="text-sm text-zinc-500 mb-2">{t("orPickOnMap")}</p>
+            <EventLocationPickerLoader
+              initialPoint={
+                !event.spot_id && event.latitude != null && event.longitude != null
+                  ? [event.latitude, event.longitude]
+                  : null
+              }
+            />
           </div>
 
           <div>

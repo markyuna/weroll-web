@@ -119,8 +119,10 @@
     "fieldTitle": "Título",
     "fieldDescription": "Descripción",
     "fieldSpot": "Spot",
-    "fieldSpotPlaceholder": "Selecciona un spot",
-    "noSpots": "Todavía no hay spots disponibles.",
+    "fieldSpotPlaceholder": "Sin spot",
+    "noSpots": "Todavía no hay spots en tu zona. Crea uno o marca el punto de encuentro directo en el mapa.",
+    "noSpotsCta": "Crear spot",
+    "orPickOnMap": "O elige un punto en el mapa",
     "fieldGroup": "Grupo organizador",
     "fieldGroupNone": "Sin grupo",
     "errorGroupInvalid": "Solo puedes organizar en nombre de un grupo del que seas miembro.",
@@ -137,7 +139,7 @@
     "submit": "Crear randonnée",
     "errorTitleRequired": "El título es obligatorio.",
     "errorDescriptionRequired": "La descripción es obligatoria.",
-    "errorSpotRequired": "Selecciona un spot.",
+    "errorLocationRequired": "Selecciona un spot o marca un punto en el mapa.",
     "errorDifficultyInvalid": "Selecciona una dificultad válida.",
     "errorStartsAtRequired": "La fecha y hora de inicio son obligatorias.",
     "errorStartsAtInvalid": "La fecha y hora no son válidas.",
@@ -206,6 +208,7 @@
     "empty": "Todavía no hay spots registrados.",
     "addButton": "+ Añadir spot",
     "placingHint": "Haz clic en el mapa para ubicar el spot.",
+    "returnToHint": "Crea tu spot y volverás automáticamente a tu randonnée.",
     "qualityLabel": "Calidad del pavimento: {value} de 5",
     "upcomingCount": "{count, plural, one {# randonnée próxima} other {# randonnées próximas}}",
     "viewEvents": "Ver randonnées →"
@@ -353,6 +356,12 @@
     "pauseSpotNone": "Sin pausa",
     "gpxError": "El archivo no es un GPX válido.",
     "gpxErrorGeneric": "No se pudo leer el archivo. Inténtalo de nuevo."
+  },
+  "EventLocationPicker": {
+    "show": "Elegir punto en el mapa",
+    "hide": "Ocultar mapa",
+    "pointSet": "Punto marcado — cambiar",
+    "hint": "Haz clic en el mapa para marcar el punto de encuentro."
   },
   "LiveSessions": {
     "startButton": "Estoy patinando",

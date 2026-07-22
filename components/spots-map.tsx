@@ -91,11 +91,13 @@ export function SpotsMap({
   userId,
   reportsBySpot,
   initialLiveSessions,
+  returnTo,
 }: {
   spots: SpotData[];
   userId: string | null;
   reportsBySpot: Record<string, SpotReport>;
   initialLiveSessions: LiveSession[];
+  returnTo?: string | null;
 }) {
   const t = useTranslations("Spots");
   const tForm = useTranslations("SpotForm");
@@ -185,7 +187,11 @@ export function SpotsMap({
 
     setLocalSpots((prev) => [...prev, { ...data, upcoming_count: [{ count: 0 }] }]);
     setDraft(null);
-    router.refresh();
+    if (returnTo) {
+      router.push(returnTo);
+    } else {
+      router.refresh();
+    }
   }
 
   function handleCancel() {

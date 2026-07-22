@@ -119,8 +119,10 @@
     "fieldTitle": "Titre",
     "fieldDescription": "Description",
     "fieldSpot": "Spot",
-    "fieldSpotPlaceholder": "Choisis un spot",
-    "noSpots": "Aucun spot disponible pour le moment.",
+    "fieldSpotPlaceholder": "Aucun spot",
+    "noSpots": "Il n'y a pas encore de spot dans ta zone. Crées-en un ou marque directement le point de rendez-vous sur la carte.",
+    "noSpotsCta": "Créer un spot",
+    "orPickOnMap": "Ou choisis un point sur la carte",
     "fieldGroup": "Groupe organisateur",
     "fieldGroupNone": "Aucun groupe",
     "errorGroupInvalid": "Tu ne peux organiser qu'au nom d'un groupe dont tu es membre.",
@@ -137,7 +139,7 @@
     "submit": "Créer la randonnée",
     "errorTitleRequired": "Le titre est obligatoire.",
     "errorDescriptionRequired": "La description est obligatoire.",
-    "errorSpotRequired": "Choisis un spot.",
+    "errorLocationRequired": "Choisis un spot ou marque un point sur la carte.",
     "errorDifficultyInvalid": "Choisis une difficulté valide.",
     "errorStartsAtRequired": "La date et l'heure de début sont obligatoires.",
     "errorStartsAtInvalid": "La date et l'heure ne sont pas valides.",
@@ -206,6 +208,7 @@
     "empty": "Aucun spot enregistré pour le moment.",
     "addButton": "+ Ajouter un spot",
     "placingHint": "Clique sur la carte pour placer le spot.",
+    "returnToHint": "Crée ton spot et tu reviendras automatiquement à ta randonnée.",
     "qualityLabel": "Qualité du revêtement : {value} sur 5",
     "upcomingCount": "{count, plural, one {# randonnée à venir} other {# randonnées à venir}}",
     "viewEvents": "Voir les randonnées →"
@@ -353,6 +356,12 @@
     "pauseSpotNone": "Aucune pause",
     "gpxError": "Le fichier n'est pas un GPX valide.",
     "gpxErrorGeneric": "Impossible de lire le fichier. Réessaie."
+  },
+  "EventLocationPicker": {
+    "show": "Choisir un point sur la carte",
+    "hide": "Masquer la carte",
+    "pointSet": "Point marqué — modifier",
+    "hint": "Clique sur la carte pour marquer le point de rendez-vous."
   },
   "LiveSessions": {
     "startButton": "Je patine en ce moment",
