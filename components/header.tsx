@@ -41,7 +41,6 @@ export async function Header() {
     { href: "/grupos", label: t("grupos") },
     { href: "/buddies", label: t("buddies") },
     { href: "/retos", label: t("retos") },
-    { href: "/contacto", label: t("contacto") },
   ];
   // En móvil "Iniciar sesión" vive dentro del menú; el botón de registro
   // queda siempre visible en la barra.
