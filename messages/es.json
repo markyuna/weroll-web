@@ -522,5 +522,20 @@
     "cancelledSubject": "Se canceló {title}",
     "cancelledIntro": "El evento \"{title}\" que confirmaste fue cancelado por el organizador.",
     "cta": "Ver evento"
+  },
+  "Footer": {
+    "tagline": "La comunidad de patinaje urbano",
+    "navTitle": "Navegación",
+    "navEventos": "Eventos",
+    "navSpots": "Spots",
+    "navBuddies": "Buddies",
+    "followTitle": "Síguenos",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "discord": "Discord",
+    "copyright": "© {year} WeRoll. Todos los derechos reservados.",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "contact": "Contacto"
   }
 }

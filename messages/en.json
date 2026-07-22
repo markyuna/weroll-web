@@ -522,5 +522,20 @@
     "cancelledSubject": "{title} was cancelled",
     "cancelledIntro": "The event \"{title}\" you confirmed was cancelled by the organizer.",
     "cta": "View event"
+  },
+  "Footer": {
+    "tagline": "The urban skating community",
+    "navTitle": "Navigation",
+    "navEventos": "Events",
+    "navSpots": "Spots",
+    "navBuddies": "Buddies",
+    "followTitle": "Follow us",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "discord": "Discord",
+    "copyright": "© {year} WeRoll. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
   }
 }

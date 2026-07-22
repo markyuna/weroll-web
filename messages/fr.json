@@ -522,5 +522,20 @@
     "cancelledSubject": "{title} a été annulé",
     "cancelledIntro": "L'événement \"{title}\" que tu as confirmé a été annulé par l'organisateur.",
     "cta": "Voir l'événement"
+  },
+  "Footer": {
+    "tagline": "La communauté du roller urbain",
+    "navTitle": "Navigation",
+    "navEventos": "Événements",
+    "navSpots": "Spots",
+    "navBuddies": "Buddies",
+    "followTitle": "Suis-nous",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "discord": "Discord",
+    "copyright": "© {year} WeRoll. Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "contact": "Contact"
   }
 }
