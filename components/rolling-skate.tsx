@@ -9,45 +9,53 @@ export function RollingSkate() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Rueda izquierda */}
-        <g>
-          <circle cx="4" cy="20" r="4" fill="currentColor" className="text-amber-400" />
-          <circle cx="4" cy="20" r="2.5" fill="currentColor" className="text-black" />
-        </g>
+        {/* Rueda izquierda con brillo */}
+        <circle cx="5" cy="20" r="3.5" fill="none" stroke="currentColor" strokeWidth="2" className="text-amber-400" />
+        <circle cx="5" cy="20" r="2" fill="currentColor" className="text-amber-300" />
 
         {/* Rueda derecha */}
-        <g>
-          <circle cx="24" cy="20" r="4" fill="currentColor" className="text-amber-400" />
-          <circle cx="24" cy="20" r="2.5" fill="currentColor" className="text-black" />
-        </g>
+        <circle cx="23" cy="20" r="3.5" fill="none" stroke="currentColor" strokeWidth="2" className="text-amber-400" />
+        <circle cx="23" cy="20" r="2" fill="currentColor" className="text-amber-300" />
 
-        {/* Boot agresivo */}
+        {/* Carcasa futurista */}
         <path
-          d="M 6 11 L 8 7 Q 9 5 11 5 L 17 5 Q 19 5 20 7 L 22 11 Q 22.5 13 22 15 L 6 15 Q 5.5 13 6 11 Z"
+          d="M 3 14 L 5 8 L 23 8 L 25 14 Q 25 16 23 17 L 5 17 Q 3 16 3 14 Z"
           fill="currentColor"
           className="text-amber-400"
         />
 
-        {/* Líneas de velocidad */}
-        <path d="M 8 9 L 7 9" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
-        <path d="M 20 9 L 21 9" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
-
-        {/* Accent diagonal */}
+        {/* Detalles aerodinámicos */}
         <path
-          d="M 10 6 L 18 14"
+          d="M 6 10 L 22 10"
           stroke="currentColor"
-          strokeWidth="1.5"
-          className="text-amber-600"
-          strokeLinecap="round"
-          opacity="0.6"
+          strokeWidth="1"
+          className="text-amber-950"
+        />
+        <path
+          d="M 7 12 L 21 12"
+          stroke="currentColor"
+          strokeWidth="1"
+          className="text-amber-900"
+        />
+
+        {/* Punta dinámica */}
+        <path
+          d="M 3 14 L 2 12 Q 2 10 3 9 L 4 8 Z"
+          fill="currentColor"
+          className="text-amber-500"
         />
       </svg>
 
       <style>{`
         @keyframes roll-skate {
-          0% { transform: translateX(-120%); }
-          100% { transform: translateX(120%); }
+          0% {
+            transform: translateX(-120%);
+          }
+          100% {
+            transform: translateX(120%);
+          }
         }
+
         .animate-roll-skate {
           animation: roll-skate 3s ease-in-out infinite;
         }
