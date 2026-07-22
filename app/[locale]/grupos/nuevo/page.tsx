@@ -3,6 +3,8 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { BuddyInvitePicker } from "@/components/buddy-invite-picker";
+import { getMyBuddies } from "@/lib/buddy-requests";
 import { createGroup } from "./actions";
 
 export default async function NuevoGrupoPage({
@@ -25,6 +27,7 @@ export default async function NuevoGrupoPage({
   const sp = await searchParams;
   const error = typeof sp.error === "string" ? sp.error : null;
   const field = (name: string) => (typeof sp[name] === "string" ? (sp[name] as string) : "");
+  const myBuddies = await getMyBuddies(supabase, user.id);
 
   return (
     <main className="min-h-screen bg-zinc-950 px-4 py-16">
@@ -102,6 +105,8 @@ export default async function NuevoGrupoPage({
               />
             </div>
           </div>
+
+          <BuddyInvitePicker buddies={myBuddies} />
 
           <button
             type="submit"

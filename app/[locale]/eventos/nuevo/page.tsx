@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { RouteBuilderLoader } from "@/components/route-builder-loader";
 import { EventLocationPickerLoader } from "@/components/event-location-picker-loader";
 import { RecurrenceFields } from "@/components/recurrence-fields";
+import { BuddyInvitePicker } from "@/components/buddy-invite-picker";
+import { getMyBuddies } from "@/lib/buddy-requests";
 import { createEvent } from "./actions";
 
 export default async function NuevoEventoPage({
@@ -29,7 +31,7 @@ export default async function NuevoEventoPage({
   const error = typeof sp.error === "string" ? sp.error : null;
   const field = (name: string) => (typeof sp[name] === "string" ? (sp[name] as string) : "");
 
-  const [{ data: spots }, { data: myGroups }] = await Promise.all([
+  const [{ data: spots }, { data: myGroups }, myBuddies] = await Promise.all([
     supabase
       .from("spots")
       .select("id, name, city, latitude, longitude")
@@ -43,6 +45,7 @@ export default async function NuevoEventoPage({
       .select("groups ( id, name )")
       .eq("profile_id", user.id)
       .overrideTypes<{ groups: { id: string; name: string } | null }[], { merge: false }>(),
+    getMyBuddies(supabase, user.id),
   ]);
 
   return (
@@ -217,6 +220,8 @@ export default async function NuevoEventoPage({
               <option value="avanzado">{t("difficultyAvanzado")}</option>
             </select>
           </div>
+
+          <BuddyInvitePicker buddies={myBuddies} />
 
           <button
             type="submit"

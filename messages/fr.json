@@ -197,6 +197,11 @@
     "invited": "Invité ✓",
     "error": "Impossible d'envoyer l'invitation. Réessaie."
   },
+  "BuddyPicker": {
+    "sectionTitle": "Inviter des buddies",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner"
+  },
   "Onboarding": {
     "stepLabel": "Étape {step} sur {total}",
     "step1Title": "D'où roules-tu ?",
@@ -467,6 +472,7 @@
     "buddyAcceptedTitle": "{name}",
     "buddyAccepted": "A accepté ta demande de buddy",
     "eventInvite": "{name} t'a invité à cette randonnée",
+    "groupInvite": "{name} t'invite à son groupe",
     "viewAll": "Voir tout",
     "pageTitle": "Notifications"
   },

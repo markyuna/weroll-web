@@ -5,6 +5,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   buildRule,
   serializeRule,
@@ -195,6 +196,20 @@ export async function createEvent(formData: FormData) {
     profile_id: user.id,
     status: "asistire",
   });
+
+  const inviteBuddyIds = formData.getAll("invite_buddy_ids").filter((v): v is string => typeof v === "string");
+  if (inviteBuddyIds.length > 0) {
+    const { data: me } = await supabase.from("profiles").select("username, display_name").eq("id", user.id).single();
+    const admin = createAdminClient();
+    await admin.from("notifications").insert(
+      inviteBuddyIds.map((buddyId) => ({
+        user_id: buddyId,
+        type: "event_invite",
+        event_id: event.id,
+        payload: { title, fromUsername: me?.username ?? "", fromDisplayName: me?.display_name ?? null },
+      }))
+    );
+  }
 
   redirect({ href: `/eventos/${event.id}`, locale });
 }

@@ -197,6 +197,11 @@
     "invited": "Invitado ✓",
     "error": "No se pudo enviar la invitación. Inténtalo de nuevo."
   },
+  "BuddyPicker": {
+    "sectionTitle": "Invitar buddies",
+    "selectAll": "Seleccionar todos",
+    "deselectAll": "Quitar selección"
+  },
   "Onboarding": {
     "stepLabel": "Paso {step} de {total}",
     "step1Title": "¿Desde dónde patinas?",
@@ -467,6 +472,7 @@
     "buddyAcceptedTitle": "{name}",
     "buddyAccepted": "Aceptó tu solicitud de buddy",
     "eventInvite": "{name} te invitó a esta randonnée",
+    "groupInvite": "{name} te invita a su grupo",
     "viewAll": "Ver todas",
     "pageTitle": "Notificaciones"
   },

@@ -27,13 +27,15 @@ export type NotificationType =
   | "evento_cancelado"
   | "buddy_request"
   | "buddy_accepted"
-  | "event_invite";
+  | "event_invite"
+  | "group_invite";
 
 export type NotificationPayload =
   | { title: string; changes: FieldChange[] }
   | { title: string; startsAt: string; spot: string | null }
   | { fromUsername: string; fromDisplayName: string | null }
-  | { title: string; fromUsername: string; fromDisplayName: string | null };
+  | { title: string; fromUsername: string; fromDisplayName: string | null }
+  | { title: string; fromUsername: string; fromDisplayName: string | null; groupId: string };
 
 export type NotificationRow = {
   id: string;
@@ -59,6 +61,12 @@ export function isBuddyPayload(
 /** Título del payload si lo tiene (evento_modificado/cancelado, event_invite). */
 export function getPayloadTitle(payload: NotificationPayload | null): string {
   return payload && "title" in payload ? payload.title : "";
+}
+
+export function isGroupInvitePayload(
+  payload: NotificationPayload | null
+): payload is { title: string; fromUsername: string; fromDisplayName: string | null; groupId: string } {
+  return !!payload && "groupId" in payload;
 }
 
 export async function getUnreadNotificationCount(supabase: SupabaseClient, userId: string) {

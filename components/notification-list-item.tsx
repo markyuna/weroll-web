@@ -11,6 +11,7 @@ import {
   FIELD_LABEL_KEYS,
   getPayloadTitle,
   isBuddyPayload,
+  isGroupInvitePayload,
   isModifiedPayload,
   type NotificationRow,
 } from "@/lib/notifications";
@@ -29,6 +30,7 @@ export function NotificationListItem({
   const unread = !notification.read_at;
   const buddyPayload = isBuddyPayload(notification.payload) ? notification.payload : null;
   const buddyName = buddyPayload?.fromDisplayName || buddyPayload?.fromUsername || "";
+  const groupInvitePayload = isGroupInvitePayload(notification.payload) ? notification.payload : null;
 
   let title: string;
   let subtitle: string;
@@ -52,6 +54,10 @@ export function NotificationListItem({
     case "event_invite":
       title = getPayloadTitle(notification.payload);
       subtitle = t("eventInvite", { name: buddyName });
+      break;
+    case "group_invite":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("groupInvite", { name: buddyName });
       break;
     default:
       title = getPayloadTitle(notification.payload);
@@ -82,6 +88,14 @@ export function NotificationListItem({
   if (notification.event_id) {
     return (
       <Link href={`/eventos/${notification.event_id}`} role="menuitem" onClick={handleClick} className="block">
+        {body}
+      </Link>
+    );
+  }
+
+  if (groupInvitePayload) {
+    return (
+      <Link href={`/grupos/${groupInvitePayload.groupId}`} role="menuitem" onClick={handleClick} className="block">
         {body}
       </Link>
     );
