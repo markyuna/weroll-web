@@ -30,64 +30,40 @@ export function RollingSkate() {
         <circle cx="32" cy="26" r="2.5" fill="currentColor" className="text-amber-900" />
         <circle cx="32" cy="26" r="1" fill="currentColor" className="text-amber-300" />
 
-        {/* CHASIS/ESTRUCTURA */}
-        {/* Ejes del chasis */}
+        {/* EJES */}
         <line x1="8" y1="22" x2="8" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
         <line x1="16" y1="22" x2="16" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
         <line x1="24" y1="22" x2="24" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
         <line x1="32" y1="22" x2="32" y2="26" stroke="currentColor" strokeWidth="1" className="text-amber-600" />
 
-        {/* Plataforma base */}
-        <path
-          d="M 8 22 L 10 19 L 30 19 L 32 22 Z"
-          fill="currentColor"
-          className="text-amber-600"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
+        {/* BOTA - SIMPLIFICADA Y CLARA */}
+        {/* Plataforma base (donde va el pie) */}
+        <rect x="12" y="18" width="16" height="4" rx="2" fill="currentColor" className="text-amber-600" />
 
-        {/* BOTA PRINCIPAL */}
-        {/* Parte baja del boot */}
-        <path
-          d="M 10 19 L 12 13 Q 12 11 13 10 L 27 10 Q 28 11 28 13 L 30 19 Z"
-          fill="currentColor"
-          className="text-amber-400"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
+        {/* Parte principal del boot (forma de bota) */}
+        <rect x="13" y="10" width="14" height="8" rx="3" fill="currentColor" className="text-amber-400" stroke="currentColor" strokeWidth="1.5" />
 
         {/* Tobillo/caña (parte que sube) */}
-        <path
-          d="M 13 10 Q 13 6 14 5 L 26 5 Q 27 6 27 10"
-          fill="currentColor"
-          className="text-amber-500"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
+        <rect x="15" y="6" width="10" height="4" rx="2" fill="currentColor" className="text-amber-500" stroke="currentColor" strokeWidth="1.5" />
 
-        {/* Parte superior del tobillo */}
-        <ellipse cx="20" cy="5" rx="8" ry="2" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-amber-600" />
+        {/* Borde superior del tobillo */}
+        <line x1="15" y1="6" x2="25" y2="6" stroke="currentColor" strokeWidth="1.5" className="text-amber-600" />
 
         {/* LAZOS/CORDONES */}
-        <path d="M 14 8 Q 20 9 26 8" stroke="currentColor" strokeWidth="1" className="text-amber-900" strokeLinecap="round" />
-        <path d="M 14 12 Q 20 13 26 12" stroke="currentColor" strokeWidth="1" className="text-amber-900" strokeLinecap="round" />
+        <line x1="14" y1="12" x2="26" y2="12" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
+        <line x1="14" y1="15" x2="26" y2="15" stroke="currentColor" strokeWidth="1.5" className="text-amber-900" strokeLinecap="round" />
 
-        {/* FRENO TRASERO */}
+        {/* FRENO TRASERO (pequeño) */}
         <path
-          d="M 30 19 L 32 18 Q 33 18 33 19 L 32 20 Z"
+          d="M 29 18 L 31 16 L 31 20 Z"
           fill="currentColor"
           className="text-amber-700"
           stroke="currentColor"
           strokeWidth="1"
         />
 
-        {/* DETALLES/DECORACIÓN */}
-        {/* Línea central del boot */}
-        <line x1="20" y1="10" x2="20" y2="19" stroke="currentColor" strokeWidth="0.8" className="text-amber-900" opacity="0.4" />
-
-        {/* Detalle lateral */}
-        <path d="M 12 14 L 12 17" stroke="currentColor" strokeWidth="0.8" className="text-amber-900" opacity="0.3" />
-        <path d="M 28 14 L 28 17" stroke="currentColor" strokeWidth="0.8" className="text-amber-900" opacity="0.3" />
+        {/* LÍNEA CENTRAL DE DIVISIÓN */}
+        <line x1="20" y1="10" x2="20" y2="18" stroke="currentColor" strokeWidth="0.8" className="text-amber-900" opacity="0.3" />
       </svg>
 
       <style>{`
