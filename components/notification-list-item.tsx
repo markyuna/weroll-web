@@ -7,7 +7,13 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { formatRelativeTime } from "@/lib/relative-time";
-import { FIELD_LABEL_KEYS, isModifiedPayload, type NotificationRow } from "@/lib/notifications";
+import {
+  FIELD_LABEL_KEYS,
+  getPayloadTitle,
+  isBuddyPayload,
+  isModifiedPayload,
+  type NotificationRow,
+} from "@/lib/notifications";
 
 export function NotificationListItem({
   notification,
@@ -21,13 +27,41 @@ export function NotificationListItem({
   const t = useTranslations("Notifications");
   const tFields = useTranslations("EventoNuevo");
   const unread = !notification.read_at;
+  const buddyPayload = isBuddyPayload(notification.payload) ? notification.payload : null;
+  const buddyName = buddyPayload?.fromDisplayName || buddyPayload?.fromUsername || "";
+
+  let title: string;
+  let subtitle: string;
+  switch (notification.type) {
+    case "evento_modificado":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("modified");
+      break;
+    case "evento_cancelado":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("cancelled");
+      break;
+    case "buddy_request":
+      title = t("buddyRequestTitle", { name: buddyName });
+      subtitle = t("buddyRequest");
+      break;
+    case "buddy_accepted":
+      title = t("buddyAcceptedTitle", { name: buddyName });
+      subtitle = t("buddyAccepted");
+      break;
+    case "event_invite":
+      title = getPayloadTitle(notification.payload);
+      subtitle = t("eventInvite", { name: buddyName });
+      break;
+    default:
+      title = getPayloadTitle(notification.payload);
+      subtitle = "";
+  }
 
   const body = (
     <div className={`px-4 py-3 text-sm ${unread ? "bg-amber-400/5" : ""} hover:bg-zinc-800 transition`}>
-      <p className="font-medium text-zinc-100">{notification.payload?.title ?? ""}</p>
-      <p className="text-xs text-zinc-400 mt-0.5">
-        {notification.type === "evento_modificado" ? t("modified") : t("cancelled")}
-      </p>
+      <p className="font-medium text-zinc-100">{title}</p>
+      <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>
       {isModifiedPayload(notification.payload) && (
         <ul className="mt-1 space-y-0.5">
           {notification.payload.changes.map((c, i) => (
@@ -48,6 +82,14 @@ export function NotificationListItem({
   if (notification.event_id) {
     return (
       <Link href={`/eventos/${notification.event_id}`} role="menuitem" onClick={handleClick} className="block">
+        {body}
+      </Link>
+    );
+  }
+
+  if (buddyPayload) {
+    return (
+      <Link href={`/u/${buddyPayload.fromUsername}`} role="menuitem" onClick={handleClick} className="block">
         {body}
       </Link>
     );

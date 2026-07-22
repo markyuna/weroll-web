@@ -173,7 +173,20 @@
     "searchLabel": "Buscar patinadores",
     "searchPlaceholder": "Nombre o @usuario...",
     "searchLoading": "Buscando...",
-    "searchEmpty": "No encontramos patinadores con ese nombre."
+    "searchEmpty": "No encontramos patinadores con ese nombre.",
+    "tab_descubrir": "Descubrir",
+    "tab_mis_buddies": "Mis buddies",
+    "tab_solicitudes": "Solicitudes",
+    "myBuddiesEmpty": "Todavía no tienes buddies. Busca patinadores o mira las sugerencias de Descubrir.",
+    "requestsEmpty": "No tienes solicitudes pendientes."
+  },
+  "BuddyButton": {
+    "add": "Añadir buddy",
+    "sent": "Solicitud enviada",
+    "accept": "Aceptar solicitud",
+    "decline": "Rechazar",
+    "buddies": "Buddies ✓",
+    "error": "No se pudo completar la acción. Inténtalo de nuevo."
   },
   "Onboarding": {
     "stepLabel": "Paso {step} de {total}",
@@ -440,6 +453,11 @@
     "empty": "No tienes notificaciones.",
     "modified": "El evento cambió",
     "cancelled": "El evento fue cancelado",
+    "buddyRequestTitle": "{name}",
+    "buddyRequest": "Te envió una solicitud de buddy",
+    "buddyAcceptedTitle": "{name}",
+    "buddyAccepted": "Aceptó tu solicitud de buddy",
+    "eventInvite": "{name} te invitó a esta randonnée",
     "viewAll": "Ver todas",
     "pageTitle": "Notificaciones"
   },

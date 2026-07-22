@@ -22,11 +22,18 @@ export const FIELD_LABEL_KEYS: Record<ChangeField, string> = {
   difficulty: "fieldDifficulty",
 };
 
-export type NotificationType = "evento_modificado" | "evento_cancelado";
+export type NotificationType =
+  | "evento_modificado"
+  | "evento_cancelado"
+  | "buddy_request"
+  | "buddy_accepted"
+  | "event_invite";
 
 export type NotificationPayload =
   | { title: string; changes: FieldChange[] }
-  | { title: string; startsAt: string; spot: string | null };
+  | { title: string; startsAt: string; spot: string | null }
+  | { fromUsername: string; fromDisplayName: string | null }
+  | { title: string; fromUsername: string; fromDisplayName: string | null };
 
 export type NotificationRow = {
   id: string;
@@ -41,6 +48,17 @@ export function isModifiedPayload(
   payload: NotificationPayload | null
 ): payload is { title: string; changes: FieldChange[] } {
   return !!payload && "changes" in payload;
+}
+
+export function isBuddyPayload(
+  payload: NotificationPayload | null
+): payload is { fromUsername: string; fromDisplayName: string | null; title?: string } {
+  return !!payload && "fromUsername" in payload;
+}
+
+/** Título del payload si lo tiene (evento_modificado/cancelado, event_invite). */
+export function getPayloadTitle(payload: NotificationPayload | null): string {
+  return payload && "title" in payload ? payload.title : "";
 }
 
 export async function getUnreadNotificationCount(supabase: SupabaseClient, userId: string) {

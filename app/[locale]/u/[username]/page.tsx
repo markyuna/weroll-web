@@ -9,6 +9,8 @@ import { getGamificationData } from "@/lib/gamification";
 import { XpLevelCard } from "@/components/xp-level-card";
 import { BadgesGrid } from "@/components/badges-grid";
 import { Avatar } from "@/components/avatar";
+import { BuddyButton } from "@/components/buddy-button";
+import { getBuddyRelationship } from "@/lib/buddy-requests";
 import { instagramUrl } from "@/lib/instagram";
 
 export default async function PerfilPublicoPage({
@@ -52,6 +54,12 @@ export default async function PerfilPublicoPage({
   if (!profile) {
     notFound();
   }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const relationship =
+    user && user.id !== profile.id ? await getBuddyRelationship(supabase, user.id, profile.id) : null;
 
   const [{ data: upcoming }, gamification] = await Promise.all([
     supabase
@@ -137,6 +145,8 @@ export default async function PerfilPublicoPage({
             @{profile.instagram_handle}
           </a>
         )}
+
+        {relationship && <BuddyButton otherUserId={profile.id} initialRelationship={relationship} />}
 
         {profile.bio && <p className="text-zinc-200 mt-6 leading-relaxed">{profile.bio}</p>}
 
