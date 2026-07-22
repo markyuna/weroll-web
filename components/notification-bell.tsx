@@ -90,7 +90,7 @@ export function NotificationBell({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-50 mt-2 w-80 max-h-96 overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg shadow-black/40"
+          className="fixed left-4 right-4 top-16 z-50 max-h-96 overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg shadow-black/40 sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-80"
         >
           {notifications.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-zinc-500">{t("empty")}</p>
