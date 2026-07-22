@@ -15,7 +15,8 @@
     "myRides": "Mes randonnées",
     "signOut": "Déconnexion",
     "menuLabel": "Menu",
-    "retos": "Défis"
+    "retos": "Défis",
+    "contacto": "Contact"
   },
   "Home": {
     "heroTitle": "Trouve ta prochaine <amber>randonnée</amber>",
@@ -528,7 +529,7 @@
     "navTitle": "Navigation",
     "navEventos": "Événements",
     "navSpots": "Spots",
-    "navBuddies": "Buddies",
+    "navChallenges": "Défis",
     "followTitle": "Suis-nous",
     "instagram": "Instagram",
     "twitter": "Twitter",
@@ -537,5 +538,34 @@
     "privacy": "Confidentialité",
     "terms": "Conditions",
     "contact": "Contact"
+  },
+  "Contact": {
+    "title": "CONTACT",
+    "subtitle": "Des questions ou des suggestions ? On adorerait t'entendre.",
+    "fieldName": "Nom",
+    "fieldNamePlaceholder": "Ton nom",
+    "fieldEmail": "Email",
+    "fieldEmailPlaceholder": "toi@email.com",
+    "fieldPhone": "Téléphone",
+    "fieldPhonePlaceholder": "+33 1 23 45 67 89",
+    "fieldNickname": "Ton pseudo WeRoll",
+    "fieldNicknamePlaceholder": "Ton pseudo",
+    "fieldSubject": "Sujet",
+    "fieldSubjectPlaceholder": "De quoi s'agit-il ?",
+    "fieldMessage": "Message",
+    "fieldMessagePlaceholder": "Ton message ici...",
+    "submit": "Envoyer le message",
+    "submitting": "Envoi...",
+    "toastSuccess": "Message envoyé avec succès !",
+    "toastError": "Erreur lors de l'envoi du message",
+    "successTitle": "Message envoyé !",
+    "successBody": "Merci de nous avoir contactés. Nous t'avons envoyé une confirmation par email et te répondrons bientôt.",
+    "successBackHome": "Retour à l'accueil"
+  },
+  "ContactEmail": {
+    "confirmationSubject": "Nous avons reçu ton message - WeRoll",
+    "confirmationIntro": "Salut {name}, nous avons reçu ton message sur WeRoll. On te répond dès que possible.",
+    "labelSubject": "Sujet",
+    "confirmationFooter": "Ceci est un email automatique, merci de ne pas y répondre."
   }
 }

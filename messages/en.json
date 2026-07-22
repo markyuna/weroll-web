@@ -15,7 +15,8 @@
     "myRides": "My rides",
     "signOut": "Sign out",
     "menuLabel": "Menu",
-    "retos": "Challenges"
+    "retos": "Challenges",
+    "contacto": "Contact"
   },
   "Home": {
     "heroTitle": "Find your next <amber>randonnée</amber>",
@@ -528,7 +529,7 @@
     "navTitle": "Navigation",
     "navEventos": "Events",
     "navSpots": "Spots",
-    "navBuddies": "Buddies",
+    "navChallenges": "Challenges",
     "followTitle": "Follow us",
     "instagram": "Instagram",
     "twitter": "Twitter",
@@ -537,5 +538,34 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "contact": "Contact"
+  },
+  "Contact": {
+    "title": "CONTACT",
+    "subtitle": "Questions or suggestions? We'd love to hear from you.",
+    "fieldName": "Name",
+    "fieldNamePlaceholder": "Your name",
+    "fieldEmail": "Email",
+    "fieldEmailPlaceholder": "you@email.com",
+    "fieldPhone": "Phone",
+    "fieldPhonePlaceholder": "+1 123 456 7890",
+    "fieldNickname": "Your WeRoll nickname",
+    "fieldNicknamePlaceholder": "Your nickname",
+    "fieldSubject": "Subject",
+    "fieldSubjectPlaceholder": "What's this about?",
+    "fieldMessage": "Message",
+    "fieldMessagePlaceholder": "Your message here...",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "toastSuccess": "Message sent successfully!",
+    "toastError": "Error sending the message",
+    "successTitle": "Message sent!",
+    "successBody": "Thanks for reaching out. We've sent a confirmation to your email and will get back to you soon.",
+    "successBackHome": "Back to home"
+  },
+  "ContactEmail": {
+    "confirmationSubject": "We've received your message - WeRoll",
+    "confirmationIntro": "Hi {name}, we've received your message on WeRoll. We'll get back to you as soon as possible.",
+    "labelSubject": "Subject",
+    "confirmationFooter": "This is an automated email, please don't reply to this address."
   }
 }

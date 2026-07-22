@@ -15,11 +15,11 @@ export async function Footer() {
       {/* Línea diagonal animada */}
       <div className="pointer-events-none absolute top-12 left-1/4 w-96 h-1 bg-gradient-to-r from-cyan-400 to-transparent rotate-45 opacity-20 animate-slide-x" />
 
-      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <div className="max-w-7xl mx-auto px-6 py-8 md:py-16 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-12 mb-6 md:mb-12">
           {/* Logo y descripción */}
-          <div>
-            <h3 className="font-display text-3xl font-bold text-white mb-2">
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
               We<span className="text-amber-400">Roll</span>
             </h3>
             <p className="text-sm text-zinc-400">{t("tagline")}</p>
@@ -27,10 +27,10 @@ export async function Footer() {
 
           {/* Links animados */}
           <div>
-            <h4 className="font-bold text-white mb-4 text-sm uppercase tracking-widest">
+            <h4 className="font-bold text-white mb-2 md:mb-4 text-sm uppercase tracking-widest">
               {t("navTitle")}
             </h4>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-1.5 md:space-y-3 text-sm">
               <li>
                 <Link href="/eventos" className="group relative text-zinc-400 hover:text-amber-400 transition-colors duration-300">
                   {t("navEventos")}
@@ -44,8 +44,8 @@ export async function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/buddies" className="group relative text-zinc-400 hover:text-amber-400 transition-colors duration-300">
-                  {t("navBuddies")}
+                <Link href="/retos" className="group relative text-zinc-400 hover:text-amber-400 transition-colors duration-300">
+                  {t("navChallenges")}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-400 to-orange-500 group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>
@@ -54,10 +54,10 @@ export async function Footer() {
 
           {/* Redes sociales */}
           <div>
-            <h4 className="font-bold text-white mb-4 text-sm uppercase tracking-widest">
+            <h4 className="font-bold text-white mb-2 md:mb-4 text-sm uppercase tracking-widest">
               {t("followTitle")}
             </h4>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-1.5 md:space-y-3 text-sm">
               <li>
                 <a href="#" className="group relative text-zinc-400 hover:text-pink-400 transition-colors duration-300">
                   {t("instagram")}
@@ -81,7 +81,7 @@ export async function Footer() {
         </div>
 
         {/* Mascota animada */}
-        <div className="pointer-events-none absolute bottom-16 right-6 w-32 h-32 animate-float drop-shadow-2xl">
+        <div className="pointer-events-none absolute bottom-24 right-4 w-16 h-16 md:bottom-16 md:right-6 md:w-32 md:h-32 animate-float drop-shadow-2xl">
           <Image
             src="/icon_roll.png"
             alt="WeRoll mascota"
@@ -92,10 +92,10 @@ export async function Footer() {
         </div>
 
         {/* Línea divisoria */}
-        <div className="border-t border-zinc-800 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-zinc-500">
+        <div className="border-t border-zinc-800 pt-4 mt-4 md:pt-8 md:mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center text-xs md:text-sm text-zinc-500">
             <p>{t("copyright", { year: currentYear })}</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
+            <div className="flex gap-4 md:gap-6 mt-2 md:mt-0">
               <a href="#" className="group relative hover:text-amber-400 transition-colors duration-300">
                 {t("privacy")}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 group-hover:w-full transition-all duration-300" />
@@ -104,10 +104,10 @@ export async function Footer() {
                 {t("terms")}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 group-hover:w-full transition-all duration-300" />
               </a>
-              <a href="#" className="group relative hover:text-amber-400 transition-colors duration-300">
+              <Link href="/contacto" className="group relative hover:text-amber-400 transition-colors duration-300">
                 {t("contact")}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-400 group-hover:w-full transition-all duration-300" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
